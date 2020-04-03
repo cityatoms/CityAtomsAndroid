@@ -21,8 +21,8 @@ public class BaseApplication extends MultiDexApplication {
     private SharedPreferences preferences;
     @Getter
     private DaoSession daoSession;
-
-    private ApiComponent mApiComponent;
+    @Getter
+    private ApiComponent ApiComponent;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -33,7 +33,7 @@ public class BaseApplication extends MultiDexApplication {
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
-        mApiComponent = DaggerApiComponent.builder()
+        ApiComponent = DaggerApiComponent.builder()
                 .apiClientModule(new ApiClientModule("http://ec2-3-12-160-215.us-east-2.compute.amazonaws.com:3000/api/v1/me/"))
                 .build();
     }

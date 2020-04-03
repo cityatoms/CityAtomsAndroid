@@ -1,5 +1,8 @@
 package com.github.abdularis.trackmylocation.network;
 
+import com.github.abdularis.trackmylocation.dagger.ApiInterface;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -20,7 +23,7 @@ public class ApiClientModule {
 
     @Provides
     @Singleton
-    Retrofit getClient() {
+    ApiInterface getClient() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(chain -> {
             Request original = chain.request();
@@ -36,9 +39,10 @@ public class ApiClientModule {
         OkHttpClient client = httpClient.build();
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
-                .build();
+                .build().create(ApiInterface.class);
 
     }
 
