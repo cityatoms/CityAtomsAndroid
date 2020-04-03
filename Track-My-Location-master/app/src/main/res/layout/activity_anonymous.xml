@@ -39,10 +39,12 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="50dp">
+
             <CheckBox
                 android:id="@+id/checkbox"
                 android:layout_width="45dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:theme="@style/WhiteCheck"/>
             <TextView
                 android:id="@+id/txt_Agreement"
                 android:layout_width="match_parent"

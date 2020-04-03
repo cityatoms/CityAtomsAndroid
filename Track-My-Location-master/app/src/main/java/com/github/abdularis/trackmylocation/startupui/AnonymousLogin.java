@@ -17,6 +17,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,11 +50,15 @@ public class AnonymousLogin extends BaseActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
-    String IMEI;
+    String device_unique_id;
     // request code untuk login
     private static final int RC_LOGIN = 123;
     private FirebaseAuth firebaseAuth;
     private SharedPreferences preferences;
+
+    @BindView(R.id.checkbox)
+    CheckBox checkAgree;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +121,17 @@ public class AnonymousLogin extends BaseActivity {
 
     @OnClick(R.id.btn_signup)
     public void onClickSignUp() {
+        if (checkAgree.isChecked())
             requestPermissions();
+        else
+            Toast.makeText(this, "Please agree to the terms and conditions",
+                    Toast.LENGTH_SHORT).show();
     }
 
     private void goToMainActivity() {
-        preferences.edit().putString(IPreferencesKeys.USER_ID, IMEI).apply();
+        preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
         Intent i = new Intent(this, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();
     }
@@ -138,21 +148,9 @@ public class AnonymousLogin extends BaseActivity {
             if (grantResults.length <= 0) {
                 Toast.makeText(this, "Access Denied, Please try again!", Toast.LENGTH_SHORT).show();
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-                String imei="";
-                if (android.os.Build.VERSION.SDK_INT >= 26) {
-                    imei=telephonyManager.getImei();
-                }
-                else
-                {
-                    imei=telephonyManager.getDeviceId();
-                }
-//                String device_unique_id = Settings.Secure.getString(this.getContentResolver(),
-//                        Settings.Secure.ANDROID_ID);
-                Intent i = new Intent(AnonymousLogin.this, MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-                finish();
+                device_unique_id = Settings.Secure.getString(this.getContentResolver(),
+                        Settings.Secure.ANDROID_ID);
+                goToMainActivity();
             } else {
                 finish();
             }
@@ -183,7 +181,7 @@ public class AnonymousLogin extends BaseActivity {
     }
 
     @OnClick(R.id.txt1)
-    public void OnClickForgetPasswordPage() {
+    public void OnClickLoginPage() {
         Intent i = new Intent(AnonymousLogin.this, StartupActivity.class);
         startActivity(i);
         this.finish();
