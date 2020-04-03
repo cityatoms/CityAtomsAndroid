@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".startupui.StartupActivity">
+
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:src="@drawable/logo_globe"
+        app:srcCompat="@drawable/logoicon"
+        tools:srcCompat="@drawable/logoicon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="City Atoms"
+        android:textColor="#243640"
+        android:textSize="45sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="24dp"
+        android:text="Flu tracking app with 14 day history"
+        android:textAlignment="center"
+        android:textColor="#243640"
+        android:textSize="16sp" />
+
+    <Button
+        android:layout_width="230dp"
+        android:layout_height="221dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/gobutton"
+        android:onClick="onSignInClicked" />
+
+</LinearLayout>

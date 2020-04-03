@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "131506938740",
+    "firebase_url": "https://round-pilot-226603.firebaseio.com",
+    "project_id": "round-pilot-226603",
+    "storage_bucket": "round-pilot-226603.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131506938740:android:4917ac15f3b1b042694221",
+        "android_client_info": {
+          "package_name": "dubai.coronatrack.china"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131506938740-rdi7ml81q5df28uaio8t21p48epposft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHj8XSSJOaHYN35dOmDsqCqY4J7YOxTgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "131506938740-rdi7ml81q5df28uaio8t21p48epposft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
