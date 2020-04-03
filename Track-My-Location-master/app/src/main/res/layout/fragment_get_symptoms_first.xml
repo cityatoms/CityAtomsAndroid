@@ -1,0 +1,259 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.github.abdularis.trackmylocation.dashboard.GetSymptomsFirstFragment">
+
+    <ImageButton
+        android:id="@+id/feelBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="15dp"
+        android:background="@drawable/ic_arrow_left"
+        android:layout_gravity="start"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome Joe,\nhow are you feeling?"
+        android:textSize="17sp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="25dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="5.6">
+
+        <LinearLayout
+            android:id="@+id/card_feel1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_select"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/face1"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ico_face"
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:padding="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="I’m feeling great"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorCenter"
+                    android:layout_toEndOf="@id/face1"
+                    android:layout_toLeftOf="@id/arrow1"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/face1"
+                    android:layout_toStartOf="@id/arrow1"/>
+
+                <ImageView
+                    android:id="@+id/arrow1"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_arrow_right"
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/card_feel2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_select1"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/face2"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ico_face1"
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:padding="5dp"
+                    android:layout_marginStart="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="I have symptoms"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorCenter"
+                    android:layout_toEndOf="@id/face2"
+                    android:layout_toLeftOf="@id/arrow2"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/face2"
+                    android:layout_toStartOf="@id/arrow2" />
+
+                <ImageView
+                    android:id="@+id/arrow2"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_arrow_right"
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/card_feel3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_select2"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/face3"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ico_face2"
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:padding="5dp"
+                    android:layout_marginStart="20dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="I’ve got a test for Covid19, still waiting for result"
+                    android:gravity="start|center_vertical"
+                    android:textColor="@color/colorCenter"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toEndOf="@id/face3"
+                    android:layout_toLeftOf="@id/arrow3"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/face3"
+                    android:layout_toStartOf="@id/arrow3"
+                    android:layout_marginStart="30dp" />
+
+                <ImageView
+                    android:id="@+id/arrow3"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_arrow_right"
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/card_feel4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_select3"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/face4"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ico_face3"
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:padding="5dp"
+                    android:layout_marginStart="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="I have corona virus"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorCenter"
+                    android:layout_toEndOf="@id/face4"
+                    android:layout_toLeftOf="@id/arrow4"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/face4"
+                    android:layout_toStartOf="@id/arrow4"/>
+
+                <ImageView
+                    android:id="@+id/arrow4"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_arrow_right"
+                    android:layout_marginLeft="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:padding="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_alignParentRight="true" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"/>
+    </LinearLayout>
+</LinearLayout>

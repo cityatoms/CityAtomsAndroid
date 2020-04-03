@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "621980403397",
+    "firebase_url": "https://cityatoms-aa8f5.firebaseio.com",
+    "project_id": "cityatoms-aa8f5",
+    "storage_bucket": "cityatoms-aa8f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621980403397:android:c07f358d54c8a2f977d2ac",
+        "android_client_info": {
+          "package_name": "com.jm.jonathanmoreno.loginscreen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "621980403397-9knrulf422f255ildm1hq7a09bk7kgoe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9ZZz9BRBmBraPxyj_CveYDvixhoUjQKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "621980403397-9knrulf422f255ildm1hq7a09bk7kgoe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621980403397:android:9706aa20306a8e7077d2ac",
+        "android_client_info": {
+          "package_name": "dubai.coronatrack.china"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "621980403397-9knrulf422f255ildm1hq7a09bk7kgoe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9ZZz9BRBmBraPxyj_CveYDvixhoUjQKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "621980403397-9knrulf422f255ildm1hq7a09bk7kgoe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
