@@ -134,7 +134,29 @@ public class AnonymousLogin extends BaseActivity {
                     Settings.Secure.ANDROID_ID);
             countryCodeValue = checkCountry();
             timeZone = getTimeZone();
-            goToMainActivity();
+
+            LoginRequest loginRequest = new LoginRequest
+                    .Builder()
+                    .withInstanceId(device_unique_id)
+                    .withCountryCode(countryCodeValue)
+                    .withTimeZone(timeZone)
+                    .build();
+            disposable.add(
+                    apiInterface.getUser(device_unique_id)
+                            .onErrorResumeNext(apiInterface.login(loginRequest))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
+                                @Override
+                                public void onSuccess(LoginResponse user) {
+                                    goToMainActivity();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Toast.makeText(AnonymousLogin.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }));
         }
         else
             Toast.makeText(this, "Please agree to the terms and conditions",
@@ -163,33 +185,7 @@ public class AnonymousLogin extends BaseActivity {
             if (grantResults.length <= 0) {
                 Toast.makeText(this, "Access Denied, Please try again!", Toast.LENGTH_SHORT).show();
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                device_unique_id = Settings.Secure.getString(this.getContentResolver(),
-                        Settings.Secure.ANDROID_ID);
-                LoginRequest loginRequest = new LoginRequest
-                        .Builder()
-                        .withInstanceId(device_unique_id)
-                        .withCountryCode(getResources().getConfiguration().locale.getCountry())
-                        .withTimeZone(TimeZone.getDefault().getDisplayName())
-                        .build();
-                disposable.add(
-                        apiInterface
-                                .login(loginRequest)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
-                                    @Override
-                                    public void onSuccess(LoginResponse user) {
-                                        checkCountry();
-                                        timeZone = getTimeZone();
-                                        goToMainActivity();
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        Toast.makeText(AnonymousLogin.this, "Login Failed", Toast.LENGTH_SHORT).show();
-
-                                    }
-                                }));
+                goToMainActivity();
             } else {
                 finish();
             }
@@ -204,7 +200,7 @@ public class AnonymousLogin extends BaseActivity {
         if (simState == TelephonyManager.SIM_STATE_READY) {
             String countryCode = telMgr.getNetworkCountryIso();
             Locale loc = new Locale("", countryCode);
-            return loc.getDisplayCountry();
+            return loc.getCountry();
         }
         return "";
     }
