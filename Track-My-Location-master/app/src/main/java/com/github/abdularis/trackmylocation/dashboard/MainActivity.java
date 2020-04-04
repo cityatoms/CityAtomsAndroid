@@ -1,7 +1,9 @@
 package com.github.abdularis.trackmylocation.dashboard;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -16,14 +18,26 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.github.abdularis.trackmylocation.BaseApplication;
 import com.github.abdularis.trackmylocation.R;
+import com.github.abdularis.trackmylocation.common.IPreferencesKeys;
+import com.github.abdularis.trackmylocation.entity.DaoSession;
+import com.github.abdularis.trackmylocation.entity.LocationData;
+import com.github.abdularis.trackmylocation.entity.LocationDataDao;
 import com.github.abdularis.trackmylocation.sharelocation.LocationUpdatesService;
 import com.github.abdularis.trackmylocation.startupui.StartupActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import butterknife.ButterKnife;
+import freemarker.template.utility.Constants;
+import lombok.Getter;
 
 public class MainActivity extends BaseActivity {
 
@@ -35,7 +49,8 @@ public class MainActivity extends BaseActivity {
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     public static final String MESSENGER_INTENT_KEY = "msg-intent-key";
     private IncomingMessageHandler mHandler;
-
+    private LocationDataDao locationDataDao;
+    private List<LocationData> locationDataList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,10 +70,13 @@ public class MainActivity extends BaseActivity {
         // if it goes here user is already logged in
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        DaoSession daoSession = BaseApplication.getBaseApplication().getDaoSession();
+        locationDataDao = daoSession.getLocationDataDao();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
-        initFragment(getHomeFragment());
         mHandler = new IncomingMessageHandler();
+        getLocationData();
+        initFragment(getHomeFragment());
         requestPermissions();
     }
 
@@ -88,6 +106,48 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            boolean permissionAccessCoarseLocationApproved =
+                    ActivityCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED;
+
+            if (permissionAccessCoarseLocationApproved) {
+                boolean backgroundLocationPermissionApproved =
+                        false;
+
+                backgroundLocationPermissionApproved = ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED;
+
+                if (backgroundLocationPermissionApproved) {
+                    // App can access location both in the foreground and in the background.
+                    // Start your service that doesn't have a foreground service type
+                    // defined.
+                    Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
+                    Messenger messengerIncoming = new Messenger(mHandler);
+                    startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
+                    startForegroundService(startServiceIntent);
+                } else {
+                    // App can only access location in the foreground. Display a dialog
+                    // warning the user that your app must have all-the-time access to
+                    // location in order to function properly. Then, request background
+                    // location.
+                    ActivityCompat.requestPermissions(this, new String[] {
+                                    Manifest.permission.ACCESS_BACKGROUND_LOCATION},
+                            REQUEST_PERMISSIONS_REQUEST_CODE);
+                }
+            } else {
+                // App doesn't have access to the device's location at all. Make full request
+                // for permission.
+                ActivityCompat.requestPermissions(this, new String[] {
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                        },
+                        REQUEST_PERMISSIONS_REQUEST_CODE);
+            }
+        }
+
         Log.i("TAG", "onRequestPermissionResult");
         if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length <= 0) {
@@ -104,17 +164,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private void requestPermissions() {
-        boolean shouldProvideRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.ACCESS_FINE_LOCATION);
-        if (shouldProvideRationale) {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ActivityCompat.requestPermissions(this, new String[] {
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                },
+                REQUEST_PERMISSIONS_REQUEST_CODE);
         } else {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }
 
@@ -160,8 +219,16 @@ public class MainActivity extends BaseActivity {
 
     private Fragment getHomeFragment() {
         if (homeFragment == null) {
+            final SharedPreferences preferences =
+                    getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+            String country = preferences.
+                    getString(IPreferencesKeys.COUNTRY, String.valueOf(Constants.EMPTY_STRING));
+            String utc = preferences.
+                    getString(IPreferencesKeys.TIME_ZONE, String.valueOf(Constants.EMPTY_STRING));
             homeFragment = new HomeFragment();
             homeFragment.setArguments(getIntent().getExtras());
+            homeFragment.setLocationDataList(locationDataList);
+            homeFragment.setUserData(country + "\n" + utc );
         }
         return homeFragment;
     }
@@ -172,5 +239,17 @@ public class MainActivity extends BaseActivity {
             personalInfoFragment.setArguments(getIntent().getExtras());
         }
         return personalInfoFragment;
+    }
+
+    private void getLocationData() {
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
+        String hour = format.format(date).substring(0,2);
+            locationDataList = locationDataDao
+                    .queryBuilder().where(LocationDataDao.Properties.Hour.eq(hour)).list();
+            if (locationDataList.size() > 0) {
+                System.out.println(locationDataList);
+            }
+
     }
 }
