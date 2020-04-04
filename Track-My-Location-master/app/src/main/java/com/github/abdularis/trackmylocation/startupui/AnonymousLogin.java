@@ -54,7 +54,6 @@ public class AnonymousLogin extends BaseActivity {
     String countryCodeValue = "";
     // request code untuk login
     private static final int RC_LOGIN = 123;
-    String device_unique_id;
     @BindView(R.id.checkbox)
     CheckBox checkAgree;
     @Inject
