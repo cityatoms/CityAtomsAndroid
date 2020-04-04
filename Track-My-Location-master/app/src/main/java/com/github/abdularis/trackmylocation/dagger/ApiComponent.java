@@ -10,6 +10,5 @@ import dagger.Component;
 @Singleton
 @Component(modules = {ApiClientModule.class})
 public interface ApiComponent {
-
     void inject(AnonymousLogin anonymousLogin);
 }
