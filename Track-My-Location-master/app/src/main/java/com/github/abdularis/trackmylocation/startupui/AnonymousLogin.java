@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -18,7 +17,6 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,45 +29,50 @@ import com.github.abdularis.trackmylocation.BaseApplication;
 import com.github.abdularis.trackmylocation.R;
 import com.github.abdularis.trackmylocation.common.IPreferencesKeys;
 import com.github.abdularis.trackmylocation.common.Util;
+import com.github.abdularis.trackmylocation.dagger.ApiInterface;
 import com.github.abdularis.trackmylocation.dashboard.BaseActivity;
 import com.github.abdularis.trackmylocation.dashboard.MainActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.github.abdularis.trackmylocation.network.model.LoginRequest;
+import com.github.abdularis.trackmylocation.network.model.LoginResponse;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 import java.util.TimeZone;
-
+import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class AnonymousLogin extends BaseActivity {
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
     private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
     String device_unique_id = "";
     String timeZone = "";
     String countryCodeValue = "";
     // request code untuk login
     private static final int RC_LOGIN = 123;
-    private FirebaseAuth firebaseAuth;
-    private SharedPreferences preferences;
-
+    String device_unique_id;
     @BindView(R.id.checkbox)
     CheckBox checkAgree;
-
+    @Inject
+    ApiInterface apiInterface;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private FirebaseAuth firebaseAuth;
+    private SharedPreferences preferences;
+    // private ApiService apiService;
+    private CompositeDisposable disposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anonymous);
         ButterKnife.bind(this);
+
+        ((BaseApplication) getApplication()).getApiComponent().inject(this);
         preferences = BaseApplication.getBaseApplication().getPreferences();
         Util.getInstance().hideKeyboard(this);
         TextView txtAgreement = findViewById(R.id.txt_Agreement);
@@ -101,8 +104,8 @@ public class AnonymousLogin extends BaseActivity {
                 ds.setUnderlineText(false);
             }
         };
-        ss.setSpan(clickableSpan1,26,42, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ss.setSpan(clickableSpan2,47,61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(clickableSpan1, 26, 42, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(clickableSpan2, 47, 61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         txtAgreement.setMovementMethod(LinkMovementMethod.getInstance());
         txtAgreement.setText(ss);
     }
@@ -163,9 +166,31 @@ public class AnonymousLogin extends BaseActivity {
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 device_unique_id = Settings.Secure.getString(this.getContentResolver(),
                         Settings.Secure.ANDROID_ID);
-                checkCountry();
-                timeZone = getTimeZone();
-                goToMainActivity();
+                LoginRequest loginRequest = new LoginRequest
+                        .Builder()
+                        .withInstanceId(device_unique_id)
+                        .withCountryCode(getResources().getConfiguration().locale.getCountry())
+                        .withTimeZone(TimeZone.getDefault().getDisplayName())
+                        .build();
+                disposable.add(
+                        apiInterface
+                                .login(loginRequest)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
+                                    @Override
+                                    public void onSuccess(LoginResponse user) {
+                                        checkCountry();
+                                        timeZone = getTimeZone();
+                                        goToMainActivity();
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Toast.makeText(AnonymousLogin.this, "Login Failed", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }));
             } else {
                 finish();
             }
@@ -219,5 +244,9 @@ public class AnonymousLogin extends BaseActivity {
         startActivity(i);
         this.finish();
     }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposable.dispose();
+    }
 }
