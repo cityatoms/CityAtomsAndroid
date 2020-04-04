@@ -39,8 +39,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +53,9 @@ public class AnonymousLogin extends BaseActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
-    String device_unique_id;
+    String device_unique_id = "";
+    String timeZone = "";
+    String countryCodeValue = "";
     // request code untuk login
     private static final int RC_LOGIN = 123;
     private FirebaseAuth firebaseAuth;
@@ -150,6 +155,8 @@ public class AnonymousLogin extends BaseActivity {
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 device_unique_id = Settings.Secure.getString(this.getContentResolver(),
                         Settings.Secure.ANDROID_ID);
+                checkCountry();
+                timeZone = getTimeZone();
                 goToMainActivity();
             } else {
                 finish();
@@ -157,6 +164,23 @@ public class AnonymousLogin extends BaseActivity {
         }
     }
 
+    private void checkCountry() {
+        TelephonyManager telMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (telMgr == null)
+            return;
+        int simState = telMgr.getSimState();
+        if (simState == TelephonyManager.SIM_STATE_READY) {
+            String countryCode = telMgr.getNetworkCountryIso();
+            Locale loc = new Locale("", countryCode);
+            countryCodeValue = loc.getDisplayCountry();
+        }
+    }
+
+    private String getTimeZone() {
+        Calendar aGMTCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        aGMTCalendar.getTime();
+        return (aGMTCalendar.getTime()).toString();
+    }
     private void requestPermissions() {
         boolean shouldProvideRationale =
                 ActivityCompat.shouldShowRequestPermissionRationale(this,
