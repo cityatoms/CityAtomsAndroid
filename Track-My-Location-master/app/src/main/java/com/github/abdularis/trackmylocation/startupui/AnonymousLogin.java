@@ -124,10 +124,16 @@ public class AnonymousLogin extends BaseActivity {
         }
     }
 
+    @SuppressLint("HardwareIds")
     @OnClick(R.id.btn_signup)
     public void onClickSignUp() {
-        if (checkAgree.isChecked())
-            requestPermissions();
+        if (checkAgree.isChecked()) {
+            device_unique_id = Settings.Secure.getString(this.getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+            countryCodeValue = checkCountry();
+            timeZone = getTimeZone();
+            goToMainActivity();
+        }
         else
             Toast.makeText(this, "Please agree to the terms and conditions",
                     Toast.LENGTH_SHORT).show();
@@ -135,6 +141,8 @@ public class AnonymousLogin extends BaseActivity {
 
     private void goToMainActivity() {
         preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
+        preferences.edit().putString(IPreferencesKeys.TIME_ZONE, timeZone).apply();
+        preferences.edit().putString(IPreferencesKeys.COUNTRY, countryCodeValue).apply();
         Intent i = new Intent(this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
@@ -164,16 +172,17 @@ public class AnonymousLogin extends BaseActivity {
         }
     }
 
-    private void checkCountry() {
+    private String checkCountry() {
         TelephonyManager telMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (telMgr == null)
-            return;
+            return "";
         int simState = telMgr.getSimState();
         if (simState == TelephonyManager.SIM_STATE_READY) {
             String countryCode = telMgr.getNetworkCountryIso();
             Locale loc = new Locale("", countryCode);
-            countryCodeValue = loc.getDisplayCountry();
+            return loc.getDisplayCountry();
         }
+        return "";
     }
 
     private String getTimeZone() {

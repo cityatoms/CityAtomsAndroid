@@ -1,13 +1,20 @@
 package com.github.abdularis.trackmylocation.sharelocation;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
+import com.github.abdularis.trackmylocation.BaseApplication;
+import com.github.abdularis.trackmylocation.entity.DaoSession;
+import com.github.abdularis.trackmylocation.entity.LocationData;
+import com.github.abdularis.trackmylocation.entity.LocationDataDao;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -16,18 +23,28 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.security.acl.LastOwnerException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import lombok.Getter;
+
 
 /**
  * stand alone component for location updates
  */
 public class LocationUpdatesComponent {
 
+    @Getter
+    private LocationDataDao locationDataDao;
     private static final String TAG = LocationUpdatesComponent.class.getSimpleName();
 
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 3 * 1000;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 60 * 1000;
 
     /**
      * The fastest rate for active location updates. Updates will never be more frequent
@@ -54,6 +71,7 @@ public class LocationUpdatesComponent {
     private Location mLocation;
 
     public ILocationProvider iLocationProvider;
+    Context context;
 
     public LocationUpdatesComponent(ILocationProvider iLocationProvider) {
         this.iLocationProvider = iLocationProvider;
@@ -65,22 +83,38 @@ public class LocationUpdatesComponent {
      * @param context
      */
     public void onCreate(Context context) {
+        this.context = context;
         Log.i(TAG, "created...............");
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
-
+        DaoSession daoSession = BaseApplication.getBaseApplication().getDaoSession();
+        locationDataDao = daoSession.getLocationDataDao();
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
                 Log.i(TAG, "onCreate...onLocationResult...............loc " + locationResult.getLastLocation());
-
+                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                double lat = locationResult.getLastLocation().getLatitude();
+                double lon = locationResult.getLastLocation().getLongitude();
+                saveLocationData(currentDateTimeString,Double.toString(lon),Double.toString(lat));
                 onNewLocation(locationResult.getLastLocation());
             }
         };
         // create location request
         createLocationRequest();
-        // get last known location
         getLastLocation();
+
+    }
+
+    private void saveLocationData(String timestamp, String lon, String lat) {
+        LocationData locationData = new LocationData();
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
+        locationData.setHour(format.format(date).substring(0,2));
+        locationData.setTimestamp(timestamp);
+        locationData.setLatitude(lat);
+        locationData.setLongitude(lon);
+        locationDataDao.insert(locationData);
     }
 
     /**
@@ -144,6 +178,7 @@ public class LocationUpdatesComponent {
                                 Log.i(TAG, "getLastLocation " + mLocation);
                                 onNewLocation(mLocation);
                             } else {
+                                //requestLocationUpdates();
                                 Log.w(TAG, "Failed to get location.");
                             }
                         }
@@ -171,6 +206,7 @@ public class LocationUpdatesComponent {
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
     }
 
     /**

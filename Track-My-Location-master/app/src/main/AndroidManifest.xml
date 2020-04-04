@@ -7,7 +7,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".BaseApplication"
@@ -70,6 +73,7 @@
         <service
             android:name=".sharelocation.LocationUpdatesService"
             android:label="My Job Service Update "
+            android:foregroundServiceType="location"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 

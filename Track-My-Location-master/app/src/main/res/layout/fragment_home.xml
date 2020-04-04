@@ -2,22 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.github.abdularis.trackmylocation.dashboard.HomeFragment">
 
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:columnCount="2"
-        android:layout_gravity="center_horizontal">
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:columnCount="2">
 
         <androidx.cardview.widget.CardView
             android:layout_width="140dp"
             android:layout_height="140dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -29,13 +31,13 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_pin_broadcast"/>
+                    android:src="@drawable/ic_pin_broadcast" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="@string/share_location"/>
+                    android:text="@string/share_location" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -43,6 +45,7 @@
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_marginLeft="16dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -54,13 +57,13 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_pin_tracker"/>
+                    android:src="@drawable/ic_pin_tracker" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="@string/track_location"/>
+                    android:text="@string/track_location" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -68,6 +71,7 @@
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:layout_marginTop="16dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -79,13 +83,13 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_profile"/>
+                    android:src="@drawable/ic_profile" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="@string/profile"/>
+                    android:text="@string/profile" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -93,8 +97,9 @@
             android:id="@+id/btnLogout"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="16dp">
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -106,15 +111,42 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_home"/>
+                    android:src="@drawable/ic_home" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="logout"/>
+                    android:text="logout" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
     </GridLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textStyle="bold"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="TextView" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
