@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.github.abdularis.trackmylocation.BaseApplication;
 import com.github.abdularis.trackmylocation.R;
 import com.github.abdularis.trackmylocation.sharelocation.LocationUpdatesService;
+import com.github.abdularis.trackmylocation.startupui.AnonymousLogin;
 import com.github.abdularis.trackmylocation.startupui.StartupActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -52,7 +53,7 @@ public class HomeFragment extends BaseFragment {
     public void OnCLickLogout() {
         FirebaseAuth.getInstance().signOut();
         preferences.edit().clear().apply();
-        Intent intent = new Intent(mainActivity, StartupActivity.class);
+        Intent intent = new Intent(mainActivity, AnonymousLogin.class);
         startActivity(intent);
         mainActivity.stopService(new Intent(mainActivity, LocationUpdatesService.class));
         mainActivity.finish();

@@ -22,7 +22,7 @@ public class SplashActivity extends BaseActivity {
         final SharedPreferences preferences =
                 getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
         Class classObj = preferences.contains(IPreferencesKeys.USER_ID)
-                ? MainActivity.class : StartupActivity.class;
+                ? MainActivity.class : AnonymousLogin.class;
         Intent i = new Intent(SplashActivity.this, classObj);
         startActivity(i);
         finish();
