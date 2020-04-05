@@ -47,9 +47,11 @@ public class HomeFragment extends BaseFragment {
         preferences = BaseApplication.getBaseApplication().getPreferences();
         txt3.setText(userData);
         StringBuilder stringBuilder = new StringBuilder();
-        for (LocationData locationData: locationDataList) {
-            stringBuilder.append("time:"+locationData.getTimestamp()+"   lat:"+locationData.getLatitude()+"   long:"+locationData.getLongitude());
-            stringBuilder.append("\n");
+        if (locationDataList != null) {
+            for (LocationData locationData: locationDataList) {
+                stringBuilder.append("time:" + locationData.getTimestamp() + "   lat:" + locationData.getLatitude() + "   long:" + locationData.getLongitude());
+                stringBuilder.append("\n");
+            }
         }
         txt2.setText(stringBuilder.toString());
     }

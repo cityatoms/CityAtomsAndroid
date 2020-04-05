@@ -14,15 +14,11 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.github.abdularis.trackmylocation.BaseApplication;
@@ -54,7 +50,6 @@ public class AnonymousLogin extends BaseActivity {
     String countryCodeValue = "";
     // request code untuk login
     private static final int RC_LOGIN = 123;
-    String device_unique_id;
     @BindView(R.id.checkbox)
     CheckBox checkAgree;
     @Inject
@@ -131,11 +126,36 @@ public class AnonymousLogin extends BaseActivity {
     @OnClick(R.id.btn_signup)
     public void onClickSignUp() {
         if (checkAgree.isChecked()) {
-            device_unique_id = Settings.Secure.getString(this.getContentResolver(),
+            device_unique_id = Settings.Secure.getString(AnonymousLogin.this.getContentResolver(),
                     Settings.Secure.ANDROID_ID);
             countryCodeValue = checkCountry();
             timeZone = getTimeZone();
-            goToMainActivity();
+            if (countryCodeValue.isEmpty())
+                countryCodeValue = "US";
+            LoginRequest loginRequest = new LoginRequest
+                    .Builder()
+                    .withInstanceId(device_unique_id)
+                    .withCountryCode(countryCodeValue.toUpperCase())
+                    .withTimeZone(timeZone)
+                    .build();
+            disposable.add(
+                    apiInterface
+                            .login(loginRequest)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
+                                @Override
+                                public void onSuccess(LoginResponse user) {
+                                    goToMainActivity();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Toast.makeText(AnonymousLogin.this, "Login Failed",
+                                            Toast.LENGTH_SHORT).show();
+
+                                }
+                            }));
         }
         else
             Toast.makeText(this, "Please agree to the terms and conditions",
@@ -152,50 +172,6 @@ public class AnonymousLogin extends BaseActivity {
         finish();
     }
 
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    @SuppressLint({"MissingPermission", "HardwareIds"})
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        Log.i("TAG", "onRequestPermissionResult");
-        if (requestCode == MY_PERMISSIONS_REQUEST_READ_PHONE_STATE) {
-            if (grantResults.length <= 0) {
-                Toast.makeText(this, "Access Denied, Please try again!", Toast.LENGTH_SHORT).show();
-            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                device_unique_id = Settings.Secure.getString(this.getContentResolver(),
-                        Settings.Secure.ANDROID_ID);
-                LoginRequest loginRequest = new LoginRequest
-                        .Builder()
-                        .withInstanceId(device_unique_id)
-                        .withCountryCode(getResources().getConfiguration().locale.getCountry())
-                        .withTimeZone(TimeZone.getDefault().getDisplayName())
-                        .build();
-                disposable.add(
-                        apiInterface
-                                .login(loginRequest)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
-                                    @Override
-                                    public void onSuccess(LoginResponse user) {
-                                        checkCountry();
-                                        timeZone = getTimeZone();
-                                        goToMainActivity();
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        Toast.makeText(AnonymousLogin.this, "Login Failed", Toast.LENGTH_SHORT).show();
-
-                                    }
-                                }));
-            } else {
-                finish();
-            }
-        }
-    }
 
     private String checkCountry() {
         TelephonyManager telMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -204,8 +180,8 @@ public class AnonymousLogin extends BaseActivity {
         int simState = telMgr.getSimState();
         if (simState == TelephonyManager.SIM_STATE_READY) {
             String countryCode = telMgr.getNetworkCountryIso();
-            Locale loc = new Locale("", countryCode);
-            return loc.getDisplayCountry();
+            //Locale loc = new Locale("", countryCode);
+            return countryCode;
         }
         return "";
     }
@@ -214,20 +190,6 @@ public class AnonymousLogin extends BaseActivity {
         Calendar aGMTCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         aGMTCalendar.getTime();
         return (aGMTCalendar.getTime()).toString();
-    }
-    private void requestPermissions() {
-        boolean shouldProvideRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.READ_PHONE_STATE);
-        if (shouldProvideRationale) {
-            ActivityCompat.requestPermissions(AnonymousLogin.this,
-                    new String[]{Manifest.permission.READ_PHONE_STATE},
-                    MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
-        } else {
-            ActivityCompat.requestPermissions(AnonymousLogin.this,
-                    new String[]{Manifest.permission.READ_PHONE_STATE},
-                    MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
-        }
     }
 
     //Region onclicks
