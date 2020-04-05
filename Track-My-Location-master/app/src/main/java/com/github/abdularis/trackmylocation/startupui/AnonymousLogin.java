@@ -19,10 +19,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.github.abdularis.trackmylocation.BaseApplication;
@@ -130,20 +127,21 @@ public class AnonymousLogin extends BaseActivity {
     @OnClick(R.id.btn_signup)
     public void onClickSignUp() {
         if (checkAgree.isChecked()) {
-            device_unique_id = Settings.Secure.getString(this.getContentResolver(),
+            device_unique_id = Settings.Secure.getString(AnonymousLogin.this.getContentResolver(),
                     Settings.Secure.ANDROID_ID);
             countryCodeValue = checkCountry();
             timeZone = getTimeZone();
-
+            if (countryCodeValue.isEmpty())
+                countryCodeValue = "US";
             LoginRequest loginRequest = new LoginRequest
                     .Builder()
                     .withInstanceId(device_unique_id)
-                    .withCountryCode(countryCodeValue)
+                    .withCountryCode(countryCodeValue.toUpperCase())
                     .withTimeZone(timeZone)
                     .build();
             disposable.add(
-                    apiInterface.getUser(device_unique_id)
-                            .onErrorResumeNext(apiInterface.login(loginRequest))
+                    apiInterface
+                            .login(loginRequest)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
@@ -151,10 +149,11 @@ public class AnonymousLogin extends BaseActivity {
                                 public void onSuccess(LoginResponse user) {
                                     goToMainActivity();
                                 }
-
                                 @Override
                                 public void onError(Throwable e) {
-                                    Toast.makeText(AnonymousLogin.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AnonymousLogin.this, "Login Failed",
+                                            Toast.LENGTH_SHORT).show();
+
                                 }
                             }));
         }
@@ -199,8 +198,9 @@ public class AnonymousLogin extends BaseActivity {
         int simState = telMgr.getSimState();
         if (simState == TelephonyManager.SIM_STATE_READY) {
             String countryCode = telMgr.getNetworkCountryIso();
-            Locale loc = new Locale("", countryCode);
-            return loc.getCountry();
+            //Locale loc = new Locale("", countryCode);
+            return countryCode;
+
         }
         return "";
     }
@@ -209,20 +209,6 @@ public class AnonymousLogin extends BaseActivity {
         Calendar aGMTCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         aGMTCalendar.getTime();
         return (aGMTCalendar.getTime()).toString();
-    }
-    private void requestPermissions() {
-        boolean shouldProvideRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.READ_PHONE_STATE);
-        if (shouldProvideRationale) {
-            ActivityCompat.requestPermissions(AnonymousLogin.this,
-                    new String[]{Manifest.permission.READ_PHONE_STATE},
-                    MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
-        } else {
-            ActivityCompat.requestPermissions(AnonymousLogin.this,
-                    new String[]{Manifest.permission.READ_PHONE_STATE},
-                    MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
-        }
     }
 
     //Region onclicks

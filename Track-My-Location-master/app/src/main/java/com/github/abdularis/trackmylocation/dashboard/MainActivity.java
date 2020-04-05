@@ -1,6 +1,7 @@
 package com.github.abdularis.trackmylocation.dashboard;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -124,10 +125,13 @@ public class MainActivity extends BaseActivity {
                     // App can access location both in the foreground and in the background.
                     // Start your service that doesn't have a foreground service type
                     // defined.
-                    Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
-                    Messenger messengerIncoming = new Messenger(mHandler);
-                    startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
-                    startForegroundService(startServiceIntent);
+                   // if (!isMyServiceRunning("LocationUpdatesService.class")) {
+
+                        Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
+                        Messenger messengerIncoming = new Messenger(mHandler);
+                        startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
+                        getApplicationContext().startForegroundService(startServiceIntent);
+                  //  }
                 } else {
                     // App can only access location in the foreground. Display a dialog
                     // warning the user that your app must have all-the-time access to
@@ -146,17 +150,16 @@ public class MainActivity extends BaseActivity {
                         },
                         REQUEST_PERMISSIONS_REQUEST_CODE);
             }
-        }
-
-        Log.i("TAG", "onRequestPermissionResult");
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+        } else if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length <= 0) {
                 finish();
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
-                Messenger messengerIncoming = new Messenger(mHandler);
-                startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
-                startService(startServiceIntent);
+                //if (!isMyServiceRunning("LocationUpdatesService.class")) {
+                    Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
+                    Messenger messengerIncoming = new Messenger(mHandler);
+                    startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
+                    startService(startServiceIntent);
+                //}
             } else {
                 finish();
             }
@@ -250,6 +253,17 @@ public class MainActivity extends BaseActivity {
             if (locationDataList.size() > 0) {
                 System.out.println(locationDataList);
             }
+    }
 
+    public boolean isMyServiceRunning(String serviceClassName){
+        final ActivityManager activityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+        final List<ActivityManager.RunningServiceInfo> services = activityManager.getRunningServices(Integer.MAX_VALUE);
+
+        for (ActivityManager.RunningServiceInfo runningServiceInfo : services) {
+            if (runningServiceInfo.service.getClassName().equals(serviceClassName)){
+                return true;
+            }
+        }
+        return false;
     }
 }
