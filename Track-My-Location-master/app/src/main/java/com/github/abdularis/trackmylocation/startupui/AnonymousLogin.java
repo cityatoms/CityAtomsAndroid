@@ -153,6 +153,7 @@ public class AnonymousLogin extends BaseActivity {
                                 public void onError(Throwable e) {
                                     Toast.makeText(AnonymousLogin.this, "Login Failed",
                                             Toast.LENGTH_SHORT).show();
+                                    goToMainActivity();
 
                                 }
                             }));
