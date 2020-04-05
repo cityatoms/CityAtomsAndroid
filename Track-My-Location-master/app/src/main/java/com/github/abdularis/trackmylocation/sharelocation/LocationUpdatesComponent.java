@@ -44,7 +44,7 @@ public class LocationUpdatesComponent {
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 60 * 1000;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 20 * 1000;
 
     /**
      * The fastest rate for active location updates. Updates will never be more frequent
@@ -206,7 +206,6 @@ public class LocationUpdatesComponent {
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
     }
 
     /**

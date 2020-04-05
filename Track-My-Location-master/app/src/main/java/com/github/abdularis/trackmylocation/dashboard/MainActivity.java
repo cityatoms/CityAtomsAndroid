@@ -1,6 +1,7 @@
 package com.github.abdularis.trackmylocation.dashboard;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,11 +14,17 @@ import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import com.github.abdularis.trackmylocation.BaseApplication;
 import com.github.abdularis.trackmylocation.R;
@@ -27,6 +34,7 @@ import com.github.abdularis.trackmylocation.entity.LocationData;
 import com.github.abdularis.trackmylocation.entity.LocationDataDao;
 import com.github.abdularis.trackmylocation.sharelocation.LocationUpdatesService;
 import com.github.abdularis.trackmylocation.startupui.StartupActivity;
+import com.github.abdularis.trackmylocation.workmanager.SyncWorker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import java.text.DateFormat;
@@ -34,7 +42,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
+import br.com.safety.locationlistenerhelper.core.CurrentLocationListener;
+import br.com.safety.locationlistenerhelper.core.CurrentLocationReceiver;
+import br.com.safety.locationlistenerhelper.core.LocationTracker;
 import butterknife.ButterKnife;
 import freemarker.template.utility.Constants;
 import lombok.Getter;
@@ -51,6 +63,10 @@ public class MainActivity extends BaseActivity {
     private IncomingMessageHandler mHandler;
     private LocationDataDao locationDataDao;
     private List<LocationData> locationDataList;
+    private LocationTracker locationTracker;
+
+    public static final String MESSAGE_STATUS = "Sync_User_data";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +94,18 @@ public class MainActivity extends BaseActivity {
         getLocationData();
         initFragment(getHomeFragment());
         requestPermissions();
+
+        WorkManager mWorkManager = WorkManager.getInstance(this);
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(SyncWorker.class, 1, TimeUnit.HOURS).build();
+
+        mWorkManager.getWorkInfoByIdLiveData(workRequest.getId()).observe(this, workInfo -> {
+            if (workInfo != null) {
+                WorkInfo.State state = workInfo.getState();
+                Log.d(MESSAGE_STATUS,state.toString() + "\n");
+
+            }
+        });
+        mWorkManager.enqueue(workRequest);
     }
 
     class IncomingMessageHandler extends Handler {
@@ -98,6 +126,12 @@ public class MainActivity extends BaseActivity {
                     break;
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        locationTracker.stopLocationService(this);
     }
 
     /**
@@ -121,13 +155,10 @@ public class MainActivity extends BaseActivity {
                         == PackageManager.PERMISSION_GRANTED;
 
                 if (backgroundLocationPermissionApproved) {
-                    // App can access location both in the foreground and in the background.
-                    // Start your service that doesn't have a foreground service type
-                    // defined.
-                    Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
-                    Messenger messengerIncoming = new Messenger(mHandler);
-                    startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
-                    startForegroundService(startServiceIntent);
+                        Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
+                        Messenger messengerIncoming = new Messenger(mHandler);
+                        startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
+                        startService(startServiceIntent);
                 } else {
                     // App can only access location in the foreground. Display a dialog
                     // warning the user that your app must have all-the-time access to
@@ -146,17 +177,14 @@ public class MainActivity extends BaseActivity {
                         },
                         REQUEST_PERMISSIONS_REQUEST_CODE);
             }
-        }
-
-        Log.i("TAG", "onRequestPermissionResult");
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+        } else if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length <= 0) {
                 finish();
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
-                Messenger messengerIncoming = new Messenger(mHandler);
-                startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
-                startService(startServiceIntent);
+                    Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
+                    Messenger messengerIncoming = new Messenger(mHandler);
+                    startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
+                    startService(startServiceIntent);
             } else {
                 finish();
             }
@@ -176,7 +204,6 @@ public class MainActivity extends BaseActivity {
                         REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListner = item -> {
                 Fragment selectedFragment = null;
@@ -250,6 +277,5 @@ public class MainActivity extends BaseActivity {
             if (locationDataList.size() > 0) {
                 System.out.println(locationDataList);
             }
-
     }
 }
