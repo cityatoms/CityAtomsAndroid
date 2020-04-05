@@ -36,6 +36,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import br.com.safety.locationlistenerhelper.core.CurrentLocationListener;
+import br.com.safety.locationlistenerhelper.core.CurrentLocationReceiver;
+import br.com.safety.locationlistenerhelper.core.LocationTracker;
 import butterknife.ButterKnife;
 import freemarker.template.utility.Constants;
 import lombok.Getter;
@@ -52,6 +55,7 @@ public class MainActivity extends BaseActivity {
     private IncomingMessageHandler mHandler;
     private LocationDataDao locationDataDao;
     private List<LocationData> locationDataList;
+    private LocationTracker locationTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +105,12 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        locationTracker.stopLocationService(this);
+    }
+
     /**
      * Callback received when a permissions request has been completed.
      */
@@ -122,16 +132,10 @@ public class MainActivity extends BaseActivity {
                         == PackageManager.PERMISSION_GRANTED;
 
                 if (backgroundLocationPermissionApproved) {
-                    // App can access location both in the foreground and in the background.
-                    // Start your service that doesn't have a foreground service type
-                    // defined.
-                   // if (!isMyServiceRunning("LocationUpdatesService.class")) {
-
                         Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
                         Messenger messengerIncoming = new Messenger(mHandler);
                         startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
-                        getApplicationContext().startForegroundService(startServiceIntent);
-                  //  }
+                        startService(startServiceIntent);
                 } else {
                     // App can only access location in the foreground. Display a dialog
                     // warning the user that your app must have all-the-time access to
@@ -154,12 +158,10 @@ public class MainActivity extends BaseActivity {
             if (grantResults.length <= 0) {
                 finish();
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //if (!isMyServiceRunning("LocationUpdatesService.class")) {
                     Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
                     Messenger messengerIncoming = new Messenger(mHandler);
                     startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
                     startService(startServiceIntent);
-                //}
             } else {
                 finish();
             }
@@ -179,7 +181,6 @@ public class MainActivity extends BaseActivity {
                         REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListner = item -> {
                 Fragment selectedFragment = null;
@@ -253,17 +254,5 @@ public class MainActivity extends BaseActivity {
             if (locationDataList.size() > 0) {
                 System.out.println(locationDataList);
             }
-    }
-
-    public boolean isMyServiceRunning(String serviceClassName){
-        final ActivityManager activityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
-        final List<ActivityManager.RunningServiceInfo> services = activityManager.getRunningServices(Integer.MAX_VALUE);
-
-        for (ActivityManager.RunningServiceInfo runningServiceInfo : services) {
-            if (runningServiceInfo.service.getClassName().equals(serviceClassName)){
-                return true;
-            }
-        }
-        return false;
     }
 }
