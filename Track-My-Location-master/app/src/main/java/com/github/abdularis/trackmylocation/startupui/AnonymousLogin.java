@@ -14,6 +14,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -148,7 +149,6 @@ public class AnonymousLogin extends BaseActivity {
                                 public void onSuccess(LoginResponse user) {
                                     goToMainActivity();
                                 }
-
                                 @Override
                                 public void onError(Throwable e) {
                                     Toast.makeText(AnonymousLogin.this, "Login Failed",
@@ -172,6 +172,24 @@ public class AnonymousLogin extends BaseActivity {
         finish();
     }
 
+    /**
+     * Callback received when a permissions request has been completed.
+     */
+    @SuppressLint({"MissingPermission", "HardwareIds"})
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        Log.i("TAG", "onRequestPermissionResult");
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_PHONE_STATE) {
+            if (grantResults.length <= 0) {
+                Toast.makeText(this, "Access Denied, Please try again!", Toast.LENGTH_SHORT).show();
+            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                goToMainActivity();
+            } else {
+                finish();
+            }
+        }
+    }
 
     private String checkCountry() {
         TelephonyManager telMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -182,6 +200,7 @@ public class AnonymousLogin extends BaseActivity {
             String countryCode = telMgr.getNetworkCountryIso();
             //Locale loc = new Locale("", countryCode);
             return countryCode;
+
         }
         return "";
     }
