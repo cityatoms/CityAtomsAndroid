@@ -1,0 +1,38 @@
+[
+  {
+    "time": "2020-01-01T00:00:00.123Z",
+    "time_utc": 1231231231321,
+    "lat": 45.123123,
+    "lon": 25.123123,
+    "symptom_scores": {
+      "throat": 0,
+      "cough": 2,
+      "fever": 1,
+      "smell": 1,
+      "breathing": 1,
+      "pneumonia": 1,
+      "c19": 1,
+      "hospital": 1,
+      "score": 1
+    },
+    "instance_id": "b2ebc81434035d31"
+  },
+  {
+    "time": "2020-01-01T00:05:00.123Z",
+    "time_utc": 1231231231321,
+    "lat": 45.123123,
+    "lon": 25.123123,
+    "symptom_scores": {
+      "throat": 0,
+      "cough": 2,
+      "fever": 1,
+      "smell": 1,
+      "breathing": 1,
+      "pneumonia": 1,
+      "c19": 1,
+      "hospital": 1,
+      "score": 1
+    },
+    "instance_id": "b2ebc81434035d31"
+  }
+]

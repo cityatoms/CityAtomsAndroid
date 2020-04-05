@@ -28,8 +28,8 @@ public class ApiClientModule {
         httpClient.addInterceptor(chain -> {
             Request original = chain.request();
             Request request = original.newBuilder()
-                    .header("Content-Type", "application/json")
                     .header("x-cityatom-auth-token", "test")
+                    .header("Content-Type", "application/json")
                     .method(original.method(), original.body())
                     .build();
 
