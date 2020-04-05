@@ -35,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SyncWorker extends Worker {
 
-    private final static String TAG = "SyncWorker";
+    private final static String TAG = "City Atoms";
 
     private static final String WORK_RESULT = "work_result";
 
