@@ -91,5 +91,10 @@ dependencies {
     // OkHttp3 dependencies
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+    //Work Manger
+    // (Java only)
+    implementation('androidx.work:work-runtime:2.3.4') {
+        exclude group: 'com.google.guava', module: 'listenablefuture'
+    }
 }
 

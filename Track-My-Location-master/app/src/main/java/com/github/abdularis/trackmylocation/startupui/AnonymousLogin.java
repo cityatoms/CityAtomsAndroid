@@ -20,6 +20,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.github.abdularis.trackmylocation.BaseApplication;
@@ -49,15 +51,11 @@ public class AnonymousLogin extends BaseActivity {
     String device_unique_id = "";
     String timeZone = "";
     String countryCodeValue = "";
-    // request code untuk login
     private static final int RC_LOGIN = 123;
     @BindView(R.id.checkbox)
     CheckBox checkAgree;
     @Inject
     ApiInterface apiInterface;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private FirebaseAuth firebaseAuth;
     private SharedPreferences preferences;
     // private ApiService apiService;
     private CompositeDisposable disposable = new CompositeDisposable();
@@ -67,7 +65,6 @@ public class AnonymousLogin extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anonymous);
         ButterKnife.bind(this);
-
         ((BaseApplication) getApplication()).getApiComponent().inject(this);
         preferences = BaseApplication.getBaseApplication().getPreferences();
         Util.getInstance().hideKeyboard(this);
@@ -76,7 +73,7 @@ public class AnonymousLogin extends BaseActivity {
         ClickableSpan clickableSpan1 = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                Toast.makeText(AnonymousLogin.this, "1", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AnonymousLogin.this, "Terms page", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -90,7 +87,7 @@ public class AnonymousLogin extends BaseActivity {
         ClickableSpan clickableSpan2 = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                Toast.makeText(AnonymousLogin.this, "2", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AnonymousLogin.this, "Services page", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -106,23 +103,6 @@ public class AnonymousLogin extends BaseActivity {
         txtAgreement.setText(ss);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_LOGIN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-            if (resultCode == RESULT_OK) {
-                goToMainActivity();
-            } else {
-                if (response == null) {
-                    Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
-                } else if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    Toast.makeText(this, "No Network Connection", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
-
     @SuppressLint("HardwareIds")
     @OnClick(R.id.btn_signup)
     public void onClickSignUp() {
@@ -132,7 +112,8 @@ public class AnonymousLogin extends BaseActivity {
             countryCodeValue = checkCountry();
             timeZone = getTimeZone();
             if (countryCodeValue.isEmpty())
-                countryCodeValue = "US";
+                countryCodeValue = getString(R.string.undefined);
+
             LoginRequest loginRequest = new LoginRequest
                     .Builder()
                     .withInstanceId(device_unique_id)
@@ -140,26 +121,27 @@ public class AnonymousLogin extends BaseActivity {
                     .withTimeZone(timeZone)
                     .build();
             disposable.add(
-                    apiInterface
-                            .login(loginRequest)
+                    apiInterface.getUser(device_unique_id)
+                            .onErrorResumeNext(apiInterface.login(loginRequest))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
                                 @Override
                                 public void onSuccess(LoginResponse user) {
+                                    String token = user.getImei();
+                                    preferences.edit().putString(IPreferencesKeys.ACCESS_TOKEN,
+                                            token).apply();
                                     goToMainActivity();
                                 }
                                 @Override
                                 public void onError(Throwable e) {
                                     Toast.makeText(AnonymousLogin.this, "Login Failed",
                                             Toast.LENGTH_SHORT).show();
-                                    goToMainActivity();
-
                                 }
                             }));
         }
         else
-            Toast.makeText(this, "Please agree to the terms and conditions",
+            Toast.makeText(this, R.string.terms_and_conditions,
                     Toast.LENGTH_SHORT).show();
     }
 
@@ -171,25 +153,6 @@ public class AnonymousLogin extends BaseActivity {
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();
-    }
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    @SuppressLint({"MissingPermission", "HardwareIds"})
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        Log.i("TAG", "onRequestPermissionResult");
-        if (requestCode == MY_PERMISSIONS_REQUEST_READ_PHONE_STATE) {
-            if (grantResults.length <= 0) {
-                Toast.makeText(this, "Access Denied, Please try again!", Toast.LENGTH_SHORT).show();
-            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                goToMainActivity();
-            } else {
-                finish();
-            }
-        }
     }
 
     private String checkCountry() {

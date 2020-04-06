@@ -9,7 +9,6 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -30,6 +29,7 @@ public class ApiClientModule {
             Request original = chain.request();
             Request request = original.newBuilder()
                     .header("x-cityatom-auth-token", "test")
+                    .header("Content-Type", "application/json")
                     .method(original.method(), original.body())
                     .build();
 

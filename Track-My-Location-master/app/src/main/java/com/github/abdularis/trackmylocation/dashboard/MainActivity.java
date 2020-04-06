@@ -14,11 +14,17 @@ import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import com.github.abdularis.trackmylocation.BaseApplication;
 import com.github.abdularis.trackmylocation.R;
@@ -28,6 +34,7 @@ import com.github.abdularis.trackmylocation.entity.LocationData;
 import com.github.abdularis.trackmylocation.entity.LocationDataDao;
 import com.github.abdularis.trackmylocation.sharelocation.LocationUpdatesService;
 import com.github.abdularis.trackmylocation.startupui.StartupActivity;
+import com.github.abdularis.trackmylocation.workmanager.SyncWorker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import java.text.DateFormat;
@@ -35,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import br.com.safety.locationlistenerhelper.core.CurrentLocationListener;
 import br.com.safety.locationlistenerhelper.core.CurrentLocationReceiver;
@@ -56,6 +64,9 @@ public class MainActivity extends BaseActivity {
     private LocationDataDao locationDataDao;
     private List<LocationData> locationDataList;
     private LocationTracker locationTracker;
+
+    public static final String MESSAGE_STATUS = "Sync_User_data";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +94,19 @@ public class MainActivity extends BaseActivity {
         getLocationData();
         initFragment(getHomeFragment());
         requestPermissions();
+
+        WorkManager mWorkManager = WorkManager.getInstance(this);
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(SyncWorker.class,
+                1, TimeUnit.HOURS).build();
+
+        mWorkManager.getWorkInfoByIdLiveData(workRequest.getId()).observe(this, workInfo -> {
+            if (workInfo != null) {
+                WorkInfo.State state = workInfo.getState();
+                Log.d(MESSAGE_STATUS,state.toString() + "\n");
+
+            }
+        });
+        mWorkManager.enqueue(workRequest);
     }
 
     class IncomingMessageHandler extends Handler {
@@ -108,7 +132,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        locationTracker.stopLocationService(this);
     }
 
     /**

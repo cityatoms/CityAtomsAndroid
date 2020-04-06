@@ -1,5 +1,6 @@
 package com.github.abdularis.trackmylocation.sharelocation;
 
+import android.annotation.SuppressLint;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import static com.github.abdularis.trackmylocation.dashboard.MainActivity.MESSEN
 /**
  * location update service continues to running and getting location information
  */
+@SuppressLint("SpecifyJobSchedulerIdRange")
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class LocationUpdatesService extends JobService implements
         LocationUpdatesComponent.ILocationProvider {
