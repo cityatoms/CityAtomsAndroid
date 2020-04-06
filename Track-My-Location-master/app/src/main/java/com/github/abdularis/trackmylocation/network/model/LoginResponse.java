@@ -3,6 +3,8 @@ package com.github.abdularis.trackmylocation.network.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import lombok.Getter;
+
 
 @SuppressWarnings("unused")
 public class LoginResponse {

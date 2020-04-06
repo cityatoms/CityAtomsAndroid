@@ -3,23 +3,17 @@ package com.github.abdularis.trackmylocation.dashboard;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import androidx.fragment.app.Fragment;
 import com.github.abdularis.trackmylocation.BaseApplication;
 import com.github.abdularis.trackmylocation.R;
 import com.github.abdularis.trackmylocation.entity.LocationData;
 import com.github.abdularis.trackmylocation.sharelocation.LocationUpdatesService;
 import com.github.abdularis.trackmylocation.startupui.AnonymousLogin;
-import com.github.abdularis.trackmylocation.startupui.StartupActivity;
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,7 +43,8 @@ public class HomeFragment extends BaseFragment {
         StringBuilder stringBuilder = new StringBuilder();
         if (locationDataList != null) {
             for (LocationData locationData: locationDataList) {
-                stringBuilder.append("time:" + locationData.getTimestamp() + "   lat:" + locationData.getLatitude() + "   long:" + locationData.getLongitude());
+                stringBuilder.append("time:" + locationData.getTimestamp() + "   lat:" +
+                        locationData.getLatitude() + "   long:" + locationData.getLongitude());
                 stringBuilder.append("\n");
             }
         }
@@ -73,13 +68,11 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick(R.id.btnLogout)
     public void OnCLickLogout() {
-        FirebaseAuth.getInstance().signOut();
+        mainActivity.stopService(new Intent(mainActivity, LocationUpdatesService.class));
         preferences.edit().clear().apply();
         Intent intent = new Intent(mainActivity, AnonymousLogin.class);
         startActivity(intent);
-        mainActivity.stopService(new Intent(mainActivity, LocationUpdatesService.class));
         mainActivity.finish();
-
     }
 
 

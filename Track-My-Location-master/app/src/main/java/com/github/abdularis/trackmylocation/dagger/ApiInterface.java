@@ -21,6 +21,7 @@ public interface ApiInterface {
     Single<LoginResponse> login(@Body LoginRequest loginRequest);
 
     @POST("batch/datapoints")
-    Completable locationSymptomSync(@Header("x-auth-token") String token, @Body List<LocationSymptomRequest> locationSymptomRequest);
+    Completable locationSymptomSync(@Header("x-auth-token") String token,
+                                    @Body List<LocationSymptomRequest> locationSymptomRequest);
 }
 

@@ -96,7 +96,8 @@ public class MainActivity extends BaseActivity {
         requestPermissions();
 
         WorkManager mWorkManager = WorkManager.getInstance(this);
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(SyncWorker.class, 1, TimeUnit.HOURS).build();
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(SyncWorker.class,
+                1, TimeUnit.HOURS).build();
 
         mWorkManager.getWorkInfoByIdLiveData(workRequest.getId()).observe(this, workInfo -> {
             if (workInfo != null) {
@@ -131,7 +132,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        locationTracker.stopLocationService(this);
     }
 
     /**
