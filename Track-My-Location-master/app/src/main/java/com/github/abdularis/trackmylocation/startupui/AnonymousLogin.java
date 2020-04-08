@@ -59,7 +59,7 @@ public class AnonymousLogin extends BaseActivity {
     private SharedPreferences preferences;
     // private ApiService apiService;
     private CompositeDisposable disposable = new CompositeDisposable();
-
+    private static final String TAG = "AnonymousLogin";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +68,7 @@ public class AnonymousLogin extends BaseActivity {
         ((BaseApplication) getApplication()).getApiComponent().inject(this);
         preferences = BaseApplication.getBaseApplication().getPreferences();
         Util.getInstance().hideKeyboard(this);
+        Log.d(TAG, "onCreate: ");
         TextView txtAgreement = findViewById(R.id.txt_Agreement);
         SpannableString ss = new SpannableString(getString(R.string.agreement));
         ClickableSpan clickableSpan1 = new ClickableSpan() {
