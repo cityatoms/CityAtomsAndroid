@@ -42,4 +42,20 @@
         <color name="colorSelect2">#E1E6F6</color>
         <color name="colorSelect3">#C5D4FD</color>
         <color name="shadow">#715E40</color>
+    <color name="whiteTwo">#ffffff</color>
+
+    <color name="paleGrey">#f3f5fb</color>
+    <color name="veryLightBlue">#d7e7ff</color>
+    <color name="robinSEggTwo">#c5d4fd</color>
+    <color name="dodgerBlue">#4484ff</color>
+
+    <color name="periwinkle">#9a87ff</color>
+    <color name="lightGreenishBlue">#69e8c8</color>
+    <color name="lightishGreen">#83e45e</color>
+    <color name="peach">#ffb77c</color>
+    <color name="desert">#ccba61</color>
+    <color name="salmon">#f27e7e</color>
+    <color name="greyishBrown">#4f4f4f</color>
+
+
 </resources>

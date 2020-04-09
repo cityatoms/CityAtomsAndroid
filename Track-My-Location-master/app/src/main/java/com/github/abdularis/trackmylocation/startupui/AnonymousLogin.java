@@ -19,25 +19,31 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.github.abdularis.trackmylocation.BaseApplication;
+import com.github.abdularis.trackmylocation.Enitity.LoginEntity;
 import com.github.abdularis.trackmylocation.R;
 import com.github.abdularis.trackmylocation.common.IPreferencesKeys;
 import com.github.abdularis.trackmylocation.common.Util;
 import com.github.abdularis.trackmylocation.dagger.ApiInterface;
 import com.github.abdularis.trackmylocation.dashboard.BaseActivity;
 import com.github.abdularis.trackmylocation.dashboard.MainActivity;
+import com.github.abdularis.trackmylocation.network.APIRequestService;
+import com.github.abdularis.trackmylocation.network.RetrofitClient;
 import com.github.abdularis.trackmylocation.network.model.LoginRequest;
 import com.github.abdularis.trackmylocation.network.model.LoginResponse;
 import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
+
 import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -45,6 +51,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AnonymousLogin extends BaseActivity {
     private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
@@ -60,6 +69,7 @@ public class AnonymousLogin extends BaseActivity {
     // private ApiService apiService;
     private CompositeDisposable disposable = new CompositeDisposable();
     private static final String TAG = "AnonymousLogin";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,36 +125,27 @@ public class AnonymousLogin extends BaseActivity {
             if (countryCodeValue.isEmpty())
                 countryCodeValue = getString(R.string.undefined);
 
-            LoginRequest loginRequest = new LoginRequest
-                    .Builder()
-                    .withInstanceId(device_unique_id)
-                    .withCountryCode(countryCodeValue.toUpperCase())
-                    .withTimeZone(timeZone)
-                    .build();
-            disposable.add(
-                    apiInterface.getUser(device_unique_id)
-                            .onErrorResumeNext(apiInterface.login(loginRequest))
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
-                                @Override
-                                public void onSuccess(LoginResponse user) {
-                                    String token = user.getImei();
-                                    preferences.edit().putString(IPreferencesKeys.ACCESS_TOKEN,
-                                            token).apply();
-                                    goToMainActivity();
-                                }
-                                @Override
-                                public void onError(Throwable e) {
-                                    Toast.makeText(AnonymousLogin.this, "Login Failed",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }));
-        }
-        else
+            Call<LoginEntity> call = RetrofitClient.getApiService().callLogin("test", "test1", "test1", device_unique_id, timeZone, countryCodeValue.toUpperCase());
+            call.enqueue(new Callback<LoginEntity>() {
+                @Override
+                public void onResponse(Call<LoginEntity> call, Response<LoginEntity> response) {
+                    Log.d(TAG, "onResponse: " +
+                            response.isSuccessful());
+                    goToMainActivity();
+                }
+
+                @Override
+                public void onFailure(Call<LoginEntity> call, Throwable t) {
+
+                }
+            });
+
+
+        } else
             Toast.makeText(this, R.string.terms_and_conditions,
                     Toast.LENGTH_SHORT).show();
     }
+
 
     private void goToMainActivity() {
         preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
@@ -176,23 +177,4 @@ public class AnonymousLogin extends BaseActivity {
         return (aGMTCalendar.getTime()).toString();
     }
 
-    //Region onclicks
-    @OnClick(R.id.txt2)
-    public void OnClickRegisterPage() {
-        Intent i = new Intent(AnonymousLogin.this, RegisterAccount.class);
-        startActivity(i);
-        this.finish();
-    }
-
-    @OnClick(R.id.txt1)
-    public void OnClickLoginPage() {
-        Intent i = new Intent(AnonymousLogin.this, StartupActivity.class);
-        startActivity(i);
-        this.finish();
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        disposable.dispose();
-    }
 }

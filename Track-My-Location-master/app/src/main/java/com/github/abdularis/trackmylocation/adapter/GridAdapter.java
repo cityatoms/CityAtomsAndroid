@@ -26,7 +26,8 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.GridViewHolder
     private static final String TAG = "GridAdapter";
     List<Model> models = new ArrayList();
     private LayoutInflater mInflater;
-
+    int[] img={R.drawable.srtb96,R.drawable.dcblu96,R.drawable.feverebl96,R.drawable.breathblu96,
+            R.drawable.toungeblu96,R.drawable.heartblu96};
     public GridAdapter(SimpleSymptoms context, List<Model> models) {
         this.context = context;
         this.models = models;
@@ -49,14 +50,19 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.GridViewHolder
         Log.d(TAG, "onBindViewHolder: " + model.getText());
         holder.imageView.setImageResource(model.getImage());
 
-        holder.linear_l.setBackgroundColor(model.isSelected() ? Color.BLUE : Color.WHITE);
+        holder.linear_l.setBackgroundColor(model.isSelected() ? Color.BLUE: Color.WHITE);
         holder.linear_l.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.setSelected(!model.isSelected());
-                Log.d(TAG, "onClick: "+model.getText());
-                holder.linear_l.setBackgroundColor(model.isSelected() ? Color.BLUE : Color.WHITE);
-
+                if(model.isSelected()) {
+                    model.setSelected(!model.isSelected());
+                    Log.d(TAG, "onClick: " + model.getText());
+                    holder.linear_l.setBackgroundColor(model.isSelected() ? Color.BLUE : Color.WHITE);
+                    holder.imageView.setImageResource(img[position]);
+                    holder.myTextView.setTextColor(Color.BLUE);
+                }else{
+                    holder.myTextView.setTextColor(Color.BLACK);
+                }
             }
         });
 

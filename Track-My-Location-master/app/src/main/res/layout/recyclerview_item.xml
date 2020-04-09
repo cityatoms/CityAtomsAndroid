@@ -14,7 +14,6 @@
         android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:background="@color/cardview_dark_background"
-
         app:cardCornerRadius="2dp"
         app:cardUseCompatPadding="true"
         app:cardElevation="8dp"

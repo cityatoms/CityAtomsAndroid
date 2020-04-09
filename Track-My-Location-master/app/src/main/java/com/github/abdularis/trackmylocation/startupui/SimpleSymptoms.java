@@ -55,6 +55,8 @@ public class SimpleSymptoms extends BaseActivity {
 
     }
 
+    int[] img={R.drawable.srtb96,R.drawable.dcblu96,R.drawable.feverebl96,R.drawable.breathblu96,
+            R.drawable.toungeblu96,R.drawable.heartblu96};
 
     void insetData(){
        models.add(new Model(R.drawable.srtbl96,"Sore throat"));
@@ -67,7 +69,7 @@ public class SimpleSymptoms extends BaseActivity {
 
         models.add(new Model(R.drawable.tounge96,"Loss of smell and taste"));
 
-        models.add(new Model(R.drawable.dcbl96,"Pnemonia like feeling"));
+        models.add(new Model(R.drawable.heartbl96,"Pnemonia like feeling"));
 
 
 
