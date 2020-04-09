@@ -2,15 +2,12 @@ package com.github.abdularis.trackmylocation;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
 import com.github.abdularis.trackmylocation.dagger.ApiComponent;
 import com.github.abdularis.trackmylocation.dagger.DaggerApiComponent;
-import com.github.abdularis.trackmylocation.entity.DaoMaster;
-import com.github.abdularis.trackmylocation.entity.DaoSession;
 import com.github.abdularis.trackmylocation.network.ApiClientModule;
 
 import lombok.Getter;
@@ -20,21 +17,24 @@ public class BaseApplication extends MultiDexApplication {
     @Getter
     private SharedPreferences preferences;
     @Getter
-    private DaoSession daoSession;
-    @Getter
     private ApiComponent ApiComponent;
+
+    public BaseApplication() {
+        super();
+    }
+
+    public static BaseApplication getBaseApplication() {
+        return baseApplication;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         baseApplication = (BaseApplication) getApplicationContext();
         preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
 
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "track-db", null);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        DaoMaster daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
         ApiComponent = DaggerApiComponent.builder()
-                .apiClientModule(new ApiClientModule("http://ec2-3-12-160-215.us-east-2.compute.amazonaws.com:3000/api/v1/me/"))
+                .apiClientModule(new ApiClientModule("http://ec2-3-12-160-215.us-east-2.compute.amazonaws.com:3000/me/"))
                 .build();
     }
 
@@ -44,11 +44,11 @@ public class BaseApplication extends MultiDexApplication {
         MultiDex.install(this);
     }
 
-    public BaseApplication() {
-        super();
+    public ApiComponent getApiComponent() {
+        return ApiComponent;
     }
 
-    public static BaseApplication getBaseApplication() {
-        return baseApplication;
+    public SharedPreferences getPreferences() {
+        return preferences;
     }
 }

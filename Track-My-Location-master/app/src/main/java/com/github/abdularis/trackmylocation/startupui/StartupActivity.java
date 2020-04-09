@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Messenger;
 import android.telephony.TelephonyManager;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -31,7 +30,6 @@ import com.github.abdularis.trackmylocation.common.IPreferencesKeys;
 import com.github.abdularis.trackmylocation.common.Util;
 import com.github.abdularis.trackmylocation.dashboard.BaseActivity;
 import com.github.abdularis.trackmylocation.dashboard.MainActivity;
-import com.github.abdularis.trackmylocation.sharelocation.LocationUpdatesService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -43,9 +41,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class StartupActivity extends BaseActivity {
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
     private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
+    // request code untuk login
+    private static final int RC_LOGIN = 123;
     @BindView(R.id.txt_username)
     EditText edUserName;
     @BindView(R.id.txt_password)
@@ -53,8 +51,8 @@ public class StartupActivity extends BaseActivity {
     String username;
     String pass;
     String IMEI;
-    // request code untuk login
-    private static final int RC_LOGIN = 123;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseAuth firebaseAuth;
     private SharedPreferences preferences;
 
@@ -96,8 +94,8 @@ public class StartupActivity extends BaseActivity {
                 ds.setUnderlineText(false);
             }
         };
-        ss.setSpan(clickableSpan1,26,42, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ss.setSpan(clickableSpan2,47,61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(clickableSpan1, 26, 42, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(clickableSpan2, 47, 61, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         txtAgreement.setMovementMethod(LinkMovementMethod.getInstance());
         txtAgreement.setText(ss);
     }
@@ -138,7 +136,7 @@ public class StartupActivity extends BaseActivity {
     }
 
     private void goToMainActivity() {
-        preferences.edit().putString(IPreferencesKeys.USER_ID,IMEI).apply();
+        preferences.edit().putString(IPreferencesKeys.USER_ID, IMEI).apply();
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
@@ -156,7 +154,7 @@ public class StartupActivity extends BaseActivity {
             if (grantResults.length <= 0) {
                 Toast.makeText(this, "Access Denied, Please try again!", Toast.LENGTH_SHORT).show();
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                 IMEI = telephonyManager.getDeviceId();
 
                 firebaseAuth.signInWithEmailAndPassword(username, pass)

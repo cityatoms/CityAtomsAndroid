@@ -1,71 +1,50 @@
 package com.github.abdularis.trackmylocation.dashboard;
 
 import android.Manifest;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Messenger;
-import android.util.Log;
+
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkInfo;
-import androidx.work.WorkManager;
 
-import com.github.abdularis.trackmylocation.BaseApplication;
 import com.github.abdularis.trackmylocation.R;
 import com.github.abdularis.trackmylocation.common.IPreferencesKeys;
-import com.github.abdularis.trackmylocation.entity.DaoSession;
-import com.github.abdularis.trackmylocation.entity.LocationData;
-import com.github.abdularis.trackmylocation.entity.LocationDataDao;
-import com.github.abdularis.trackmylocation.sharelocation.LocationUpdatesService;
 import com.github.abdularis.trackmylocation.startupui.StartupActivity;
-import com.github.abdularis.trackmylocation.workmanager.SyncWorker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
-import br.com.safety.locationlistenerhelper.core.CurrentLocationListener;
-import br.com.safety.locationlistenerhelper.core.CurrentLocationReceiver;
-import br.com.safety.locationlistenerhelper.core.LocationTracker;
 import butterknife.ButterKnife;
-import freemarker.template.utility.Constants;
-import lombok.Getter;
 
 public class MainActivity extends BaseActivity {
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    public static final String MESSENGER_INTENT_KEY = "msg-intent-key";
+    public static final String MESSAGE_STATUS = "Sync_User_data";
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     HomeFragment homeFragment;
     DailySymptomsFragment dailySymptomsFragment;
     PersonalInfoFragment personalInfoFragment;
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-    public static final String MESSENGER_INTENT_KEY = "msg-intent-key";
-    private IncomingMessageHandler mHandler;
-    private LocationDataDao locationDataDao;
-    private List<LocationData> locationDataList;
-    private LocationTracker locationTracker;
-
-    public static final String MESSAGE_STATUS = "Sync_User_data";
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private BottomNavigationView.OnNavigationItemSelectedListener navListner = item -> {
+        Fragment selectedFragment = null;
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                selectedFragment = getHomeFragment();
+                break;
+            case R.id.nav_daily:
+                selectedFragment = getPersonalInfoFragment();
+                break;
+        }
+        initFragment(selectedFragment);
+        return true;
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,47 +65,10 @@ public class MainActivity extends BaseActivity {
         // if it goes here user is already logged in
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        DaoSession daoSession = BaseApplication.getBaseApplication().getDaoSession();
-        locationDataDao = daoSession.getLocationDataDao();
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
-        mHandler = new IncomingMessageHandler();
-        getLocationData();
         initFragment(getHomeFragment());
         requestPermissions();
-
-        WorkManager mWorkManager = WorkManager.getInstance(this);
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(SyncWorker.class,
-                1, TimeUnit.HOURS).build();
-
-        mWorkManager.getWorkInfoByIdLiveData(workRequest.getId()).observe(this, workInfo -> {
-            if (workInfo != null) {
-                WorkInfo.State state = workInfo.getState();
-                Log.d(MESSAGE_STATUS,state.toString() + "\n");
-
-            }
-        });
-        mWorkManager.enqueue(workRequest);
-    }
-
-    class IncomingMessageHandler extends Handler {
-        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-        @Override
-        public void handleMessage(Message msg) {
-            Log.i("TAG", "handleMessage..." + msg.toString());
-
-            super.handleMessage(msg);
-
-            switch (msg.what) {
-                case LocationUpdatesService.LOCATION_MESSAGE:
-                    Location obj = (Location) msg.obj;
-                    String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-                    double lat = obj.getLatitude();
-                    double lon = obj.getLongitude();
-                    System.out.println(lat+" "+lon+ " "+currentDateTimeString);
-                    break;
-            }
-        }
     }
 
     @Override
@@ -155,23 +97,20 @@ public class MainActivity extends BaseActivity {
                         == PackageManager.PERMISSION_GRANTED;
 
                 if (backgroundLocationPermissionApproved) {
-                        Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
-                        Messenger messengerIncoming = new Messenger(mHandler);
-                        startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
-                        startService(startServiceIntent);
+                    // start location foreground service
                 } else {
                     // App can only access location in the foreground. Display a dialog
                     // warning the user that your app must have all-the-time access to
                     // location in order to function properly. Then, request background
                     // location.
-                    ActivityCompat.requestPermissions(this, new String[] {
+                    ActivityCompat.requestPermissions(this, new String[]{
                                     Manifest.permission.ACCESS_BACKGROUND_LOCATION},
                             REQUEST_PERMISSIONS_REQUEST_CODE);
                 }
             } else {
                 // App doesn't have access to the device's location at all. Make full request
                 // for permission.
-                ActivityCompat.requestPermissions(this, new String[] {
+                ActivityCompat.requestPermissions(this, new String[]{
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
                         },
@@ -181,10 +120,7 @@ public class MainActivity extends BaseActivity {
             if (grantResults.length <= 0) {
                 finish();
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent startServiceIntent = new Intent(this, LocationUpdatesService.class);
-                    Messenger messengerIncoming = new Messenger(mHandler);
-                    startServiceIntent.putExtra(MESSENGER_INTENT_KEY, messengerIncoming);
-                    startService(startServiceIntent);
+                // start location foreground service
             } else {
                 finish();
             }
@@ -193,31 +129,17 @@ public class MainActivity extends BaseActivity {
 
     private void requestPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ActivityCompat.requestPermissions(this, new String[] {
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                },
-                REQUEST_PERMISSIONS_REQUEST_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    },
+                    REQUEST_PERMISSIONS_REQUEST_CODE);
         } else {
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        REQUEST_PERMISSIONS_REQUEST_CODE);
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navListner = item -> {
-                Fragment selectedFragment = null;
-                switch (item.getItemId()) {
-                    case R.id.nav_home:
-                        selectedFragment = getHomeFragment();
-                        break;
-                    case R.id.nav_daily:
-                        selectedFragment = getPersonalInfoFragment();
-                        break;
-                }
-                initFragment(selectedFragment);
-                return true;
-            };
 
     private void goToStartupActivity() {
         Intent i = new Intent(this, StartupActivity.class);
@@ -249,13 +171,11 @@ public class MainActivity extends BaseActivity {
             final SharedPreferences preferences =
                     getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
             String country = preferences.
-                    getString(IPreferencesKeys.COUNTRY, String.valueOf(Constants.EMPTY_STRING));
+                    getString(IPreferencesKeys.COUNTRY, "");
             String utc = preferences.
-                    getString(IPreferencesKeys.TIME_ZONE, String.valueOf(Constants.EMPTY_STRING));
+                    getString(IPreferencesKeys.TIME_ZONE, "");
             homeFragment = new HomeFragment();
             homeFragment.setArguments(getIntent().getExtras());
-            homeFragment.setLocationDataList(locationDataList);
-            homeFragment.setUserData(country + "\n" + utc );
         }
         return homeFragment;
     }
@@ -268,14 +188,4 @@ public class MainActivity extends BaseActivity {
         return personalInfoFragment;
     }
 
-    private void getLocationData() {
-        Date date = new Date();
-        DateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
-        String hour = format.format(date).substring(0,2);
-            locationDataList = locationDataDao
-                    .queryBuilder().where(LocationDataDao.Properties.Hour.eq(hour)).list();
-            if (locationDataList.size() > 0) {
-                System.out.println(locationDataList);
-            }
-    }
 }
