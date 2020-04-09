@@ -4,22 +4,17 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.foribus.cityatoms"
+        applicationId "com.foribus.cityatoms.android"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug {
-            resValue 'string', 'google_maps_api_key', 'AIzaSyCiqS0mO_JZsl86WKLku0Rvm6S5f0_RjkU'
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue 'string', 'google_maps_api_key', 'AIzaSyCiqS0mO_JZsl86WKLku0Rvm6S5f0_RjkU'
         }
     }
     compileOptions {
@@ -53,11 +48,11 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // firebase and google libs
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.firebaseui:firebase-ui-auth:3.2.2'
     implementation 'com.google.firebase:firebase-auth:19.3.0'
+    implementation 'com.google.firebase:firebase-analytics:17.3.0'
 
     // androidx
+    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'

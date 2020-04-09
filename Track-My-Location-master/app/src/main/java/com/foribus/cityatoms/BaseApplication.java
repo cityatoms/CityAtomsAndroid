@@ -7,13 +7,12 @@ import android.util.Log;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
-import lombok.Getter;
+import timber.log.Timber;
 
 public class BaseApplication extends MultiDexApplication {
 
     private static BaseApplication baseApplication;
 
-    @Getter
     private SharedPreferences preferences;
 
     public BaseApplication() {
@@ -27,10 +26,11 @@ public class BaseApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Timber.plant(new Timber.DebugTree());
+
         baseApplication = (BaseApplication) getApplicationContext();
         preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
-
-        Log.i("test", "onCreate: "+getPackageName());
     }
 
     @Override

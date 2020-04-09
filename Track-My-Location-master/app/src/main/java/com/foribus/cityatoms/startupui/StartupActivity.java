@@ -22,19 +22,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-import com.firebase.ui.auth.ErrorCodes;
-import com.firebase.ui.auth.IdpResponse;
 import com.foribus.cityatoms.BaseApplication;
 import com.foribus.cityatoms.R;
 import com.foribus.cityatoms.common.IPreferencesKeys;
 import com.foribus.cityatoms.common.Util;
 import com.foribus.cityatoms.dashboard.BaseActivity;
 import com.foribus.cityatoms.dashboard.MainActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,9 +44,6 @@ public class StartupActivity extends BaseActivity {
     String username;
     String pass;
     String IMEI;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private FirebaseAuth firebaseAuth;
     private SharedPreferences preferences;
 
     @Override
@@ -62,7 +52,6 @@ public class StartupActivity extends BaseActivity {
 
         setContentView(R.layout.activity_startup);
         ButterKnife.bind(this);
-        firebaseAuth = FirebaseAuth.getInstance();
         preferences = BaseApplication.getBaseApplication().getPreferences();
         TextView txtAgreement = findViewById(R.id.txt_Agreement);
         SpannableString ss = new SpannableString(getString(R.string.agreement));
@@ -109,7 +98,7 @@ public class StartupActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_LOGIN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
+           /* IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
                 goToMainActivity();
             } else {
@@ -118,7 +107,7 @@ public class StartupActivity extends BaseActivity {
                 } else if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
                     Toast.makeText(this, "No Network Connection", Toast.LENGTH_SHORT).show();
                 }
-            }
+            }*/
         }
     }
 
@@ -156,26 +145,6 @@ public class StartupActivity extends BaseActivity {
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
                 IMEI = telephonyManager.getDeviceId();
-
-                firebaseAuth.signInWithEmailAndPassword(username, pass)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    preferences.edit().putString(IPreferencesKeys.USER_ID, IMEI).apply();
-                                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                                    Intent i = new Intent(StartupActivity.this, MainActivity.class);
-                                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(i);
-                                    finish();
-                                    // updateUI(user);
-                                } else {
-                                    Toast.makeText(StartupActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                    // updateUI(null);
-                                }
-                            }
-                        });
             } else {
                 finish();
             }

@@ -18,14 +18,13 @@ import com.foribus.cityatoms.R;
 import com.foribus.cityatoms.adapter.models.Model;
 import com.foribus.cityatoms.startupui.SimpleSymptoms;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GridAdapter extends RecyclerView.Adapter<GridAdapter.GridViewHolder> {
     private static final String TAG = "GridAdapter";
-    Context context;
-    List<Model> models = new ArrayList();
-    int[] img = {R.drawable.srtb96, R.drawable.dcblu96, R.drawable.feverebl96, R.drawable.breathblu96,
+    private Context context;
+    private List<Model> models;
+    private int[] img = {R.drawable.srtb96, R.drawable.dcblu96, R.drawable.feverebl96, R.drawable.breathblu96,
             R.drawable.toungeblu96, R.drawable.heartblu96};
     private LayoutInflater mInflater;
 

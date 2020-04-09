@@ -5,14 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -27,9 +25,10 @@ import com.foribus.cityatoms.common.IPreferencesKeys;
 import com.foribus.cityatoms.common.Util;
 import com.foribus.cityatoms.dashboard.BaseActivity;
 import com.foribus.cityatoms.dashboard.MainActivity;
+import com.foribus.cityatoms.firebase.FirebaseAuthHelper;
 import com.foribus.cityatoms.network.RetrofitClient;
+import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Calendar;
 import java.util.TimeZone;
 
 import butterknife.BindView;
@@ -38,26 +37,29 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class AnonymousLogin extends BaseActivity {
-    private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
-    private static final int RC_LOGIN = 123;
-    private static final String TAG = "AnonymousLogin";
     String device_unique_id = "";
     String timeZone = "";
     String countryCodeValue = "";
     @BindView(R.id.checkbox)
     CheckBox checkAgree;
+
     private SharedPreferences preferences;
+    private FirebaseAuthHelper firebaseAuthHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anonymous);
         ButterKnife.bind(this);
+
         preferences = BaseApplication.getBaseApplication().getPreferences();
+        firebaseAuthHelper = new FirebaseAuthHelper(this);
+
         Util.getInstance().hideKeyboard(this);
-        Log.d(TAG, "onCreate: ");
+        Timber.d("onCreate: ");
         TextView txtAgreement = findViewById(R.id.txt_Agreement);
         SpannableString ss = new SpannableString(getString(R.string.agreement));
         ClickableSpan clickableSpan1 = new ClickableSpan() {
@@ -97,34 +99,43 @@ public class AnonymousLogin extends BaseActivity {
     @OnClick(R.id.btn_signup)
     public void onClickSignUp() {
         if (checkAgree.isChecked()) {
-            device_unique_id = Settings.Secure.getString(AnonymousLogin.this.getContentResolver(),
-                    Settings.Secure.ANDROID_ID);
-            countryCodeValue = checkCountry();
-            timeZone = getTimeZone();
-            if (countryCodeValue.isEmpty())
-                countryCodeValue = getString(R.string.undefined);
-
-            Call<LoginEntity> call = RetrofitClient.getApiService().callLogin("test_first_name", "test_last_name", "1111", device_unique_id, timeZone, countryCodeValue.toUpperCase());
-            call.enqueue(new Callback<LoginEntity>() {
-                @Override
-                public void onResponse(Call<LoginEntity> call, Response<LoginEntity> response) {
-                    Log.d(TAG, "onResponse: " +
-                            response.isSuccessful());
-                    goToMainActivity();
-                }
-
-                @Override
-                public void onFailure(Call<LoginEntity> call, Throwable t) {
-
-                }
-            });
-
-
+            generateFirebaseInstanceId();
         } else
             Toast.makeText(this, R.string.terms_and_conditions,
                     Toast.LENGTH_SHORT).show();
     }
 
+    public void generateFirebaseInstanceId() {
+        firebaseAuthHelper.generateFirebaseInstanceId(new FirebaseAuthHelper.FirebaseAuthCallback() {
+            @Override
+            public void onSuccess(FirebaseUser user) {
+                countryCodeValue = checkCountry();
+                timeZone = getTimeZone();
+
+                // Get new Instance ID token
+                device_unique_id = user.getUid();
+
+                Call<LoginEntity> call = RetrofitClient.getApiService().callLogin("test", "test_first_name", "test_last_name", device_unique_id, timeZone, countryCodeValue);
+                call.enqueue(new Callback<LoginEntity>() {
+                    @Override
+                    public void onResponse(Call<LoginEntity> call, Response<LoginEntity> response) {
+                        Timber.d("onResponse: %s", response.isSuccessful());
+                        goToMainActivity();
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginEntity> call, Throwable t) {
+                        Timber.e(t);
+                    }
+                });
+            }
+
+            @Override
+            public void onFail() {
+                Timber.e("Firebase anonym login failed");
+            }
+        });
+    }
 
     private void goToMainActivity() {
         preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
@@ -139,21 +150,18 @@ public class AnonymousLogin extends BaseActivity {
     private String checkCountry() {
         TelephonyManager telMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (telMgr == null)
-            return "";
+            return "UNKNOWN";
         int simState = telMgr.getSimState();
         if (simState == TelephonyManager.SIM_STATE_READY) {
             String countryCode = telMgr.getNetworkCountryIso();
-            //Locale loc = new Locale("", countryCode);
-            return countryCode;
+            return countryCode.toUpperCase();
 
         }
-        return "";
+        return "UNKNOWN";
     }
 
     private String getTimeZone() {
-        Calendar aGMTCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-        aGMTCalendar.getTime();
-        return (aGMTCalendar.getTime()).toString();
+        return TimeZone.getDefault().getID();
     }
 
 }

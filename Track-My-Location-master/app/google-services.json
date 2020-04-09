@@ -8,18 +8,62 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:132729808381:android:3a718195957f380bcb6594",
+        "mobilesdk_app_id": "1:132729808381:android:5a44d40784d13fe8cb6594",
         "android_client_info": {
           "package_name": "com.foribus.cityatoms"
         }
       },
       "oauth_client": [
         {
-          "client_id": "132729808381-kpf960r9uosv91om5e66q9baiudbhhad.apps.googleusercontent.com",
+          "client_id": "132729808381-5ekeetp4i8r4fhkqphbtc1k732uneqh8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.foribus.cityatoms",
-            "certificate_hash": "f2d6ae2c3df9405032bafddf13b5d03c470eb207"
+            "certificate_hash": "36088a5d5e8e7720cbe5e0d6122b63f7a9834943"
+          }
+        },
+        {
+          "client_id": "132729808381-kocp3bnf34r64j996qfdbt7654hsd25c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlEQ5R9knvhkc0V6fyEy9vx7xKjSozHqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "132729808381-kocp3bnf34r64j996qfdbt7654hsd25c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "132729808381-ss2nmri4vubpv21p51a08qgtnr2jk1s5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.foribus.cityatoms"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132729808381:android:dea0ac1f929036c9cb6594",
+        "android_client_info": {
+          "package_name": "com.foribus.cityatoms.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "132729808381-4htohui44mehpe19o7uh04amc4gpcgpt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.foribus.cityatoms.android",
+            "certificate_hash": "36088a5d5e8e7720cbe5e0d6122b63f7a9834943"
           }
         },
         {
