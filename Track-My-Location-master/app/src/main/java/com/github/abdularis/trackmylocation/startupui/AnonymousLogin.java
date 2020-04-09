@@ -1,11 +1,9 @@
 package com.github.abdularis.trackmylocation.startupui;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -22,8 +20,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.firebase.ui.auth.ErrorCodes;
-import com.firebase.ui.auth.IdpResponse;
 import com.github.abdularis.trackmylocation.BaseApplication;
 import com.github.abdularis.trackmylocation.Enitity.LoginEntity;
 import com.github.abdularis.trackmylocation.R;
@@ -32,14 +28,9 @@ import com.github.abdularis.trackmylocation.common.Util;
 import com.github.abdularis.trackmylocation.dagger.ApiInterface;
 import com.github.abdularis.trackmylocation.dashboard.BaseActivity;
 import com.github.abdularis.trackmylocation.dashboard.MainActivity;
-import com.github.abdularis.trackmylocation.network.APIRequestService;
 import com.github.abdularis.trackmylocation.network.RetrofitClient;
-import com.github.abdularis.trackmylocation.network.model.LoginRequest;
-import com.github.abdularis.trackmylocation.network.model.LoginResponse;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.inject.Inject;
@@ -47,20 +38,18 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableSingleObserver;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AnonymousLogin extends BaseActivity {
     private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
+    private static final int RC_LOGIN = 123;
+    private static final String TAG = "AnonymousLogin";
     String device_unique_id = "";
     String timeZone = "";
     String countryCodeValue = "";
-    private static final int RC_LOGIN = 123;
     @BindView(R.id.checkbox)
     CheckBox checkAgree;
     @Inject
@@ -68,7 +57,6 @@ public class AnonymousLogin extends BaseActivity {
     private SharedPreferences preferences;
     // private ApiService apiService;
     private CompositeDisposable disposable = new CompositeDisposable();
-    private static final String TAG = "AnonymousLogin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +113,7 @@ public class AnonymousLogin extends BaseActivity {
             if (countryCodeValue.isEmpty())
                 countryCodeValue = getString(R.string.undefined);
 
-            Call<LoginEntity> call = RetrofitClient.getApiService().callLogin("test", "test1", "test1", device_unique_id, timeZone, countryCodeValue.toUpperCase());
+            Call<LoginEntity> call = RetrofitClient.getApiService().callLogin("1111", device_unique_id, timeZone, countryCodeValue.toUpperCase());
             call.enqueue(new Callback<LoginEntity>() {
                 @Override
                 public void onResponse(Call<LoginEntity> call, Response<LoginEntity> response) {

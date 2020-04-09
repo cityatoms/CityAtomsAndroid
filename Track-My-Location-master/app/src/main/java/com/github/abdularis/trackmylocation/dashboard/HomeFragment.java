@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
+
 import com.github.abdularis.trackmylocation.BaseApplication;
 import com.github.abdularis.trackmylocation.R;
-import com.github.abdularis.trackmylocation.entity.LocationData;
-import com.github.abdularis.trackmylocation.sharelocation.LocationUpdatesService;
 import com.github.abdularis.trackmylocation.startupui.AnonymousLogin;
-import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,10 +28,9 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.textView3)
     TextView txt3;
     @Setter
-    List<LocationData> locationDataList;
-    @Setter
     String userData;
     private SharedPreferences preferences;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -40,15 +39,6 @@ public class HomeFragment extends BaseFragment {
     protected void setUpUI() {
         preferences = BaseApplication.getBaseApplication().getPreferences();
         txt3.setText(userData);
-        StringBuilder stringBuilder = new StringBuilder();
-        if (locationDataList != null) {
-            for (LocationData locationData: locationDataList) {
-                stringBuilder.append("time:" + locationData.getTimestamp() + "   lat:" +
-                        locationData.getLatitude() + "   long:" + locationData.getLongitude());
-                stringBuilder.append("\n");
-            }
-        }
-        txt2.setText(stringBuilder.toString());
     }
 
     @Override
@@ -68,7 +58,6 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick(R.id.btnLogout)
     public void OnCLickLogout() {
-        mainActivity.stopService(new Intent(mainActivity, LocationUpdatesService.class));
         preferences.edit().clear().apply();
         Intent intent = new Intent(mainActivity, AnonymousLogin.class);
         startActivity(intent);

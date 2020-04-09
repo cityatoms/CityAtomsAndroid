@@ -14,8 +14,6 @@ import static com.github.abdularis.trackmylocation.GlobalData.ServeiceUrls.LOGIN
 public interface APIRequestService {
     @POST(LOGIN_URL)
     Call<LoginEntity> callLogin(
-                                @Path("first_name") String first_name,
-                                @Path("last_name") String last_name,
                                 @Path("instance_id") String instance_id,
                                 @Path("time_zone") String time_zone,
                                 @Path("country_code") String country_code,

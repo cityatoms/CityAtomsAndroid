@@ -80,12 +80,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".sharelocation.LocationUpdatesService"
-            android:foregroundServiceType="location"
-            android:label="My Job Service Update "
-            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>
