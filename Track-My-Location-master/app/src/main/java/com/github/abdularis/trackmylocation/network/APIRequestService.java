@@ -3,13 +3,11 @@ package com.github.abdularis.trackmylocation.network;
 import com.github.abdularis.trackmylocation.Enitity.LoginEntity;
 
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-import static com.github.abdularis.trackmylocation.GlobalData.ServeiceUrls.LOGIN_URL;
+import static com.github.abdularis.trackmylocation.network.ServiceUrls.LOGIN_URL;
 
 public interface APIRequestService {
     @POST(LOGIN_URL)

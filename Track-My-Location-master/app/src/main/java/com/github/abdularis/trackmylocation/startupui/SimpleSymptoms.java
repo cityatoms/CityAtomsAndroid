@@ -1,32 +1,20 @@
 package com.github.abdularis.trackmylocation.startupui;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
-import com.github.abdularis.trackmylocation.Model;
+import com.github.abdularis.trackmylocation.adapter.models.Model;
 import com.github.abdularis.trackmylocation.R;
 import com.github.abdularis.trackmylocation.adapter.GridAdapter;
 import com.github.abdularis.trackmylocation.dashboard.BaseActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
 
 
 public class SimpleSymptoms extends BaseActivity {

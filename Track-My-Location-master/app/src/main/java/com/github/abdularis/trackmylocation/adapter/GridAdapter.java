@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.abdularis.trackmylocation.Model;
+import com.github.abdularis.trackmylocation.adapter.models.Model;
 import com.github.abdularis.trackmylocation.R;
 import com.github.abdularis.trackmylocation.startupui.SimpleSymptoms;
 

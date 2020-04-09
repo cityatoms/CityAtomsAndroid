@@ -1,9 +1,15 @@
-package com.github.abdularis.trackmylocation;
+package com.github.abdularis.trackmylocation.adapter.models;
 
 public class Model {
+
     int image;
-    private boolean isSelected = false;
     String text;
+    private boolean isSelected = false;
+
+    public Model(int image, String text) {
+        this.image = image;
+        this.text = text;
+    }
 
     public boolean isSelected() {
         return isSelected;
@@ -12,12 +18,6 @@ public class Model {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
-
-    public Model(int image, String text) {
-        this.image = image;
-        this.text = text;
-    }
-
 
     public int getImage() {
         return image;

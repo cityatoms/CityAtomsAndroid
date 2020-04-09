@@ -25,7 +25,6 @@ import com.github.abdularis.trackmylocation.Enitity.LoginEntity;
 import com.github.abdularis.trackmylocation.R;
 import com.github.abdularis.trackmylocation.common.IPreferencesKeys;
 import com.github.abdularis.trackmylocation.common.Util;
-import com.github.abdularis.trackmylocation.dagger.ApiInterface;
 import com.github.abdularis.trackmylocation.dashboard.BaseActivity;
 import com.github.abdularis.trackmylocation.dashboard.MainActivity;
 import com.github.abdularis.trackmylocation.network.RetrofitClient;
@@ -33,12 +32,9 @@ import com.github.abdularis.trackmylocation.network.RetrofitClient;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.disposables.CompositeDisposable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,18 +48,13 @@ public class AnonymousLogin extends BaseActivity {
     String countryCodeValue = "";
     @BindView(R.id.checkbox)
     CheckBox checkAgree;
-    @Inject
-    ApiInterface apiInterface;
     private SharedPreferences preferences;
-    // private ApiService apiService;
-    private CompositeDisposable disposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anonymous);
         ButterKnife.bind(this);
-        ((BaseApplication) getApplication()).getApiComponent().inject(this);
         preferences = BaseApplication.getBaseApplication().getPreferences();
         Util.getInstance().hideKeyboard(this);
         Log.d(TAG, "onCreate: ");

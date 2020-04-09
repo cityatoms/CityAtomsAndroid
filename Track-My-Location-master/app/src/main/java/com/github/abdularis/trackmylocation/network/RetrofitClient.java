@@ -4,7 +4,6 @@ import android.Manifest;
 
 import androidx.annotation.RequiresPermission;
 
-import com.github.abdularis.trackmylocation.GlobalData.ServeiceUrls;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
@@ -17,13 +16,14 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.github.abdularis.trackmylocation.network.ServiceUrls.BASE_URL;
+
 
 public class RetrofitClient {
     private static final String TAG = RetrofitClient.class.getSimpleName();
     public static volatile Retrofit sRetrofit = null;
     public static APIRequestService apiRequestService;
 
-    final static String BASE_URL = "http://ec2-3-12-160-215.us-east-2.compute.amazonaws.com:3000/api/v1/";
     public RetrofitClient() {
     }
 
