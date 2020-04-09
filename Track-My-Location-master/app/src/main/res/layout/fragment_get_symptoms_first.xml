@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.github.abdularis.trackmylocation.dashboard.GetSymptomsFirstFragment">
+    tools:context="com.foribus.cityatoms.dashboard.GetSymptomsFirstFragment">
 
     <ImageButton
         android:id="@+id/feelBack"

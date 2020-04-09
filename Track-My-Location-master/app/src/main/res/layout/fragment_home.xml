@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.github.abdularis.trackmylocation.dashboard.HomeFragment">
+    tools:context="com.foribus.cityatoms.dashboard.HomeFragment">
 
     <GridLayout
         android:layout_width="match_parent"
