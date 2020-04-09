@@ -113,7 +113,7 @@ public class AnonymousLogin extends BaseActivity {
             if (countryCodeValue.isEmpty())
                 countryCodeValue = getString(R.string.undefined);
 
-            Call<LoginEntity> call = RetrofitClient.getApiService().callLogin("1111", device_unique_id, timeZone, countryCodeValue.toUpperCase());
+            Call<LoginEntity> call = RetrofitClient.getApiService().callLogin("test_first","test_last","1111", device_unique_id, timeZone, countryCodeValue.toUpperCase());
             call.enqueue(new Callback<LoginEntity>() {
                 @Override
                 public void onResponse(Call<LoginEntity> call, Response<LoginEntity> response) {
