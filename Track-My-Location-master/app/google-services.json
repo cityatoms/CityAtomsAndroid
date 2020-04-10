@@ -1,35 +1,50 @@
 {
   "project_info": {
-    "project_number": "621980403397",
-    "firebase_url": "https://cityatoms-aa8f5.firebaseio.com",
-    "project_id": "cityatoms-aa8f5",
-    "storage_bucket": "cityatoms-aa8f5.appspot.com"
+    "project_number": "132729808381",
+    "firebase_url": "https://ca-march2020.firebaseio.com",
+    "project_id": "ca-march2020",
+    "storage_bucket": "ca-march2020.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:621980403397:android:c07f358d54c8a2f977d2ac",
+        "mobilesdk_app_id": "1:132729808381:android:5a44d40784d13fe8cb6594",
         "android_client_info": {
-          "package_name": "com.jm.jonathanmoreno.loginscreen"
+          "package_name": "com.foribus.cityatoms"
         }
       },
       "oauth_client": [
         {
-          "client_id": "621980403397-9knrulf422f255ildm1hq7a09bk7kgoe.apps.googleusercontent.com",
+          "client_id": "132729808381-5ekeetp4i8r4fhkqphbtc1k732uneqh8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.foribus.cityatoms",
+            "certificate_hash": "36088a5d5e8e7720cbe5e0d6122b63f7a9834943"
+          }
+        },
+        {
+          "client_id": "132729808381-kocp3bnf34r64j996qfdbt7654hsd25c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD9ZZz9BRBmBraPxyj_CveYDvixhoUjQKA"
+          "current_key": "AIzaSyDlEQ5R9knvhkc0V6fyEy9vx7xKjSozHqI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "621980403397-9knrulf422f255ildm1hq7a09bk7kgoe.apps.googleusercontent.com",
+              "client_id": "132729808381-kocp3bnf34r64j996qfdbt7654hsd25c.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "132729808381-ss2nmri4vubpv21p51a08qgtnr2jk1s5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.foribus.cityatoms"
+              }
             }
           ]
         }
@@ -37,28 +52,43 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:621980403397:android:9706aa20306a8e7077d2ac",
+        "mobilesdk_app_id": "1:132729808381:android:dea0ac1f929036c9cb6594",
         "android_client_info": {
-          "package_name": "dubai.coronatrack.china"
+          "package_name": "com.foribus.cityatoms.android"
         }
       },
       "oauth_client": [
         {
-          "client_id": "621980403397-9knrulf422f255ildm1hq7a09bk7kgoe.apps.googleusercontent.com",
+          "client_id": "132729808381-4htohui44mehpe19o7uh04amc4gpcgpt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.foribus.cityatoms.android",
+            "certificate_hash": "36088a5d5e8e7720cbe5e0d6122b63f7a9834943"
+          }
+        },
+        {
+          "client_id": "132729808381-kocp3bnf34r64j996qfdbt7654hsd25c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD9ZZz9BRBmBraPxyj_CveYDvixhoUjQKA"
+          "current_key": "AIzaSyDlEQ5R9knvhkc0V6fyEy9vx7xKjSozHqI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "621980403397-9knrulf422f255ildm1hq7a09bk7kgoe.apps.googleusercontent.com",
+              "client_id": "132729808381-kocp3bnf34r64j996qfdbt7654hsd25c.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "132729808381-ss2nmri4vubpv21p51a08qgtnr2jk1s5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.foribus.cityatoms"
+              }
             }
           ]
         }
