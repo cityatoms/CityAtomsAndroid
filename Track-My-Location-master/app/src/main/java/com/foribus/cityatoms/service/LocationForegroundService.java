@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.LifecycleService;
 
 import com.foribus.cityatoms.R;
+import com.foribus.cityatoms.database.DatabaseRepositoryManager;
 import com.foribus.cityatoms.location.LocationStatus;
 import com.foribus.cityatoms.startupui.SplashActivity;
 
@@ -62,6 +63,7 @@ public class LocationForegroundService extends LifecycleService {
 
         locationStatus.getLocationLiveData().observe(this, location -> {
             Timber.i("GETTING LOCATION IN BACKGROUND: %s", location.toString());
+            DatabaseRepositoryManager.getInstance(getApplicationContext()).dataPointRepository().saveDataPoint(location);
         });
 
         if (locationStatus.hasLocationBackgroundPermission()) {

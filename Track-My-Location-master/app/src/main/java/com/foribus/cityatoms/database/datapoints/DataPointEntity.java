@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
         indices = {
                 @Index(value = {"time_utc"}, unique = true)
         })
-public class DataPoint {
+public class DataPointEntity {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -22,15 +22,15 @@ public class DataPoint {
 
     @NotNull
     @ColumnInfo(name = "lat")
-    private String lat;
+    private double lat;
 
     @NotNull
     @ColumnInfo(name = "lon")
-    private String lon;
+    private double lon;
 
     @NotNull
     @ColumnInfo(name = "time_utc")
-    private String epochTime;
+    private long epochTime;
 
     @NotNull
     @ColumnInfo(name = "time")
@@ -52,27 +52,27 @@ public class DataPoint {
         this.id = id;
     }
 
-    public String getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public String getLon() {
+    public double getLon() {
         return lon;
     }
 
-    public void setLon(String lon) {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 
-    public String getEpochTime() {
+    public long getEpochTime() {
         return epochTime;
     }
 
-    public void setEpochTime(String epochTime) {
+    public void setEpochTime(long epochTime) {
         this.epochTime = epochTime;
     }
 

@@ -1,99 +1,131 @@
-
 package com.foribus.cityatoms.network.model;
 
+import com.foribus.cityatoms.database.symptoms.SymptomsScoreEntity;
 import com.google.gson.annotations.SerializedName;
 
 public class SymptomScores {
 
     @SerializedName("breathing")
-    private Long mBreathing;
+    private int mBreathing;
     @SerializedName("c19")
-    private Long mC19;
+    private int mC19;
     @SerializedName("cough")
-    private Long mCough;
+    private int mCough;
     @SerializedName("fever")
-    private Long mFever;
+    private int mFever;
     @SerializedName("hospital")
-    private Long mHospital;
+    private int mHospital;
     @SerializedName("pneumonia")
-    private Long mPneumonia;
+    private int mPneumonia;
     @SerializedName("score")
-    private Long mScore;
+    private int mScore;
     @SerializedName("smell")
-    private Long mSmell;
+    private int mSmell;
     @SerializedName("throat")
-    private Long mThroat;
+    private int mThroat;
 
-    public Long getBreathing() {
+    public static SymptomScores instance(SymptomsScoreEntity entity) {
+        if (entity == null)
+            return null;
+
+        SymptomScores symptomScores = new SymptomScores();
+        symptomScores.setBreathing(entity.getBreathing());
+        symptomScores.setC19(entity.getC19());
+        symptomScores.setCough(entity.getCough());
+        symptomScores.setFever(entity.getFever());
+        symptomScores.setHospital(entity.getHospital());
+        symptomScores.setPneumonia(entity.getPneumonia());
+        symptomScores.setScore(entity.getScore());
+        symptomScores.setSmell(entity.getSmell());
+        symptomScores.setThroat(entity.getThroat());
+
+        return symptomScores;
+    }
+
+    public SymptomsScoreEntity toEntity() {
+        SymptomsScoreEntity entity = new SymptomsScoreEntity();
+        entity.setBreathing(getBreathing());
+        entity.setC19(getC19());
+        entity.setCough(getCough());
+        entity.setFever(getFever());
+        entity.setHospital(getHospital());
+        entity.setPneumonia(getPneumonia());
+        entity.setScore(getScore());
+        entity.setSmell(getSmell());
+        entity.setThroat(getThroat());
+
+        return entity;
+    }
+
+    public int getBreathing() {
         return mBreathing;
     }
 
-    public void setBreathing(Long breathing) {
+    public void setBreathing(int breathing) {
         mBreathing = breathing;
     }
 
-    public Long getC19() {
+    public int getC19() {
         return mC19;
     }
 
-    public void setC19(Long c19) {
+    public void setC19(int c19) {
         mC19 = c19;
     }
 
-    public Long getCough() {
+    public int getCough() {
         return mCough;
     }
 
-    public void setCough(Long cough) {
+    public void setCough(int cough) {
         mCough = cough;
     }
 
-    public Long getFever() {
+    public int getFever() {
         return mFever;
     }
 
-    public void setFever(Long fever) {
+    public void setFever(int fever) {
         mFever = fever;
     }
 
-    public Long getHospital() {
+    public int getHospital() {
         return mHospital;
     }
 
-    public void setHospital(Long hospital) {
+    public void setHospital(int hospital) {
         mHospital = hospital;
     }
 
-    public Long getPneumonia() {
+    public int getPneumonia() {
         return mPneumonia;
     }
 
-    public void setPneumonia(Long pneumonia) {
+    public void setPneumonia(int pneumonia) {
         mPneumonia = pneumonia;
     }
 
-    public Long getScore() {
+    public int getScore() {
         return mScore;
     }
 
-    public void setScore(Long score) {
+    public void setScore(int score) {
         mScore = score;
     }
 
-    public Long getSmell() {
+    public int getSmell() {
         return mSmell;
     }
 
-    public void setSmell(Long smell) {
+    public void setSmell(int smell) {
         mSmell = smell;
     }
 
-    public Long getThroat() {
+    public int getThroat() {
         return mThroat;
     }
 
-    public void setThroat(Long throat) {
+    public void setThroat(int throat) {
         mThroat = throat;
     }
-
 }

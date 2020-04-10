@@ -10,11 +10,17 @@ import java.util.List;
 public interface SymptomsScoreDao {
 
     @Insert
-    void insert(SymptomsScore symptomsScore);
+    void insert(SymptomsScoreEntity symptomsScoreEntity);
 
     @Query("SELECT * FROM symptoms_scores WHERE sync_status = 0")
-    List<SymptomsScore> getUnprocessedDataPoints();
+    List<SymptomsScoreEntity> getUnprocessedDataPoints();
 
     @Query("SELECT * FROM symptoms_scores WHERE sync_status = 1")
-    List<SymptomsScore> getInProcessDataPoints();
+    List<SymptomsScoreEntity> getInProcessDataPoints();
+
+    @Query("SELECT * FROM symptoms_scores ORDER BY id DESC LIMIT 1")
+    SymptomsScoreEntity getLatestSymptomScoreInfo();
+
+    @Query("SELECT * FROM symptoms_scores WHERE id=:id")
+    SymptomsScoreEntity getSymptomScoreInfo(int id);
 }

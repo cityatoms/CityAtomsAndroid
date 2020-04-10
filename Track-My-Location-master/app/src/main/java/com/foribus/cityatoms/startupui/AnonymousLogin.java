@@ -120,7 +120,15 @@ public class AnonymousLogin extends BaseActivity {
                     @Override
                     public void onResponse(Call<LoginEntity> call, Response<LoginEntity> response) {
                         Timber.d("onResponse: %s", response.isSuccessful());
-                        goToMainActivity();
+                        if (response.isSuccessful()) {
+                            preferences.edit().putString(IPreferencesKeys.ID, response.body().getId()).apply();
+                            preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
+                            preferences.edit().putString(IPreferencesKeys.TIME_ZONE, timeZone).apply();
+                            preferences.edit().putString(IPreferencesKeys.COUNTRY, countryCodeValue).apply();
+                            goToMainActivity();
+                        } else {
+                            Timber.i("Log in failed with response code %d", response.code());
+                        }
                     }
 
                     @Override
@@ -132,15 +140,12 @@ public class AnonymousLogin extends BaseActivity {
 
             @Override
             public void onFail() {
-                Timber.e("Firebase anonym login failed");
+                Timber.e("Firebase anonymous login failed");
             }
         });
     }
 
     private void goToMainActivity() {
-        preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
-        preferences.edit().putString(IPreferencesKeys.TIME_ZONE, timeZone).apply();
-        preferences.edit().putString(IPreferencesKeys.COUNTRY, countryCodeValue).apply();
         Intent i = new Intent(this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);

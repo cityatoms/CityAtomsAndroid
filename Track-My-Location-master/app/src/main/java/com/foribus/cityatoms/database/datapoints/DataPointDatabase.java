@@ -7,7 +7,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {DataPoint.class}, version = 1, exportSchema = false)
+@Database(entities = {DataPointEntity.class}, version = 1, exportSchema = false)
 abstract class DataPointDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "data_points_database";

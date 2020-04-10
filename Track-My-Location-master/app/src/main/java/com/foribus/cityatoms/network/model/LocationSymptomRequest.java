@@ -1,6 +1,7 @@
-
 package com.foribus.cityatoms.network.model;
 
+import com.foribus.cityatoms.database.datapoints.DataPointEntity;
+import com.foribus.cityatoms.database.symptoms.SymptomsScoreEntity;
 import com.google.gson.annotations.SerializedName;
 
 public class LocationSymptomRequest {
@@ -8,15 +9,29 @@ public class LocationSymptomRequest {
     @SerializedName("instance_id")
     private String mInstanceId;
     @SerializedName("lat")
-    private Double mLat;
+    private double mLat;
     @SerializedName("lon")
-    private Double mLon;
+    private double mLon;
     @SerializedName("symptom_scores")
     private SymptomScores mSymptomScores;
     @SerializedName("time")
     private String mTime;
     @SerializedName("time_utc")
-    private Long mTimeUtc;
+    private long mTimeUtc;
+
+    public static LocationSymptomRequest instance(DataPointEntity dataPointEntity, SymptomsScoreEntity symptomsScoreEntity) {
+        if (dataPointEntity == null || symptomsScoreEntity == null)
+            return null;
+
+        LocationSymptomRequest request = new LocationSymptomRequest();
+        request.setLat(dataPointEntity.getLat());
+        request.setLon(dataPointEntity.getLon());
+        request.setTime(dataPointEntity.getTime());
+        request.setTimeUtc(dataPointEntity.getEpochTime());
+        request.setSymptomScores(SymptomScores.instance(symptomsScoreEntity));
+
+        return request;
+    }
 
     public String getInstanceId() {
         return mInstanceId;
@@ -26,19 +41,19 @@ public class LocationSymptomRequest {
         mInstanceId = instanceId;
     }
 
-    public Double getLat() {
+    public double getLat() {
         return mLat;
     }
 
-    public void setLat(Double lat) {
+    public void setLat(double lat) {
         mLat = lat;
     }
 
-    public Double getLon() {
+    public double getLon() {
         return mLon;
     }
 
-    public void setLon(Double lon) {
+    public void setLon(double lon) {
         mLon = lon;
     }
 
@@ -58,12 +73,11 @@ public class LocationSymptomRequest {
         mTime = time;
     }
 
-    public Long getTimeUtc() {
+    public long getTimeUtc() {
         return mTimeUtc;
     }
 
-    public void setTimeUtc(Long timeUtc) {
+    public void setTimeUtc(long timeUtc) {
         mTimeUtc = timeUtc;
     }
-
 }

@@ -1,37 +1,31 @@
 package com.foribus.cityatoms.dashboard;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.foribus.cityatoms.R;
 import com.foribus.cityatoms.common.IPreferencesKeys;
+import com.foribus.cityatoms.permission.LocationPermissionManager;
 import com.foribus.cityatoms.startupui.StartupActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
-    public static final String MESSENGER_INTENT_KEY = "msg-intent-key";
-    public static final String MESSAGE_STATUS = "Sync_User_data";
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     HomeFragment homeFragment;
-    DailySymptomsFragment dailySymptomsFragment;
     PersonalInfoFragment personalInfoFragment;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    LocationPermissionManager locationPermissionManager;
+
     private BottomNavigationView.OnNavigationItemSelectedListener navListner = item -> {
         Fragment selectedFragment = null;
         switch (item.getItemId()) {
@@ -50,25 +44,15 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // check for authentication
-       /* mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() == null) {
-            goToStartupActivity();
-            return;
-        }
-        mAuth.addAuthStateListener(firebaseAuth -> {
-            if (firebaseAuth.getCurrentUser() == null) {
-                goToStartupActivity();
-            }
-        });*/
-
         // if it goes here user is already logged in
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
         initFragment(getHomeFragment());
-        requestPermissions();
+
+        locationPermissionManager = new LocationPermissionManager(this);
+        locationPermissionManager.requestPermissions();
     }
 
     @Override
@@ -82,63 +66,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-            boolean permissionAccessCoarseLocationApproved =
-                    ActivityCompat.checkSelfPermission(this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED;
-
-            if (permissionAccessCoarseLocationApproved) {
-                boolean backgroundLocationPermissionApproved =
-                        false;
-
-                backgroundLocationPermissionApproved = ActivityCompat.checkSelfPermission(this,
-                        Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED;
-
-                if (backgroundLocationPermissionApproved) {
-                    // start location foreground service
-                } else {
-                    // App can only access location in the foreground. Display a dialog
-                    // warning the user that your app must have all-the-time access to
-                    // location in order to function properly. Then, request background
-                    // location.
-                    ActivityCompat.requestPermissions(this, new String[]{
-                                    Manifest.permission.ACCESS_BACKGROUND_LOCATION},
-                            REQUEST_PERMISSIONS_REQUEST_CODE);
-                }
-            } else {
-                // App doesn't have access to the device's location at all. Make full request
-                // for permission.
-                ActivityCompat.requestPermissions(this, new String[]{
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                        },
-                        REQUEST_PERMISSIONS_REQUEST_CODE);
-            }
-        } else if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.length <= 0) {
-                finish();
-            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // start location foreground service
-            } else {
-                finish();
-            }
-        }
-    }
-
-    private void requestPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ActivityCompat.requestPermissions(this, new String[]{
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                    },
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
-        } else {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
-        }
+        locationPermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void goToStartupActivity() {
@@ -187,5 +115,4 @@ public class MainActivity extends BaseActivity {
         }
         return personalInfoFragment;
     }
-
 }

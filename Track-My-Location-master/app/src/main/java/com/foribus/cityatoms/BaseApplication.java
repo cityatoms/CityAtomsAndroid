@@ -2,10 +2,11 @@ package com.foribus.cityatoms;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
+
+import com.foribus.cityatoms.common.IPreferencesKeys;
 
 import timber.log.Timber;
 
@@ -41,5 +42,9 @@ public class BaseApplication extends MultiDexApplication {
 
     public SharedPreferences getPreferences() {
         return preferences;
+    }
+
+    public String getFirebaseInstanceId() {
+        return preferences.getString(IPreferencesKeys.USER_ID, null);
     }
 }

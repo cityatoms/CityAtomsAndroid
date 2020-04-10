@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Settings;
 
 import androidx.appcompat.app.AlertDialog;
@@ -30,7 +31,16 @@ public class AndroidPermissionRequester implements PermissionRequester {
                 if (!preferences.getBoolean(PermissionPreferenceKeys.LOCATION_PERMISSION, false)) {
                     preferences.edit().putBoolean(PermissionPreferenceKeys.LOCATION_PERMISSION, true).apply();
                 }
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, PermissionRequester.LOCATION_REQUEST_CODE);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION},
+                            PermissionRequester.LOCATION_REQUEST_CODE);
+                } else {
+                    ActivityCompat.requestPermissions(activity,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            PermissionRequester.LOCATION_REQUEST_CODE);
+                }
                 break;
             case STORAGE:
                 if (!preferences.getBoolean(PermissionPreferenceKeys.STORAGE_PERMISSION, false)) {
