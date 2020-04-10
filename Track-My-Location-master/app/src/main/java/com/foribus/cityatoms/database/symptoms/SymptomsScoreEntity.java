@@ -49,6 +49,10 @@ public class SymptomsScoreEntity {
     @ColumnInfo(name = "score", defaultValue = "0")
     private int score;
 
+    @NotNull
+    @ColumnInfo(name = "created_on", defaultValue = "")
+    private long createdOn;
+
     public int getId() {
         return id;
     }
@@ -127,5 +131,13 @@ public class SymptomsScoreEntity {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public long getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(long createdOn) {
+        this.createdOn = createdOn;
     }
 }

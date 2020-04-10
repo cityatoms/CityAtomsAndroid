@@ -36,7 +36,6 @@ public class CurrentFragment extends Fragment {
     Canvas canvas = new Canvas();
     ImageView imageView;
     TextView symptcount;
-    MainActivity mainActivity;
     int number;
     int counter;
      SharedPreferences sharedPreferences;

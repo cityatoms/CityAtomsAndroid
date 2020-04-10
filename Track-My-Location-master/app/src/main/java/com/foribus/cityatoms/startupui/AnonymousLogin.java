@@ -26,7 +26,6 @@ import com.foribus.cityatoms.R;
 import com.foribus.cityatoms.common.IPreferencesKeys;
 import com.foribus.cityatoms.common.Util;
 import com.foribus.cityatoms.dashboard.BaseActivity;
-import com.foribus.cityatoms.dashboard.DailySymptomsFragment;
 import com.foribus.cityatoms.dashboard.MainActivity;
 import com.foribus.cityatoms.firebase.FirebaseAuthHelper;
 import com.foribus.cityatoms.network.RetrofitClient;
@@ -172,8 +171,7 @@ public class AnonymousLogin extends BaseActivity {
     }
 
     private void goToMainActivity() {
-//        initFragment(new DailySymptomsFragment());
-        Intent i = new Intent(this, GetSymptoms.class);
+        Intent i = new Intent(this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();

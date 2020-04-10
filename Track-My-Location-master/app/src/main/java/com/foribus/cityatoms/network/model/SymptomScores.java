@@ -3,6 +3,8 @@ package com.foribus.cityatoms.network.model;
 import com.foribus.cityatoms.database.symptoms.SymptomsScoreEntity;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class SymptomScores {
 
     @SerializedName("breathing")
@@ -53,6 +55,7 @@ public class SymptomScores {
         entity.setScore(getScore());
         entity.setSmell(getSmell());
         entity.setThroat(getThroat());
+        entity.setCreatedOn((new Date()).getTime());
 
         return entity;
     }

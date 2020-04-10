@@ -7,6 +7,7 @@ import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
 import com.foribus.cityatoms.common.IPreferencesKeys;
+import com.mapbox.mapboxsdk.Mapbox;
 
 import timber.log.Timber;
 
@@ -32,6 +33,8 @@ public class BaseApplication extends MultiDexApplication {
 
         baseApplication = (BaseApplication) getApplicationContext();
         preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+
+        Mapbox.getInstance(this, "pk.eyJ1IjoicnVzaGFiaC1zcGVyaWRpYW4iLCJhIjoiY2s4dWVvNXF6MDZ4dTNmb2FvczF6bjg0NCJ9.EMMGCmoCWg50uV7_jDt_sw");
     }
 
     @Override
