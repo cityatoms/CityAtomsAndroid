@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+
 import com.github.abdularis.trackmylocation.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +67,7 @@ public class DailySymptomsFragment extends BaseFragment {
     protected void initializePresenter() {
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -181,11 +184,11 @@ public class DailySymptomsFragment extends BaseFragment {
                 st.append(",");
             st.append("6");
         }
-        Toast.makeText(mainActivity, st, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), st, Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.close_sym)
     public void ButtonClose() {
-        mainActivity.onBackPressed();
+        getActivity().onBackPressed();
     }
 }

@@ -16,6 +16,7 @@ import butterknife.OnClick;
 public class GetSymptomsFirstFragment extends BaseFragment {
     private int feelingType;
     DailySymptomsFragment dailySymptomsFragment;
+    HealthMonitorFragment healthMonitorFragment;
     public GetSymptomsFirstFragment() {
         // Required empty public constructor
     }
@@ -58,9 +59,22 @@ public class GetSymptomsFirstFragment extends BaseFragment {
         }
         Toast.makeText(mainActivity, feelingType+"", Toast.LENGTH_SHORT).show();
         if (mainActivity != null && isAdded()) {
-            if (dailySymptomsFragment == null)
-                dailySymptomsFragment = new DailySymptomsFragment();
-            mainActivity.addFragment(dailySymptomsFragment, "daily");
+            if (feelingType==1)
+            {
+                healthMonitorFragment = new HealthMonitorFragment();
+                mainActivity.addFragment(healthMonitorFragment, "health");
+            }else if (feelingType==2){
+                if (dailySymptomsFragment == null)
+                    dailySymptomsFragment = new DailySymptomsFragment();
+                mainActivity.addFragment(dailySymptomsFragment, "daily");
+            }else if(feelingType==3){
+                healthMonitorFragment = new HealthMonitorFragment();
+                mainActivity.addFragment(healthMonitorFragment, "health");
+            }else if(feelingType==4){
+                healthMonitorFragment = new HealthMonitorFragment();
+                mainActivity.addFragment(healthMonitorFragment, "health");
+            }
+
         }
     }
 

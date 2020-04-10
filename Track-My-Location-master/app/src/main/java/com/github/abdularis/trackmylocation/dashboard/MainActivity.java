@@ -7,9 +7,13 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,12 +22,14 @@ import com.github.abdularis.trackmylocation.R;
 import com.github.abdularis.trackmylocation.common.IPreferencesKeys;
 import com.github.abdularis.trackmylocation.startupui.StartupActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
-
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
     public static final String MESSENGER_INTENT_KEY = "msg-intent-key";
     public static final String MESSAGE_STATUS = "Sync_User_data";
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
@@ -36,7 +42,7 @@ public class MainActivity extends BaseActivity {
         Fragment selectedFragment = null;
         switch (item.getItemId()) {
             case R.id.nav_home:
-                selectedFragment = getHealthMonitorFragment();
+                selectedFragment = new DailySymptomsFragment();
                 break;
 
         }
@@ -62,10 +68,51 @@ public class MainActivity extends BaseActivity {
 
         // if it goes here user is already logged in
         setContentView(R.layout.activity_main);
+        drawerLayout=findViewById(R.id.drawerlayout);
+        actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+
+        NavigationView navigationView=findViewById(R.id.nav_View);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id =item.getItemId();
+                if (id==R.id.heat)
+                {
+                    Toast.makeText(MainActivity.this, "heat", Toast.LENGTH_SHORT).show();
+                }
+                else if (id==R.id.health)
+                {
+                    Toast.makeText(MainActivity.this, "heat", Toast.LENGTH_SHORT).show();
+                }else if (id==R.id.heat)
+                {
+                    Toast.makeText(MainActivity.this, "heat", Toast.LENGTH_SHORT).show();
+                }else if (id==R.id.heat)
+                {
+                    Toast.makeText(MainActivity.this, "heat", Toast.LENGTH_SHORT).show();
+                }else if (id==R.id.heat)
+                {
+                    Toast.makeText(MainActivity.this, "heat", Toast.LENGTH_SHORT).show();
+                }else if (id==R.id.heat)
+                {
+                    Toast.makeText(MainActivity.this, "heat", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
         ButterKnife.bind(this);
 
-        initFragment(getHealthMonitorFragment());
+        initFragment(new GetSymptomsFirstFragment());
         requestPermissions();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return actionBarDrawerToggle.onOptionsItemSelected(item)||super.onOptionsItemSelected(item);
+
     }
 
     @Override

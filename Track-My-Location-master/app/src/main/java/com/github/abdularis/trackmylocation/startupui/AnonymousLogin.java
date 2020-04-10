@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.github.abdularis.trackmylocation.BaseApplication;
 import com.github.abdularis.trackmylocation.Enitity.LoginEntity;
@@ -27,6 +29,7 @@ import com.github.abdularis.trackmylocation.common.IPreferencesKeys;
 import com.github.abdularis.trackmylocation.common.Util;
 import com.github.abdularis.trackmylocation.dagger.ApiInterface;
 import com.github.abdularis.trackmylocation.dashboard.BaseActivity;
+import com.github.abdularis.trackmylocation.dashboard.DailySymptomsFragment;
 import com.github.abdularis.trackmylocation.dashboard.MainActivity;
 import com.github.abdularis.trackmylocation.network.RetrofitClient;
 
@@ -119,6 +122,7 @@ public class AnonymousLogin extends BaseActivity {
                 public void onResponse(Call<LoginEntity> call, Response<LoginEntity> response) {
                     Log.d(TAG, "onResponse: " +
                             response.isSuccessful());
+//                    initFragment(new DailySymptomsFragment());
                     goToMainActivity();
                 }
 
@@ -133,13 +137,19 @@ public class AnonymousLogin extends BaseActivity {
             Toast.makeText(this, R.string.terms_and_conditions,
                     Toast.LENGTH_SHORT).show();
     }
-
+    private void initFragment(Fragment fragment) {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        if (fragment != null && !supportFragmentManager.isDestroyed()) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.basic_fragment, fragment).commitAllowingStateLoss();
+        }
+    }
 
     private void goToMainActivity() {
         preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
         preferences.edit().putString(IPreferencesKeys.TIME_ZONE, timeZone).apply();
         preferences.edit().putString(IPreferencesKeys.COUNTRY, countryCodeValue).apply();
-        Intent i = new Intent(this, SimpleFeeling.class);
+        Intent i = new Intent(this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();

@@ -22,7 +22,7 @@ import android.widget.ImageView;
 public class SimpleFeeling extends AppCompatActivity implements View.OnClickListener {
 CardView covidcard,symptomscard,testcard,feelinggreatcard;
 ImageView     backToMain;
-
+    private int feelingType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,15 +47,19 @@ ImageView     backToMain;
         switch ( v.getId())
         {
             case R.id.feelinggreatcard:
+                feelingType = 1;
                 initFragment(new HealthMonitorFragment());
                 break;
             case R.id.symptomscard:
+                feelingType = 2;
                 Intent i =new Intent(this,SimpleSymptoms.class);
                 startActivity(i);
                 break;
             case R.id.testcard:
+                feelingType = 3;
                 break;
             case R.id.covidcard:
+                feelingType = 4;
                 break;
 
                 case R.id.    backMain:
