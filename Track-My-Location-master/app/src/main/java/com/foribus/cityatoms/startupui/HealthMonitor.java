@@ -19,6 +19,7 @@ public class HealthMonitor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_monitor);
+
         initComponents();
         setUpPageAdapter();
         setupTabs();

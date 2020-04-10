@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">City Atoms</string>
+    <string name="app_name">City Atom</string>
     <string name="notification_foreground_service_title">City Atoms</string>
     <string name="notification_foreground_service_subtitle">Stay safe from COVID-19</string>
     <string name="app_desc">Track other\'s phone location with simple</string>
@@ -72,4 +72,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_simple_feeling">SimpleFeeling</string>
     <string name="title_activity_health_monitor">HealthMonitor</string>
+
+    <string name="close">Close</string>
+    <string name="open">Open</string>
 </resources>

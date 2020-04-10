@@ -58,7 +58,7 @@ public class PersonalInfoFragment extends BaseFragment {
     LinearLayout layoutNo;
     @BindView(R.id.txtNo)
     TextView txtNo;
-    GetSymptomsFirstFragment getSymptomsFirstFragment;
+
     private String gender;
     private int age = 0;
     private String longTermIll;
@@ -145,9 +145,9 @@ public class PersonalInfoFragment extends BaseFragment {
     public void OnClickContinue() {
         if (gender != null && age != 0 && longTermIll != null) {
             if (mainActivity != null && isAdded()) {
-                if (getSymptomsFirstFragment == null)
-                    getSymptomsFirstFragment = new GetSymptomsFirstFragment();
-                mainActivity.addFragment(getSymptomsFirstFragment, "fst");
+//                if (getSymptomsFirstFragment == null)
+//                    getSymptomsFirstFragment = new GetSymptomsFirstFragment();
+//                mainActivity.addFragment(getSymptomsFirstFragment, "fst");
             }
         } else
             Toast.makeText(mainActivity, "Select Inputs", Toast.LENGTH_SHORT).show();

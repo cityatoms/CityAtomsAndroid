@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.foribus.cityatoms.BaseApplication;
 import com.foribus.cityatoms.Enitity.LoginEntity;
@@ -24,6 +26,7 @@ import com.foribus.cityatoms.R;
 import com.foribus.cityatoms.common.IPreferencesKeys;
 import com.foribus.cityatoms.common.Util;
 import com.foribus.cityatoms.dashboard.BaseActivity;
+import com.foribus.cityatoms.dashboard.DailySymptomsFragment;
 import com.foribus.cityatoms.dashboard.MainActivity;
 import com.foribus.cityatoms.firebase.FirebaseAuthHelper;
 import com.foribus.cityatoms.network.RetrofitClient;
@@ -169,7 +172,8 @@ public class AnonymousLogin extends BaseActivity {
     }
 
     private void goToMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+//        initFragment(new DailySymptomsFragment());
+        Intent i = new Intent(this, GetSymptoms.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();
@@ -190,6 +194,14 @@ public class AnonymousLogin extends BaseActivity {
 
     private String getTimeZone() {
         return TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT);
+    }
+
+    private void initFragment(Fragment fragment) {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        if (fragment != null && !supportFragmentManager.isDestroyed()) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.basic_fragment, fragment).commitAllowingStateLoss();
+        }
     }
 
 }

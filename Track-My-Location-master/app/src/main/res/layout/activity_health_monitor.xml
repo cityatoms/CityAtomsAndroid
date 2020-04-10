@@ -8,32 +8,32 @@
     android:orientation="vertical"
     tools:context=".startupui.StartupActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Health Monitor"
-        android:textSize="28sp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
-        android:textStyle="bold" />
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/mTablayout"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorWhite"
-        app:tabIndicatorColor="@color/colorPrimary"
-        app:tabIndicatorFullWidth="true"
-        app:tabIndicatorHeight="3dp"
-        app:tabTextAppearance="@style/Widget.BottomNavigationView">
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Health Monitor"-->
+<!--        android:textSize="28sp"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:textStyle="bold" />-->
+<!--    <com.google.android.material.tabs.TabLayout-->
+<!--        android:id="@+id/mTablayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="70dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:background="@color/colorWhite"-->
+<!--        app:tabIndicatorColor="@color/colorPrimary"-->
+<!--        app:tabIndicatorFullWidth="true"-->
+<!--        app:tabIndicatorHeight="3dp"-->
+<!--        app:tabTextAppearance="@style/Widget.BottomNavigationView">-->
 
-    </com.google.android.material.tabs.TabLayout>
+<!--    </com.google.android.material.tabs.TabLayout>-->
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/mViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp">
+<!--    <androidx.viewpager.widget.ViewPager-->
+<!--        android:id="@+id/mViewPager"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginTop="20dp">-->
 
-    </androidx.viewpager.widget.ViewPager>
+<!--    </androidx.viewpager.widget.ViewPager>-->
 </LinearLayout>

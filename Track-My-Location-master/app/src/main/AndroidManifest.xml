@@ -29,10 +29,9 @@
             android:label="@string/title_activity_health_monitor"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar"/>
         <activity
-            android:name=".startupui.SimpleFeeling"
+            android:name=".startupui.GetSymptoms"
             android:label="@string/title_activity_simple_feeling"
             android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
-        <activity android:name=".startupui.SimpleFeelings" />
         <activity
             android:name=".startupui.SimpleSymptoms"
             android:label="@string/title_activity_simple_symptoms"

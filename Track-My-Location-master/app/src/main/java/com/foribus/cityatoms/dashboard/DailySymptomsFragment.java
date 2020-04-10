@@ -11,14 +11,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 
 import com.foribus.cityatoms.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class DailySymptomsFragment extends BaseFragment {
+public class DailySymptomsFragment extends Fragment {
     @BindView(R.id.layout_sym_1)
     LinearLayout layoutSym1;
     @BindView(R.id.layout_sym_2)
@@ -54,20 +56,12 @@ public class DailySymptomsFragment extends BaseFragment {
     private boolean isCard4Selected = false;
     private boolean isCard5Selected = false;
     private boolean isCard6Selected = false;
-
+    protected Unbinder unbinder;
     public DailySymptomsFragment() {
         // Required empty public constructor
     }
 
-    @Override
-    protected void setUpUI() {
 
-    }
-
-    @Override
-    protected void initializePresenter() {
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -184,11 +178,11 @@ public class DailySymptomsFragment extends BaseFragment {
                 st.append(",");
             st.append("6");
         }
-        Toast.makeText(mainActivity, st, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), st, Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.close_sym)
     public void ButtonClose() {
-        mainActivity.onBackPressed();
+        getActivity().onBackPressed();
     }
 }

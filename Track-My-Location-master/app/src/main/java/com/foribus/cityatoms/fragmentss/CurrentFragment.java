@@ -1,19 +1,23 @@
 package com.foribus.cityatoms.fragmentss;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.SweepGradient;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.foribus.cityatoms.R;
+import com.foribus.cityatoms.dashboard.CircularProgressBarDrawable;
 
 
 public class CurrentFragment extends Fragment {
@@ -31,8 +35,34 @@ public class CurrentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_current, container, false);
+        final View iv = (View) view.findViewById(R.id.iv);
+        GradientDrawable gd = new GradientDrawable();
 
+        // Set the color array to draw gradient
+        gd.setColors(new int[]{
+                getResources().getColor(R.color.salmon),
+                getResources().getColor(R.color.periwinkle),
+                getResources().getColor(R.color.greyishBrown),
+                getResources().getColor(R.color.lightGreenishBlue),
+                getResources().getColor(R.color.greyishBrown),
+                getResources().getColor(R.color.lightishGreen)
 
+        });
+
+        // Set the GradientDrawable gradient type linear gradient
+        gd.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+
+        // Set GradientDrawable shape is a rectangle
+        gd.setShape(GradientDrawable.OVAL);
+
+        // Set 3 pixels width solid blue color border
+//        gd.setStroke(3, Color.BLUE);
+
+        // Set GradientDrawable width and in pixels
+        gd.setSize(450, 150); // Width 450 pixels and height 150 pixels
+
+        // Set GradientDrawable as ImageView source image
+        iv.setBackground(gd);
         // Create background track
 
         return view;
