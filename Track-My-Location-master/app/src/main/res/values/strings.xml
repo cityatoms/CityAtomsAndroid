@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">City Atoms</string>
+    <string name="notification_foreground_service_title">City Atoms</string>
+    <string name="notification_foreground_service_subtitle">Stay safe from COVID-19</string>
     <string name="app_desc">Track other\'s phone location with simple</string>
     <string name="sign_in_desc">Please sign in or register new account</string>
     <string name="profile">Profile</string>

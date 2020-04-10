@@ -20,6 +20,25 @@ public class SymptomsScoreRepository extends SyncService<SymptomsScoreEntity> {
         symptomsScoreDao = SymptomsScoreDatabase.getDatabase(context).symptomsScoreDao();
     }
 
+    public static int tossCoin() {
+        return (int) Math.round(Math.random());
+    }
+
+    public void dump() {
+        SymptomsScoreEntity entity = new SymptomsScoreEntity();
+        entity.setBreathing(tossCoin());
+        entity.setC19(tossCoin());
+        entity.setCough(tossCoin());
+        entity.setFever(tossCoin());
+        entity.setHospital(tossCoin());
+        entity.setPneumonia(tossCoin());
+        entity.setScore(tossCoin());
+        entity.setSmell(tossCoin());
+        entity.setThroat(tossCoin());
+
+        add(entity);
+    }
+
     public SymptomsScoreEntity getLatestSymptomScoreInfo() {
         return symptomsScoreDao.getLatestSymptomScoreInfo();
     }

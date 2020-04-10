@@ -12,9 +12,11 @@ import android.os.Looper;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.LifecycleService;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.foribus.cityatoms.R;
-import com.foribus.cityatoms.database.DatabaseRepositoryManager;
 import com.foribus.cityatoms.location.LocationStatus;
 import com.foribus.cityatoms.startupui.SplashActivity;
 
@@ -35,14 +37,13 @@ public class LocationForegroundService extends LifecycleService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
-        String input = intent.getStringExtra("inputExtra");
         createNotificationChannel();
         Intent notificationIntent = new Intent(this, SplashActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Foreground Service")
-                .setContentText(input)
+                .setContentTitle(getString(R.string.notification_foreground_service_title))
+                .setContentText(getString(R.string.notification_foreground_service_subtitle))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent)
                 .build();
@@ -63,7 +64,11 @@ public class LocationForegroundService extends LifecycleService {
 
         locationStatus.getLocationLiveData().observe(this, location -> {
             Timber.i("GETTING LOCATION IN BACKGROUND: %s", location.toString());
-            DatabaseRepositoryManager.getInstance(getApplicationContext()).dataPointRepository().saveDataPoint(location);
+            Data.Builder data = new Data.Builder();
+            data.putDouble("lat", location.getLatitude());
+            data.putDouble("lon", location.getLongitude());
+            OneTimeWorkRequest uploadWorkRequest = new OneTimeWorkRequest.Builder(SaveLocationWorker.class).setInputData(data.build()).build();
+            WorkManager.getInstance(this).enqueue(uploadWorkRequest);
         });
 
         if (locationStatus.hasLocationBackgroundPermission()) {

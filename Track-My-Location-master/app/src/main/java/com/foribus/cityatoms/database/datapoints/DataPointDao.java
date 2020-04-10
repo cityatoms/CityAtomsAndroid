@@ -2,6 +2,7 @@ package com.foribus.cityatoms.database.datapoints;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Dao
 public interface DataPointDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(DataPointEntity dataPointEntity);
 
     @Update

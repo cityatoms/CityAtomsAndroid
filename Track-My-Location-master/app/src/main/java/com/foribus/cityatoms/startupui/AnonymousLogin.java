@@ -27,6 +27,7 @@ import com.foribus.cityatoms.dashboard.BaseActivity;
 import com.foribus.cityatoms.dashboard.MainActivity;
 import com.foribus.cityatoms.firebase.FirebaseAuthHelper;
 import com.foribus.cityatoms.network.RetrofitClient;
+import com.foribus.cityatoms.network.model.LoginRequest;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.TimeZone;
@@ -115,17 +116,39 @@ public class AnonymousLogin extends BaseActivity {
                 // Get new Instance ID token
                 device_unique_id = user.getUid();
 
-                Call<LoginEntity> call = RetrofitClient.getApiService().callLogin("test", "test_first_name", "test_last_name", device_unique_id, timeZone, countryCodeValue);
+                LoginRequest loginRequest = new LoginRequest.Builder().withCountryCode(countryCodeValue).withTimeZone(timeZone).withInstanceId(device_unique_id).build();
+                Call<LoginEntity> call = RetrofitClient.getApiService().callLogin("test", loginRequest);
                 call.enqueue(new Callback<LoginEntity>() {
                     @Override
                     public void onResponse(Call<LoginEntity> call, Response<LoginEntity> response) {
-                        Timber.d("onResponse: %s", response.isSuccessful());
+                        Timber.d("callLogin API response code %d, status %s", response.code(), response.isSuccessful());
+
                         if (response.isSuccessful()) {
                             preferences.edit().putString(IPreferencesKeys.ID, response.body().getId()).apply();
                             preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
                             preferences.edit().putString(IPreferencesKeys.TIME_ZONE, timeZone).apply();
                             preferences.edit().putString(IPreferencesKeys.COUNTRY, countryCodeValue).apply();
                             goToMainActivity();
+                        } else if (response.code() == 409) {
+                            Timber.d("Login conflict with user %s, trying to fetch user info", device_unique_id);
+                            RetrofitClient.getApiService().getUser("test", device_unique_id).enqueue(new Callback<LoginEntity>() {
+                                @Override
+                                public void onResponse(Call<LoginEntity> call, Response<LoginEntity> response) {
+                                    Timber.d("getUser API response code %d, status %s", response.code(), response.isSuccessful());
+                                    if (response.isSuccessful()) {
+                                        preferences.edit().putString(IPreferencesKeys.ID, response.body().getId()).apply();
+                                        preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
+                                        preferences.edit().putString(IPreferencesKeys.TIME_ZONE, timeZone).apply();
+                                        preferences.edit().putString(IPreferencesKeys.COUNTRY, countryCodeValue).apply();
+                                        goToMainActivity();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<LoginEntity> call, Throwable t) {
+                                    Timber.e(t);
+                                }
+                            });
                         } else {
                             Timber.i("Log in failed with response code %d", response.code());
                         }
@@ -166,7 +189,7 @@ public class AnonymousLogin extends BaseActivity {
     }
 
     private String getTimeZone() {
-        return TimeZone.getDefault().getID();
+        return TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT);
     }
 
 }

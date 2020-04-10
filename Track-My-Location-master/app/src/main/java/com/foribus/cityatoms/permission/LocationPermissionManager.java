@@ -1,14 +1,19 @@
 package com.foribus.cityatoms.permission;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+import com.foribus.cityatoms.database.DatabaseRepositoryManager;
 import com.foribus.cityatoms.service.LocationForegroundService;
+
+import timber.log.Timber;
 
 public class LocationPermissionManager {
 
@@ -24,6 +29,11 @@ public class LocationPermissionManager {
     }
 
     public void requestPermissions() {
+        if (permissionChecker.hasPermission(PermissionType.LOCATION_BACKGROUND)) {
+            startService();
+            return;
+        }
+
         if (!permissionChecker.hasPermissionBeenShown(PermissionType.LOCATION)) {
             // Request location only if never requested before
             permissionRequester.requestPermission(PermissionType.LOCATION);
@@ -112,9 +122,26 @@ public class LocationPermissionManager {
     }
 
     private void startService() {
-        Intent serviceIntent = new Intent(activity, LocationForegroundService.class);
-        serviceIntent.putExtra("inputExtra", "Foreground Service Example in Android");
+        if (isForegroundServiceRunning(LocationForegroundService.class)) {
+            Timber.d("location foreground service already running");
+            return;
+        }
 
+        Timber.d("Dumping test symptoms to test");
+        DatabaseRepositoryManager.getInstance(activity).symptomsScoreRepository().dump();
+
+        Timber.d("Starting location foreground service");
+        Intent serviceIntent = new Intent(activity, LocationForegroundService.class);
         ContextCompat.startForegroundService(activity, serviceIntent);
+    }
+
+    private boolean isForegroundServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

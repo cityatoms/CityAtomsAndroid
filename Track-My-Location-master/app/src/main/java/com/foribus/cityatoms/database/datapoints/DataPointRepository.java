@@ -4,14 +4,14 @@ import android.content.Context;
 import android.location.Location;
 
 import com.foribus.cityatoms.BaseApplication;
-import com.foribus.cityatoms.Enitity.LoginEntity;
 import com.foribus.cityatoms.common.SyncService;
 import com.foribus.cityatoms.database.DatabaseRepositoryManager;
 import com.foribus.cityatoms.database.symptoms.SymptomsScoreEntity;
 import com.foribus.cityatoms.network.RetrofitClient;
 import com.foribus.cityatoms.network.model.LocationSymptomRequest;
+import com.google.gson.JsonArray;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +23,8 @@ import retrofit2.Response;
 import timber.log.Timber;
 
 public class DataPointRepository extends SyncService<DataPointEntity> {
+
+    public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     // 1 minute
     private static final long SYNC_INTERVAL = 1000 * 60;
@@ -36,6 +38,13 @@ public class DataPointRepository extends SyncService<DataPointEntity> {
         dataPointDao = DataPointDatabase.getDatabase(context).dataPointDao();
     }
 
+    public void saveDataPoint(double lat, double lon) {
+        Location location = new Location("location");
+        location.setLatitude(lat);
+        location.setLongitude(lon);
+        saveDataPoint(location);
+    }
+
     public void saveDataPoint(Location location) {
         if (location.getLatitude() == 0 && location.getLongitude() == 0)
             return;
@@ -45,7 +54,8 @@ public class DataPointRepository extends SyncService<DataPointEntity> {
         entity.setLat(location.getLatitude());
         entity.setLon(location.getLongitude());
         entity.setEpochTime((date.getTime() / 1000));
-        entity.setTime(DateFormat.getDateTimeInstance().format(date));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+        entity.setTime(simpleDateFormat.format(date));
         entity.setSyncStatus(SyncStatus.PENDING);
         add(entity);
     }
@@ -80,41 +90,45 @@ public class DataPointRepository extends SyncService<DataPointEntity> {
 
             List<DataPointEntity> inProcessData = dataPointDao.getInProcessDataPoints();
             if (inProcessData.size() > 0) {
-                List<LocationSymptomRequest> data = new ArrayList<>(inProcessData.size());
+                List<LocationSymptomRequest> data = new ArrayList<>();
                 for (DataPointEntity dataPointEntity : inProcessData) {
                     int symptomsScoreId = dataPointEntity.getSymptomsScoreId();
                     if (symptomsScoreId == 0)
                         symptomsScoreId = 1;
                     SymptomsScoreEntity symptomsScoreEntity = DatabaseRepositoryManager.getInstance(context).symptomsScoreRepository().getSymptomScoreInfo(symptomsScoreId);
-                    LocationSymptomRequest request = LocationSymptomRequest.instance(dataPointEntity, symptomsScoreEntity);
-                    request.setInstanceId(instance_id);
-                    data.add(request);
+                    if (symptomsScoreEntity != null) {
+                        LocationSymptomRequest request = LocationSymptomRequest.instance(dataPointEntity, symptomsScoreEntity);
+                        request.setInstanceId(instance_id);
+                        data.add(request);
+                    }
                 }
 
-                Call<LoginEntity> call = RetrofitClient.getApiService().postBatchDataPoints("test", instance_id, data);
-                call.enqueue(new Callback<LoginEntity>() {
+                Call<JsonArray> call = RetrofitClient.getApiService().postBatchDataPoints("test", instance_id, data);
+                call.enqueue(new Callback<JsonArray>() {
                     @Override
-                    public void onResponse(Call<LoginEntity> call, Response<LoginEntity> response) {
-                        Timber.d("data points post response: %s", response.isSuccessful());
-                        if (response.isSuccessful()) {
-                            for (DataPointEntity dataPointEntity : inProcessData) {
-                                dataPointEntity.setSyncStatus(SyncStatus.SYNCED);
+                    public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                        getExecutor().execute(() -> {
+                            Timber.d("data points post response: %s", response.isSuccessful());
+                            if (response.isSuccessful()) {
+                                for (DataPointEntity dataPointEntity : inProcessData) {
+                                    dataPointEntity.setSyncStatus(SyncStatus.SYNCED);
+                                }
+                                Timber.d("%d data points uploaded", inProcessData.size());
+                            } else {
+                                // Change back to step 0 if failed
+                                for (DataPointEntity dataPointEntity : inProcessData) {
+                                    dataPointEntity.setSyncStatus(SyncStatus.PENDING);
+                                }
+                                Timber.d("%d data points failed to upload", inProcessData.size());
                             }
-                            Timber.d("%d data points uploaded", inProcessData.size());
-                        } else {
-                            // Change back to step 0 if failed
-                            for (DataPointEntity dataPointEntity : inProcessData) {
-                                dataPointEntity.setSyncStatus(SyncStatus.PENDING);
-                            }
-                            Timber.d("%d data points failed to upload", inProcessData.size());
-                        }
-                        dataPointDao.update(inProcessData);
+                            dataPointDao.update(inProcessData);
 
-                        finishSyncing();
+                            finishSyncing();
+                        });
                     }
 
                     @Override
-                    public void onFailure(Call<LoginEntity> call, Throwable t) {
+                    public void onFailure(Call<JsonArray> call, Throwable t) {
                         Timber.e(t);
                     }
                 });

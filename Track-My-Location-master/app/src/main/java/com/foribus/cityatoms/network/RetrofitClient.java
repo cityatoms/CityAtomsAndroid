@@ -13,6 +13,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -63,10 +64,18 @@ public class RetrofitClient {
     }
 
     private static OkHttpClient createClient() {
-        return new OkHttpClient.Builder().readTimeout(120, TimeUnit.SECONDS)
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .writeTimeout(120, TimeUnit.SECONDS)
-                .addInterceptor(createInterceptor()).build();
+        OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
+
+        builder.readTimeout(120, TimeUnit.SECONDS);
+        builder.connectTimeout(120, TimeUnit.SECONDS);
+        builder.writeTimeout(120, TimeUnit.SECONDS);
+        builder.addInterceptor(createInterceptor());
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(interceptor);
+
+        return builder.build();
     }
 
     private static Interceptor createInterceptor() {
