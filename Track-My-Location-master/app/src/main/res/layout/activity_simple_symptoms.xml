@@ -60,10 +60,11 @@
                 android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/sore_throat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/sore_throat"
-                    android:src="@drawable/sore_throat_grey"/>
+                    android:src="@drawable/srtbl48"/>
+
 
                 <TextView
                     android:id="@+id/txtSym1"
@@ -91,7 +92,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/dry"
-                    android:src="@drawable/dry_grey"/>
+
+                    android:src="@drawable/dcbl48"/>
+
                 <TextView
                     android:id="@+id/txtSym2"
                     android:layout_width="wrap_content"
@@ -133,7 +136,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/fever"
-                    android:src="@drawable/ico_fever"/>
+                    android:src="@drawable/fever48"/>
+
 
                 <TextView
                     android:id="@+id/txtSym3"
@@ -162,7 +166,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/shortness_breath"
-                    android:src="@drawable/shortness_breath_grey"/>
+                    android:src="@drawable/breathbbll48"/>
+
 
                 <TextView
                     android:id="@+id/txtSym4"
@@ -203,7 +208,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/loss_taste"
-                    android:src="@drawable/loss_taste_grey"/>
+                    android:src="@drawable/tounge48"/>
+
 
                 <TextView
                     android:id="@+id/txtSym5"
@@ -231,7 +237,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/pneumonia_feelin"
-                    android:src="@drawable/pneumonia_feelin_grey"/>
+                    android:src="@drawable/heartbl48"/>
+
                 <TextView
                     android:id="@+id/txtSym6"
                     android:layout_width="wrap_content"

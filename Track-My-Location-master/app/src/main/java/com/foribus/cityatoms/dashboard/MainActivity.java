@@ -58,7 +58,9 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = findViewById(R.id.app_bar_toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-
+        initComponents();
+        setUpPageAdapter();
+        setupTabs();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -147,5 +149,42 @@ public class MainActivity extends BaseActivity {
         }
         return personalInfoFragment;
     }
+    private void initComponents() {
 
+        mTabLayout = findViewById(R.id.mTablayout);
+        mViewPager = findViewById(R.id.mViewPager);
+        context = this;
+
+    }
+
+    private void setUpPageAdapter() {
+        mPagerAdapter = new ViewPagerAdapter(context, getSupportFragmentManager());
+        mViewPager.setAdapter(mPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+    }
+
+    private void setupTabs() {
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

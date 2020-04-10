@@ -26,6 +26,7 @@ public class GetSymptoms extends BaseActivity {
     private int feelingType;
     com.github.abdularis.trackmylocation.dashboard.HealthMonitorFragment healthMonitorFragment;
     private SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +68,7 @@ public class GetSymptoms extends BaseActivity {
 
                 startActivity(i);
             } else if (feelingType == 2) {
-
                 Intent i = new Intent(this, SimpleSymptoms.class);
-
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
             } else if (feelingType == 3) {

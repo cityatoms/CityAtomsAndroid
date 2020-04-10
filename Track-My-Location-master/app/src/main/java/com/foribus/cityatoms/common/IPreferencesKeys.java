@@ -10,4 +10,6 @@ public interface IPreferencesKeys {
 
 
     String FEELING_TYPE="feelingType";
+    String STORE_SYMPTM="st";
+    String COUNTER="counter";
 }

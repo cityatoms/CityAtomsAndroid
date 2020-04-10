@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.SweepGradient;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.foribus.cityatoms.R;
 import com.foribus.cityatoms.dashboard.CircularProgressBarDrawable;
 import com.foribus.cityatoms.dashboard.MainActivity;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 
 public class CurrentFragment extends Fragment {
 
@@ -32,19 +35,28 @@ public class CurrentFragment extends Fragment {
     Paint mPaint2 = new Paint();
     Canvas canvas = new Canvas();
     ImageView imageView;
+    TextView symptcount;
     MainActivity mainActivity;
     int number;
+    int counter;
      SharedPreferences sharedPreferences;
+     String st;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_current, container, false);
         final View iv = (View) view.findViewById(R.id.iv);
+        symptcount=view.findViewById(R.id.symptcount);
         GradientDrawable gd = new GradientDrawable();
         sharedPreferences = BaseApplication.getBaseApplication().getPreferences();
-        number=sharedPreferences.getInt("feelingType",1);
-
+        number=sharedPreferences.getInt("feelingType",0);
+        st=sharedPreferences.getString("st","st");
+        Log.d(TAG, "onCreateView: "+st);
+        number=sharedPreferences.getInt("feelingType",0);
+        counter=sharedPreferences.getInt("counter",0);
+        Log.d(TAG, "onCreateView1: "+counter);
+        symptcount.setText(""+counter);
         if (number==1){
             gd.setColors(new int[]{
                     getResources().getColor(R.color.lightishGreen),getResources().getColor(R.color.lightishGreen),
@@ -59,17 +71,19 @@ public class CurrentFragment extends Fragment {
                     getResources().getColor(R.color.salmon), getResources().getColor(R.color.salmon),
                     getResources().getColor(R.color.salmon)});
         }
-        // Set the color array to draw gradient
-//        gd.setColors(new int[]{
-//                getResources().getColor(R.color.salmon),
-//                getResources().getColor(R.color.periwinkle),
-//                getResources().getColor(R.color.greyishBrown),
-//                getResources().getColor(R.color.lightGreenishBlue),
-//                getResources().getColor(R.color.greyishBrown),
-//                getResources().getColor(R.color.lightishGreen)
-//
-//        });
 
+        // Set the color array to draw gradient.
+        if (st!=null&& !st.contentEquals("st")) {
+        gd.setColors(new int[]{
+                getResources().getColor(R.color.salmon),
+                        getResources().getColor(R.color.periwinkle),
+
+                        getResources().getColor(R.color.lightGreenishBlue),
+                        getResources().getColor(R.color.greyishBrown),
+                        getResources().getColor(R.color.lightishGreen)
+
+            });
+        }
         // Set the GradientDrawable gradient type linear gradient
         gd.setGradientType(GradientDrawable.LINEAR_GRADIENT);
 
