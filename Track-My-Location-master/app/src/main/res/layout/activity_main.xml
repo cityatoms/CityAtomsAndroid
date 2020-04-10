@@ -10,15 +10,6 @@
         android:id="@+id/basic_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_nav"/>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="?android:attr/windowBackground"
-        app:labelVisibilityMode="labeled"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/main_menu"/>
+        />
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.github.abdularis.trackmylocation.startupui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -34,6 +35,7 @@ public class SimpleSymptoms extends BaseActivity {
     RecyclerView recyclerView;
     Model model;
     Button btnsave;
+    ImageView backToMain;
     List<Model> models=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +47,17 @@ public class SimpleSymptoms extends BaseActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         gridAdapter = new GridAdapter(this, models);
         recyclerView.setAdapter(gridAdapter);
-
+        backToMain=findViewById(R.id.backToMain);
+        backToMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         btnsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
             }
         });

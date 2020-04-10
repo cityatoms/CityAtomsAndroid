@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.github.abdularis.trackmylocation.R;
+import com.github.abdularis.trackmylocation.dashboard.BaseActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -14,7 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.view.View;
 
-public class HealthMonitor extends AppCompatActivity {
+public class HealthMonitor extends BaseActivity {
     private TabLayout mTabLayout;
     private ViewPagerAdapter          mPagerAdapter;
     private ViewPager mViewPager;

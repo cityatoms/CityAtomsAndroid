@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity {
     public static final String MESSENGER_INTENT_KEY = "msg-intent-key";
     public static final String MESSAGE_STATUS = "Sync_User_data";
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-    HomeFragment homeFragment;
+    HealthMonitorFragment healthMonitorFragment;
     DailySymptomsFragment dailySymptomsFragment;
     PersonalInfoFragment personalInfoFragment;
     private FirebaseAuth mAuth;
@@ -36,11 +36,9 @@ public class MainActivity extends BaseActivity {
         Fragment selectedFragment = null;
         switch (item.getItemId()) {
             case R.id.nav_home:
-                selectedFragment = getHomeFragment();
+                selectedFragment = getHealthMonitorFragment();
                 break;
-            case R.id.nav_daily:
-                selectedFragment = getPersonalInfoFragment();
-                break;
+
         }
         initFragment(selectedFragment);
         return true;
@@ -65,9 +63,8 @@ public class MainActivity extends BaseActivity {
         // if it goes here user is already logged in
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navListner);
-        initFragment(getHomeFragment());
+
+        initFragment(getHealthMonitorFragment());
         requestPermissions();
     }
 
@@ -166,18 +163,18 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private Fragment getHomeFragment() {
-        if (homeFragment == null) {
+    private Fragment getHealthMonitorFragment() {
+        if (healthMonitorFragment == null) {
             final SharedPreferences preferences =
                     getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
             String country = preferences.
                     getString(IPreferencesKeys.COUNTRY, "");
             String utc = preferences.
                     getString(IPreferencesKeys.TIME_ZONE, "");
-            homeFragment = new HomeFragment();
-            homeFragment.setArguments(getIntent().getExtras());
+            healthMonitorFragment = new HealthMonitorFragment();
+            healthMonitorFragment.setArguments(getIntent().getExtras());
         }
-        return homeFragment;
+        return healthMonitorFragment;
     }
 
     private Fragment getPersonalInfoFragment() {

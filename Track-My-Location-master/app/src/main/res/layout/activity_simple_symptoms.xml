@@ -10,8 +10,8 @@
 
     <ImageButton
         android:id="@+id/backToMain"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="15dp"
 
         android:layout_marginStart="15dp"

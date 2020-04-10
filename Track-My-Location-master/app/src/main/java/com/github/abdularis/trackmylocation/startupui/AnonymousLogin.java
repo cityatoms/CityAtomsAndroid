@@ -139,7 +139,7 @@ public class AnonymousLogin extends BaseActivity {
         preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
         preferences.edit().putString(IPreferencesKeys.TIME_ZONE, timeZone).apply();
         preferences.edit().putString(IPreferencesKeys.COUNTRY, countryCodeValue).apply();
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, SimpleFeeling.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();

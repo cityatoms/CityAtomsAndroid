@@ -12,9 +12,9 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/backToMain"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:id="@+id/backMain"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginStart="15dp"
 
             android:layout_marginLeft="15dp"
@@ -29,7 +29,7 @@
             android:textStyle="bold" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardview1"
+            android:id="@+id/feelinggreatcard"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="10dp"
@@ -39,6 +39,7 @@
             app:cardBackgroundColor="@color/whiteTwo"
             app:cardCornerRadius="10dp"
             app:cardElevation="12dp"
+
             app:cardUseCompatPadding="true"
             tools:ignore="MissingConstraints">
 
@@ -70,7 +71,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardview2"
+            android:id="@+id/symptomscard"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="10dp"
@@ -111,7 +112,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardview3"
+            android:id="@+id/testcard"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="10dp"
@@ -151,7 +152,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardview4"
+            android:id="@+id/covidcard"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="10dp"
