@@ -99,6 +99,8 @@ public class AnonymousLogin extends BaseActivity {
     @OnClick(R.id.btn_signup)
     public void onClickSignUp() {
         if (checkAgree.isChecked()) {
+            showProgressBar("" +
+                    "Please wait");
             generateFirebaseInstanceId();
         } else
             Toast.makeText(this, R.string.terms_and_conditions,
@@ -123,12 +125,14 @@ public class AnonymousLogin extends BaseActivity {
                         Timber.d("callLogin API response code %d, status %s", response.code(), response.isSuccessful());
 
                         if (response.isSuccessful()) {
+                            hideProgressBar();
                             preferences.edit().putString(IPreferencesKeys.ID, response.body().getId()).apply();
                             preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
                             preferences.edit().putString(IPreferencesKeys.TIME_ZONE, timeZone).apply();
                             preferences.edit().putString(IPreferencesKeys.COUNTRY, countryCodeValue).apply();
                             goToMainActivity();
                         } else if (response.code() == 409) {
+                            hideProgressBar();
                             Timber.d("Login conflict with user %s, trying to fetch user info", device_unique_id);
                             RetrofitClient.getApiService().getUser("test", device_unique_id).enqueue(new Callback<LoginEntity>() {
                                 @Override
@@ -145,16 +149,19 @@ public class AnonymousLogin extends BaseActivity {
 
                                 @Override
                                 public void onFailure(Call<LoginEntity> call, Throwable t) {
+                                    hideProgressBar();
                                     Timber.e(t);
                                 }
                             });
                         } else {
+                            hideProgressBar();
                             Timber.i("Log in failed with response code %d", response.code());
                         }
                     }
 
                     @Override
                     public void onFailure(Call<LoginEntity> call, Throwable t) {
+                        hideProgressBar();
                         Timber.e(t);
                     }
                 });
@@ -162,6 +169,7 @@ public class AnonymousLogin extends BaseActivity {
 
             @Override
             public void onFail() {
+                hideProgressBar();
                 Timber.e("Firebase anonymous login failed");
             }
         });

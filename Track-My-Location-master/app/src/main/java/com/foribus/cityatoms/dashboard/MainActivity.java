@@ -26,9 +26,7 @@ import com.google.android.material.navigation.NavigationView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
-
     LocationPermissionManager locationPermissionManager;
-
     AppBarConfiguration mAppBarConfiguration;
     NavController navController;
 

@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.foribus.cityatoms.BaseApplication;
@@ -38,48 +40,56 @@ public class CurrentFragment extends Fragment {
     TextView symptcount;
     int number;
     int counter;
-     SharedPreferences sharedPreferences;
-     String st;
+    SharedPreferences sharedPreferences;
+    String st;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_current, container, false);
+
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         final View iv = (View) view.findViewById(R.id.iv);
-        symptcount=view.findViewById(R.id.symptcount);
+        symptcount = view.findViewById(R.id.symptcount);
         GradientDrawable gd = new GradientDrawable();
         sharedPreferences = BaseApplication.getBaseApplication().getPreferences();
-        number=sharedPreferences.getInt("feelingType",0);
-        st=sharedPreferences.getString("st","st");
-        Log.d(TAG, "onCreateView: "+st);
-        number=sharedPreferences.getInt("feelingType",0);
-        counter=sharedPreferences.getInt("counter",0);
-        Log.d(TAG, "onCreateView1: "+counter);
-        symptcount.setText(""+counter);
-        if (number==1){
+        number = sharedPreferences.getInt("feelingType", 0);
+        st = sharedPreferences.getString("st", "st");
+        Log.d(TAG, "onCreateView: " + st);
+        number = sharedPreferences.getInt("feelingType", 0);
+        counter = sharedPreferences.getInt("counter", 0);
+        Log.d(TAG, "onCreateView1: " + counter);
+        symptcount.setText("" + counter);
+        if (number == 1) {
             gd.setColors(new int[]{
-                    getResources().getColor(R.color.lightishGreen),getResources().getColor(R.color.lightishGreen),
-            getResources().getColor(R.color.lightishGreen)});
-        }else if (number==3){
+                    getResources().getColor(R.color.lightishGreen), getResources().getColor(R.color.lightishGreen),
+                    getResources().getColor(R.color.lightishGreen)});
+        } else if (number == 3) {
             gd.setColors(new int[]{
-                    getResources().getColor(R.color.peach),getResources().getColor(R.color.peach),
+                    getResources().getColor(R.color.peach), getResources().getColor(R.color.peach),
                     getResources().getColor(R.color.peach)});
-        }
-        else if (number==4){
+        } else if (number == 4) {
             gd.setColors(new int[]{
                     getResources().getColor(R.color.salmon), getResources().getColor(R.color.salmon),
                     getResources().getColor(R.color.salmon)});
         }
 
         // Set the color array to draw gradient.
-        if (st!=null&& !st.contentEquals("st")) {
-        gd.setColors(new int[]{
-                getResources().getColor(R.color.salmon),
-                        getResources().getColor(R.color.periwinkle),
+        if (st != null && !st.contentEquals("st")) {
+            gd.setColors(new int[]{
+                    getResources().getColor(R.color.salmon),
+                    getResources().getColor(R.color.periwinkle),
 
-                        getResources().getColor(R.color.lightGreenishBlue),
-                        getResources().getColor(R.color.greyishBrown),
-                        getResources().getColor(R.color.lightishGreen)
+                    getResources().getColor(R.color.lightGreenishBlue),
+                    getResources().getColor(R.color.greyishBrown),
+                    getResources().getColor(R.color.lightishGreen)
 
             });
         }
@@ -98,8 +108,6 @@ public class CurrentFragment extends Fragment {
         // Set GradientDrawable as ImageView source image
         iv.setBackground(gd);
         // Create background track
-
-        return view;
     }
 
     protected float getDimension(float base) {
