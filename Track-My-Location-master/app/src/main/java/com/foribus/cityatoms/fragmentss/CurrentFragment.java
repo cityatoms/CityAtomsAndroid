@@ -2,7 +2,6 @@ package com.foribus.cityatoms.fragmentss;
 
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.SweepGradient;
 import android.graphics.drawable.GradientDrawable;
@@ -12,15 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.foribus.cityatoms.BaseApplication;
 import com.foribus.cityatoms.R;
-import com.foribus.cityatoms.dashboard.CircularProgressBarDrawable;
-import com.foribus.cityatoms.dashboard.MainActivity;
 
 
 public class CurrentFragment extends Fragment {
@@ -32,9 +28,9 @@ public class CurrentFragment extends Fragment {
     Paint mPaint2 = new Paint();
     Canvas canvas = new Canvas();
     ImageView imageView;
-    MainActivity mainActivity;
     int number;
-     SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,18 +39,17 @@ public class CurrentFragment extends Fragment {
         final View iv = (View) view.findViewById(R.id.iv);
         GradientDrawable gd = new GradientDrawable();
         sharedPreferences = BaseApplication.getBaseApplication().getPreferences();
-        number=sharedPreferences.getInt("feelingType",1);
+        number = sharedPreferences.getInt("feelingType", 1);
 
-        if (number==1){
+        if (number == 1) {
             gd.setColors(new int[]{
-                    getResources().getColor(R.color.lightishGreen),getResources().getColor(R.color.lightishGreen),
-            getResources().getColor(R.color.lightishGreen)});
-        }else if (number==3){
+                    getResources().getColor(R.color.lightishGreen), getResources().getColor(R.color.lightishGreen),
+                    getResources().getColor(R.color.lightishGreen)});
+        } else if (number == 3) {
             gd.setColors(new int[]{
-                    getResources().getColor(R.color.peach),getResources().getColor(R.color.peach),
+                    getResources().getColor(R.color.peach), getResources().getColor(R.color.peach),
                     getResources().getColor(R.color.peach)});
-        }
-        else if (number==4){
+        } else if (number == 4) {
             gd.setColors(new int[]{
                     getResources().getColor(R.color.salmon), getResources().getColor(R.color.salmon),
                     getResources().getColor(R.color.salmon)});

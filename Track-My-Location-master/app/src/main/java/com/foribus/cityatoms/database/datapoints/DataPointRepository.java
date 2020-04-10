@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 
 import retrofit2.Call;
@@ -54,7 +55,7 @@ public class DataPointRepository extends SyncService<DataPointEntity> {
         entity.setLat(location.getLatitude());
         entity.setLon(location.getLongitude());
         entity.setEpochTime((date.getTime() / 1000));
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.US);
         entity.setTime(simpleDateFormat.format(date));
         entity.setSyncStatus(SyncStatus.PENDING);
         add(entity);

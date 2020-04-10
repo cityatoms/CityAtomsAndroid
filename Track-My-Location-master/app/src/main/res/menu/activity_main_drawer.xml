@@ -1,39 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    
     tools:showIn="navigation_view">
+
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/heat_n"
-            android:orderInCategory="100"
-            android:title="Heat Map"
-            app:showAsAction="never" />
+            android:id="@+id/nav_heat_map"
+            android:title="@string/title_nav_heat_map" />
         <item
-            android:id="@+id/health"
-            android:orderInCategory="100"
-            android:title="Health Monitor"
-            app:showAsAction="never" />
+            android:id="@+id/nav_health_monitor"
+            android:title="@string/title_nav_health_monitor" />
         <item
-            android:id="@+id/about"
-            android:orderInCategory="100"
-            android:title="ABout"
-            app:showAsAction="never" />
+            android:id="@+id/nav_about"
+            android:title="@string/title_nav_about" />
         <item
-            android:id="@+id/service"
-            android:orderInCategory="100"
-            android:title="Privacy Terms of service"
-            app:showAsAction="never" />
+            android:id="@+id/nav_privacy"
+            android:title="@string/title_nav_privacy" />
         <item
-            android:id="@+id/cokies"
-            android:orderInCategory="100"
-            android:title="Cookies Privacy"
-            app:showAsAction="never" />
+            android:id="@+id/nav_services"
+            android:title="@string/title_nav_services" />
         <item
-            android:id="@+id/action_out"
-            android:orderInCategory="100"
-            android:title="Sign Out"
-            app:showAsAction="never" />
+            android:id="@+id/nav_cookies"
+            android:title="@string/title_nav_cookies" />
+        <item
+            android:id="@+id/nav_sign_out"
+            android:title="@string/title_nav_sign_out" />
     </group>
 </menu>

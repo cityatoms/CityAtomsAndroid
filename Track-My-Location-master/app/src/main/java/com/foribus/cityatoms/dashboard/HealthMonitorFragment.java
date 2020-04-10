@@ -1,13 +1,11 @@
-package com.github.abdularis.trackmylocation.dashboard;
+package com.foribus.cityatoms.dashboard;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -15,11 +13,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.foribus.cityatoms.R;
 import com.foribus.cityatoms.startupui.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import lombok.Setter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +29,6 @@ public class HealthMonitorFragment extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,18 +41,21 @@ public class HealthMonitorFragment extends Fragment {
 
         return rootView;
     }
+
     private void initComponents(View rootView) {
 
-        mTabLayout          =     rootView.findViewById(R.id.mTablayout);
-        mViewPager          =     rootView.findViewById(R.id.mViewPager);
-        context             =       getContext();
+        mTabLayout = rootView.findViewById(R.id.mTablayout);
+        mViewPager = rootView.findViewById(R.id.mViewPager);
+        context = getContext();
 
     }
+
     private void setUpPageAdapter(View View) {
-        mPagerAdapter = new ViewPagerAdapter(context,getFragmentManager());
+        mPagerAdapter = new ViewPagerAdapter(context, getFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }
+
     private void setupTabs() {
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

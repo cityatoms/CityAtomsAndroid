@@ -35,16 +35,7 @@
         <activity
             android:name=".startupui.SimpleSymptoms"
             android:label="@string/title_activity_simple_symptoms"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar"
-
-
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
         <activity
             android:name=".startupui.RegisterAccount"
             android:configChanges="orientation"

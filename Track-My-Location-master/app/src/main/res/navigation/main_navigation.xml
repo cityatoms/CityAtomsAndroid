@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@+id/nav_health_monitor">
+
+    <fragment
+        android:id="@+id/nav_heat_map"
+        android:name="com.foribus.cityatoms.dashboard.HeatMapFragment"
+        android:label="@string/title_fragment_heat_map"
+        tools:layout="@layout/fragment_heat_map" />
+
+    <fragment
+        android:id="@+id/nav_health_monitor"
+        android:name="com.foribus.cityatoms.dashboard.HealthMonitorFragment"
+        android:label="@string/title_activity_health_monitor"
+        tools:layout="@layout/activity_health_monitor" />
+
+</navigation>
