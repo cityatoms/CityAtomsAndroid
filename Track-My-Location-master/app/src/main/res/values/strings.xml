@@ -19,6 +19,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="register">Don\'t have an account? Create one</string>
 
+    <string name="title_menu_edit">Edit</string>
     <string name="title_fragment_heat_map">Heat Map</string>
 
     <!--Login Activity-->

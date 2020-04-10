@@ -14,7 +14,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
             android:gravity="center"
             android:text="Medium"
             android:textSize="38sp"
@@ -23,30 +22,27 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="RISK FOR CORONA VIRUS"
-            android:textColor="@color/brownGray"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Last updated on 3/26/2020 10.00 am"
             android:textColor="@color/brownGray"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="20sp" />
 
         <RelativeLayout
             android:id="@+id/relative"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp">
 
             <ImageView
                 android:id="@+id/iv"
@@ -96,61 +92,57 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginStart="25dp"
                     android:background="@drawable/soak"
                     android:padding="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="45dp"
+                    android:layout_marginStart="45dp"
                     android:text="Sore throat"
                     android:textColor="@color/greyishBrown"
-                    android:textSize="12sp"></TextView>
+                    android:textSize="12sp" />
 
 
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginLeft="125dp"
+                    android:layout_marginStart="125dp"
                     android:background="@drawable/dry"
                     android:padding="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="145dp"
+                    android:layout_marginStart="145dp"
                     android:text="Dry cough, no mucus"
                     android:textColor="@color/greyishBrown"
-                    android:textSize="12sp"></TextView>
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginLeft="270dp"
+                    android:layout_marginStart="270dp"
                     android:background="@drawable/breath"
                     android:padding="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="290dp"
+                    android:layout_marginStart="290dp"
                     android:text="Shortness of breath"
                     android:textColor="@color/greyishBrown"
-                    android:textSize="12sp"></TextView>
+                    android:textSize="12sp" />
 
             </RelativeLayout>
+
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="30dp">
-
-        </View>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -162,48 +154,48 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginStart="25dp"
                     android:background="@drawable/peach"
                     android:padding="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="45dp"
+                    android:layout_marginStart="45dp"
                     android:text="Fever"
                     android:textColor="@color/greyishBrown"
-                    android:textSize="12sp"></TextView>
+                    android:textSize="12sp" />
 
 
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginLeft="125dp"
+                    android:layout_marginStart="125dp"
                     android:background="@drawable/greyishbrown"
                     android:padding="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="145dp"
+                    android:layout_marginStart="145dp"
                     android:text="Loss of smell and taste"
                     android:textColor="@color/greyishBrown"
-                    android:textSize="12sp"></TextView>
+                    android:textSize="12sp" />
 
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginLeft="270dp"
+                    android:layout_marginStart="270dp"
                     android:background="@drawable/salmon"
                     android:padding="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="290dp"
+                    android:layout_marginStart="290dp"
                     android:text="Pneumonia like feeling"
                     android:textColor="@color/greyishBrown"
-                    android:textSize="12sp"></TextView>
+                    android:textSize="12sp" />
 
             </RelativeLayout>
         </LinearLayout>

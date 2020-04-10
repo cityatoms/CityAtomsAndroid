@@ -46,6 +46,10 @@ public class DataPointRepository extends SyncService<DataPointEntity> {
         saveDataPoint(location);
     }
 
+    public void wipeData() {
+        dataPointDao.wipeData();
+    }
+
     public void saveDataPoint(Location location) {
         if (location.getLatitude() == 0 && location.getLongitude() == 0)
             return;

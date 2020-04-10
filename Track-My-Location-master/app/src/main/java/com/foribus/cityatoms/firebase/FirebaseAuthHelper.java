@@ -19,6 +19,10 @@ public class FirebaseAuthHelper {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    public static void doAnonymouslySignOut() {
+        FirebaseAuth.getInstance().signOut();
+    }
+
     public void generateFirebaseInstanceId(FirebaseAuthCallback callback) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -27,7 +31,7 @@ public class FirebaseAuthHelper {
             return;
         }
 
-        mAuth.getInstance().signInAnonymously()
+        mAuth.signInAnonymously()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information

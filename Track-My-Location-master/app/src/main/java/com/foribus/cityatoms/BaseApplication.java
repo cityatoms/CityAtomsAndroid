@@ -34,7 +34,7 @@ public class BaseApplication extends MultiDexApplication {
         baseApplication = (BaseApplication) getApplicationContext();
         preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
 
-        Mapbox.getInstance(this, "pk.eyJ1IjoicnVzaGFiaC1zcGVyaWRpYW4iLCJhIjoiY2s4dWVvNXF6MDZ4dTNmb2FvczF6bjg0NCJ9.EMMGCmoCWg50uV7_jDt_sw");
+        Mapbox.getInstance(this, "pk.eyJ1IjoiY2l0eWF0b21zIiwiYSI6ImNrOHI3cnJibTAwanAzbHFic2V5dWt6NTEifQ.0qXroHLjGoQq-MWxr_Uu7Q");
     }
 
     @Override

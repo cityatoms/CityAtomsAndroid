@@ -19,10 +19,18 @@ public class SplashActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        Class classObj = BaseApplication.getBaseApplication().getPreferences().contains(IPreferencesKeys.USER_ID)
-                ? MainActivity.class : AnonymousLogin.class;
-        Intent i = new Intent(SplashActivity.this, classObj);
-        startActivity(i);
+        if (BaseApplication.getBaseApplication().getPreferences().contains(IPreferencesKeys.USER_ID)) {
+            if (BaseApplication.getBaseApplication().getPreferences().getBoolean(IPreferencesKeys.FIRST_TIME_SYMPTOMS_SAVED, false)) {
+                Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(i);
+            } else {
+                Intent i = new Intent(SplashActivity.this, GetSymptoms.class);
+                startActivity(i);
+            }
+        } else {
+            Intent i = new Intent(SplashActivity.this, AnonymousLogin.class);
+            startActivity(i);
+        }
         finish();
     }
 }

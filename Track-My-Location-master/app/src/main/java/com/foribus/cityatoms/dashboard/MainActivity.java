@@ -1,6 +1,10 @@
 package com.foribus.cityatoms.dashboard;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -10,8 +14,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.foribus.cityatoms.BaseApplication;
 import com.foribus.cityatoms.R;
+import com.foribus.cityatoms.database.DatabaseRepositoryManager;
+import com.foribus.cityatoms.firebase.FirebaseAuthHelper;
 import com.foribus.cityatoms.permission.LocationPermissionManager;
+import com.foribus.cityatoms.startupui.GetSymptoms;
+import com.foribus.cityatoms.startupui.SplashActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import butterknife.ButterKnife;
@@ -21,6 +30,7 @@ public class MainActivity extends BaseActivity {
     LocationPermissionManager locationPermissionManager;
 
     AppBarConfiguration mAppBarConfiguration;
+    NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +49,9 @@ public class MainActivity extends BaseActivity {
                 R.id.nav_heat_map, R.id.nav_health_monitor, R.id.nav_about, R.id.nav_privacy, R.id.nav_services, R.id.nav_cookies, R.id.nav_sign_out)
                 .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment);
+        navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(MainActivity.this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
 
         locationPermissionManager = new LocationPermissionManager(this);
         locationPermissionManager.requestPermissions();
@@ -63,5 +72,58 @@ public class MainActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         locationPermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.nav_sign_out) {
+            confirmAndDoSignOut();
+            return false;
+        }
+        return true;
+    }
+
+    private void confirmAndDoSignOut() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setMessage("Sure want to sign out?");
+        dialog.setPositiveButton("Sign out", (paramDialogInterface, paramInt) -> {
+            BaseApplication.getBaseApplication().getPreferences().edit().clear().apply();
+            DatabaseRepositoryManager.getInstance(this).wipeData();
+            FirebaseAuthHelper.doAnonymouslySignOut();
+
+            Intent intent = new Intent(this, SplashActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
+        dialog.setNegativeButton("Cancel", (paramDialogInterface, paramInt) -> {
+        });
+        dialog.show();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (navController.getCurrentDestination().getId() == R.id.nav_health_monitor) {
+            getMenuInflater().inflate(R.menu.menu_option_main_nav, menu);
+            return true;
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.item_edit) {
+            Intent intent = new Intent(this, GetSymptoms.class);
+            intent.putExtra(GetSymptoms.SOURCE_CALLER, true);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

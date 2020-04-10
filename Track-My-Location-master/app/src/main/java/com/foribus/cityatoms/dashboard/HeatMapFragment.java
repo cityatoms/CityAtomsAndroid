@@ -65,6 +65,7 @@ public class HeatMapFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mapView.onCreate(savedInstanceState);
+        ((MainActivity)getActivity()).getSupportActionBar().invalidateOptionsMenu();
 
         mapView.getMapAsync(mapBoxMap -> {
             this.mapBoxMap = mapBoxMap;

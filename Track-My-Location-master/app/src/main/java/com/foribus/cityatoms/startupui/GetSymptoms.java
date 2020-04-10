@@ -1,38 +1,45 @@
 package com.foribus.cityatoms.startupui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 import com.foribus.cityatoms.BaseApplication;
 import com.foribus.cityatoms.R;
 import com.foribus.cityatoms.common.IPreferencesKeys;
 import com.foribus.cityatoms.dashboard.BaseActivity;
-import com.foribus.cityatoms.dashboard.BaseFragment;
-import com.foribus.cityatoms.dashboard.DailySymptomsFragment;
-import com.foribus.cityatoms.dashboard.HealthMonitorFragment;
 import com.foribus.cityatoms.dashboard.MainActivity;
+import com.foribus.cityatoms.database.DatabaseRepositoryManager;
+import com.foribus.cityatoms.network.model.SymptomScores;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
 public class GetSymptoms extends BaseActivity {
-    DailySymptomsFragment dailySymptomsFragment;
+
+    public static final String SOURCE_CALLER = "source_caller";
+
     private int feelingType;
     private SharedPreferences preferences;
+    private boolean sourceCaller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_feeling);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        sourceCaller = getIntent().getBooleanExtra(SOURCE_CALLER, false);
+
         ButterKnife.bind(this);
         preferences = BaseApplication.getBaseApplication().getPreferences();
     }
@@ -53,53 +60,55 @@ public class GetSymptoms extends BaseActivity {
                 feelingType = 4;
                 break;
         }
-        Toast.makeText(getApplicationContext(), feelingType + "", Toast.LENGTH_SHORT).show();
 
-            if (dailySymptomsFragment == null)
-                dailySymptomsFragment = new DailySymptomsFragment();
+        if (feelingType == 1) {
+            preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType).apply();
+            DatabaseRepositoryManager.getInstance(this).symptomsScoreRepository().saveDataPoint(SymptomScores.NORMAL());
+            toMainActivity();
+        } else if (feelingType == 2) {
+            Intent i = new Intent(this, SimpleSymptoms.class);
+            startActivityForResult(i, 1);
+        } else if (feelingType == 3) {
+            preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType).apply();
+            DatabaseRepositoryManager.getInstance(this).symptomsScoreRepository().saveDataPoint(SymptomScores.HOSPITAL());
+            toMainActivity();
+        } else if (feelingType == 4) {
+            preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType).apply();
+            DatabaseRepositoryManager.getInstance(this).symptomsScoreRepository().saveDataPoint(SymptomScores.C19());
+            toMainActivity();
+        }
+    }
 
-            addFragment(dailySymptomsFragment, "daily");
-            if (feelingType == 1) {
-                preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType ).apply();
-
-                Intent i = new Intent(this, MainActivity.class);
-
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                startActivity(i);
-            } else if (feelingType == 2) {
-                Intent i = new Intent(this, SimpleSymptoms.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-            } else if (feelingType == 3) {
-                preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType ).apply();
-                Intent i = new Intent(this, MainActivity.class);
-                i.putExtra("feelingType",feelingType);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
-            } else if (feelingType == 4) {
-                preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType ).apply();
-                Intent i = new Intent(this, MainActivity.class);
-
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(i);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                toMainActivity();
             }
+        }
     }
 
-
-    @OnClick(R.id.feelBack)
-    public void OnCLickBack() {
+    @Override
+    public boolean onSupportNavigateUp() {
         onBackPressed();
+        return true;
     }
 
-    public void addFragment(Fragment fragment, String TAG) {
-        if (fragment == null) return;
-        FragmentManager supportFragmentManager = getSupportFragmentManager();
-        if (!supportFragmentManager.isDestroyed()) {
-            FragmentTransaction fragTransaction = supportFragmentManager.beginTransaction();
-            fragTransaction.replace(R.id.basic_fragment, fragment, TAG);
-            fragTransaction.addToBackStack(TAG);
-            fragTransaction.commitAllowingStateLoss();
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        toMainActivity();
+    }
+
+    private void toMainActivity() {
+        if (sourceCaller)
+            finish();
+        else {
+            Intent i = new Intent(this, MainActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+            finish();
         }
     }
 }
