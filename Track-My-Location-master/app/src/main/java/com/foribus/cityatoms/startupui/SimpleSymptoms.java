@@ -80,6 +80,7 @@ public class SimpleSymptoms extends BaseActivity {
             case R.id.layout_sym_1:
                 isCard1Selected = !isCard1Selected;
                 if (isCard1Selected) {
+
                     layoutSym1.setBackgroundResource(R.drawable.bg_select_sym);
                     txtSym1.setTextColor(getResources().getColor(R.color.colorCenter));
                 } else {

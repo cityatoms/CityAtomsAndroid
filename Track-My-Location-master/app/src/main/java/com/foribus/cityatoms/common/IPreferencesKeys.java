@@ -7,4 +7,7 @@ public interface IPreferencesKeys {
     String USER_ID = "userId";
     String TIME_ZONE = "timezone";
     String COUNTRY = "country";
+
+
+    String FEELING_TYPE="feelingType";
 }

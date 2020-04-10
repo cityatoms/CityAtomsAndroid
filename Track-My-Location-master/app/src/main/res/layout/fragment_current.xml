@@ -42,7 +42,38 @@
             android:textColor="@color/veryLightBlue"
             android:textSize="20sp"
             android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:id="@+id/relative">
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
 
+            <RelativeLayout
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:background="@drawable/circle"
+                android:layout_centerInParent="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:layout_centerInParent="true"
+                    android:textSize="40sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Symptoms"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginLeft="40dp"
+                    android:textSize="16sp"/>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
         <!--        <com.hookedonplay.decoviewlib.DecoView-->
         <!--            android:id="@+id/stepsArc"-->
         <!--            android:layout_width="match_parent"-->
@@ -109,13 +140,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="•"
-                android:textColor="@color/periwinkle"
+                android:textColor="@color/peach"
                 android:textSize="50dp"></TextView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sore throat"
+                android:text="Fever"
                 android:textColor="@color/greyishBrown"
                 android:textSize="12sp"></TextView>
 
@@ -123,13 +154,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="•"
-                android:textColor="@color/lightGreenishBlue"
+                android:textColor="@color/desert"
                 android:textSize="50dp"></TextView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dry cough, no mucus"
+                android:text="Loss of smell and taste"
                 android:textColor="@color/greyishBrown"
                 android:textSize="12sp"></TextView>
 
@@ -137,50 +168,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="•"
-                android:textColor="@color/lightishGreen"
+                android:textColor="@color/salmon"
                 android:textSize="50dp"></TextView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Shortness of breath"
+                android:text="Pneumonia like feeling"
                 android:textColor="@color/greyishBrown"
                 android:textSize="12sp"></TextView>
 
 
         </LinearLayout>
-        <RelativeLayout
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:id="@+id/relative">
-            <ImageView
-                android:id="@+id/iv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
 
-            <RelativeLayout
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:background="@drawable/circle"
-                android:layout_centerInParent="true">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3"
-                    android:layout_centerInParent="true"
-                    android:textSize="40sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Symptoms"
-                    android:layout_marginTop="100dp"
-                    android:layout_marginLeft="40dp"
-                    android:textSize="16sp"/>
-            </RelativeLayout>
-
-
-        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

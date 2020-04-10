@@ -62,6 +62,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/sore_throat"
                     android:src="@drawable/sore_throat_grey"/>
 
                 <TextView
@@ -89,6 +90,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/dry"
                     android:src="@drawable/dry_grey"/>
                 <TextView
                     android:id="@+id/txtSym2"
@@ -130,6 +132,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/fever"
                     android:src="@drawable/ico_fever"/>
 
                 <TextView
@@ -158,6 +161,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/shortness_breath"
                     android:src="@drawable/shortness_breath_grey"/>
 
                 <TextView
@@ -198,6 +202,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/loss_taste"
                     android:src="@drawable/loss_taste_grey"/>
 
                 <TextView
@@ -225,6 +230,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/pneumonia_feelin"
                     android:src="@drawable/pneumonia_feelin_grey"/>
                 <TextView
                     android:id="@+id/txtSym6"

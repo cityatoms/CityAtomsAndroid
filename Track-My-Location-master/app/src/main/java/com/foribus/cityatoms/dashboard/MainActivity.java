@@ -55,14 +55,9 @@ public class MainActivity extends BaseActivity {
 
         // if it goes here user is already logged in
         setContentView(R.layout.activity_main);
-        initComponents();
-        setUpPageAdapter();
-        setupTabs();
         Toolbar toolbar = findViewById(R.id.app_bar_toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -85,11 +80,7 @@ public class MainActivity extends BaseActivity {
         });
         locationPermissionManager = new LocationPermissionManager(this);
         locationPermissionManager.requestPermissions();
-
-
-
         ButterKnife.bind(this);
-
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -156,36 +147,5 @@ public class MainActivity extends BaseActivity {
         }
         return personalInfoFragment;
     }
-    private void initComponents() {
 
-        mTabLayout = findViewById(R.id.mTablayout);
-        mViewPager = findViewById(R.id.mViewPager);
-        context = this;
-
-    }
-
-    private void setUpPageAdapter() {
-        mPagerAdapter = new ViewPagerAdapter(context, getSupportFragmentManager());
-        mViewPager.setAdapter(mPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
-    }
-
-    private void setupTabs() {
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
 }

@@ -1,13 +1,17 @@
 package com.foribus.cityatoms.startupui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.foribus.cityatoms.BaseApplication;
 import com.foribus.cityatoms.R;
+import com.foribus.cityatoms.common.IPreferencesKeys;
+import com.foribus.cityatoms.dashboard.BaseActivity;
 import com.foribus.cityatoms.dashboard.BaseFragment;
 import com.foribus.cityatoms.dashboard.DailySymptomsFragment;
 import com.foribus.cityatoms.dashboard.MainActivity;
@@ -16,18 +20,19 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class GetSymptoms extends AppCompatActivity {
+public class GetSymptoms extends BaseActivity {
     protected MainActivity mainActivity;
     DailySymptomsFragment dailySymptomsFragment;
     private int feelingType;
     com.github.abdularis.trackmylocation.dashboard.HealthMonitorFragment healthMonitorFragment;
-
+    private SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_feeling);
         ButterKnife.bind(this);
         this.mainActivity = new MainActivity();
+        preferences = BaseApplication.getBaseApplication().getPreferences();
     }
 
     @OnClick({R.id.card_feel1, R.id.card_feel2, R.id.card_feel3, R.id.card_feel4})
@@ -54,21 +59,29 @@ public class GetSymptoms extends AppCompatActivity {
 
             mainActivity.addFragment(dailySymptomsFragment, "daily");
             if (feelingType == 1) {
+                preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType ).apply();
 
                 Intent i = new Intent(this, MainActivity.class);
+
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                i.putExtra("feelingType",feelingType);
+
                 startActivity(i);
             } else if (feelingType == 2) {
+
                 Intent i = new Intent(this, SimpleSymptoms.class);
+
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
             } else if (feelingType == 3) {
+                preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType ).apply();
                 Intent i = new Intent(this, MainActivity.class);
+                i.putExtra("feelingType",feelingType);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
             } else if (feelingType == 4) {
+                preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType ).apply();
                 Intent i = new Intent(this, MainActivity.class);
+
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
             }
