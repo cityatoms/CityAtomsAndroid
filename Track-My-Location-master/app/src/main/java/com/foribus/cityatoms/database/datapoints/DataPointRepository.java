@@ -82,7 +82,10 @@ public class DataPointRepository extends SyncService<DataPointEntity> {
             if (inProcessData.size() > 0) {
                 List<LocationSymptomRequest> data = new ArrayList<>(inProcessData.size());
                 for (DataPointEntity dataPointEntity : inProcessData) {
-                    SymptomsScoreEntity symptomsScoreEntity = DatabaseRepositoryManager.getInstance(context).symptomsScoreRepository().getSymptomScoreInfo(dataPointEntity.getId());
+                    int symptomsScoreId = dataPointEntity.getSymptomsScoreId();
+                    if (symptomsScoreId == 0)
+                        symptomsScoreId = 1;
+                    SymptomsScoreEntity symptomsScoreEntity = DatabaseRepositoryManager.getInstance(context).symptomsScoreRepository().getSymptomScoreInfo(symptomsScoreId);
                     LocationSymptomRequest request = LocationSymptomRequest.instance(dataPointEntity, symptomsScoreEntity);
                     request.setInstanceId(instance_id);
                     data.add(request);
