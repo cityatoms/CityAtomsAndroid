@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.foribus.cityatoms.BaseApplication;
 import com.foribus.cityatoms.R;
@@ -14,6 +17,7 @@ import com.foribus.cityatoms.common.IPreferencesKeys;
 import com.foribus.cityatoms.dashboard.BaseActivity;
 import com.foribus.cityatoms.dashboard.BaseFragment;
 import com.foribus.cityatoms.dashboard.DailySymptomsFragment;
+import com.foribus.cityatoms.dashboard.HealthMonitorFragment;
 import com.foribus.cityatoms.dashboard.MainActivity;
 
 import butterknife.ButterKnife;
@@ -21,10 +25,8 @@ import butterknife.OnClick;
 
 
 public class GetSymptoms extends BaseActivity {
-    protected MainActivity mainActivity;
     DailySymptomsFragment dailySymptomsFragment;
     private int feelingType;
-    com.github.abdularis.trackmylocation.dashboard.HealthMonitorFragment healthMonitorFragment;
     private SharedPreferences preferences;
 
     @Override
@@ -32,7 +34,6 @@ public class GetSymptoms extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_feeling);
         ButterKnife.bind(this);
-        this.mainActivity = new MainActivity();
         preferences = BaseApplication.getBaseApplication().getPreferences();
     }
 
@@ -53,12 +54,11 @@ public class GetSymptoms extends BaseActivity {
                 break;
         }
         Toast.makeText(getApplicationContext(), feelingType + "", Toast.LENGTH_SHORT).show();
-        Bundle bundle;
-        if (mainActivity != null) {
+
             if (dailySymptomsFragment == null)
                 dailySymptomsFragment = new DailySymptomsFragment();
 
-            mainActivity.addFragment(dailySymptomsFragment, "daily");
+            addFragment(dailySymptomsFragment, "daily");
             if (feelingType == 1) {
                 preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType ).apply();
 
@@ -84,15 +84,22 @@ public class GetSymptoms extends BaseActivity {
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
             }
-
-        } else {
-            Toast.makeText(mainActivity, "Main Activity null", Toast.LENGTH_SHORT).show();
-        }
     }
 
 
     @OnClick(R.id.feelBack)
     public void OnCLickBack() {
-        mainActivity.onBackPressed();
+        onBackPressed();
+    }
+
+    public void addFragment(Fragment fragment, String TAG) {
+        if (fragment == null) return;
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        if (!supportFragmentManager.isDestroyed()) {
+            FragmentTransaction fragTransaction = supportFragmentManager.beginTransaction();
+            fragTransaction.replace(R.id.basic_fragment, fragment, TAG);
+            fragTransaction.addToBackStack(TAG);
+            fragTransaction.commitAllowingStateLoss();
+        }
     }
 }
