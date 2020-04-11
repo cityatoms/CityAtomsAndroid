@@ -40,6 +40,7 @@ public class GetSymptoms extends BaseActivity {
 
         sourceCaller = getIntent().getBooleanExtra(SOURCE_CALLER, false);
 
+
         ButterKnife.bind(this);
         preferences = BaseApplication.getBaseApplication().getPreferences();
     }
@@ -60,23 +61,31 @@ public class GetSymptoms extends BaseActivity {
                 feelingType = 4;
                 break;
         }
+        if (preferences.getAll() != null) {
+            preferences.getAll().clear();
+            preferences.edit().putInt(IPreferencesKeys.COUNTER, 0).apply();
 
-        if (feelingType == 1) {
-            preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType).apply();
-            DatabaseRepositoryManager.getInstance(this).symptomsScoreRepository().saveDataPoint(SymptomScores.NORMAL());
-            toMainActivity();
-        } else if (feelingType == 2) {
-            Intent i = new Intent(this, SimpleSymptoms.class);
-            startActivityForResult(i, 1);
-        } else if (feelingType == 3) {
-            preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType).apply();
-            DatabaseRepositoryManager.getInstance(this).symptomsScoreRepository().saveDataPoint(SymptomScores.HOSPITAL());
-            toMainActivity();
-        } else if (feelingType == 4) {
-            preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType).apply();
-            DatabaseRepositoryManager.getInstance(this).symptomsScoreRepository().saveDataPoint(SymptomScores.C19());
-            toMainActivity();
         }
+            if (feelingType == 1) {
+
+                preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType).apply();
+
+                DatabaseRepositoryManager.getInstance(this).symptomsScoreRepository().saveDataPoint(SymptomScores.NORMAL());
+                toMainActivity();
+            } else if (feelingType == 2) {
+                Intent i = new Intent(this, SimpleSymptoms.class);
+                startActivityForResult(i, 1);
+            } else if (feelingType == 3) {
+                preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType).apply();
+                DatabaseRepositoryManager.getInstance(this).symptomsScoreRepository().saveDataPoint(SymptomScores.HOSPITAL());
+                toMainActivity();
+            } else if (feelingType == 4) {
+                preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, feelingType).apply();
+                DatabaseRepositoryManager.getInstance(this).symptomsScoreRepository().saveDataPoint(SymptomScores.C19());
+                toMainActivity();
+            }
+
+
     }
 
     @Override

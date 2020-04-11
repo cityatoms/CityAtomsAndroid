@@ -9,12 +9,15 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.foribus.cityatoms.R;
 import com.foribus.cityatoms.startupui.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,10 +39,10 @@ public class HealthMonitorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.activity_health_monitor, container, false);
+
         initComponents(rootView);
         setUpPageAdapter(rootView);
         setupTabs();
-
 
         return rootView;
     }
@@ -47,7 +50,7 @@ public class HealthMonitorFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("");
         ((MainActivity)getActivity()).getSupportActionBar().invalidateOptionsMenu();
     }
 
@@ -60,7 +63,7 @@ public class HealthMonitorFragment extends Fragment {
     }
 
     private void setUpPageAdapter(View View) {
-        mPagerAdapter = new ViewPagerAdapter(context, getFragmentManager());
+        mPagerAdapter = new ViewPagerAdapter(context, getChildFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }

@@ -130,6 +130,8 @@ public class AnonymousLogin extends BaseActivity {
                             preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
                             preferences.edit().putString(IPreferencesKeys.TIME_ZONE, timeZone).apply();
                             preferences.edit().putString(IPreferencesKeys.COUNTRY, countryCodeValue).apply();
+                            preferences.edit().putBoolean(IPreferencesKeys.CHECK_SIGNIN, true).apply();
+
                             goToMainActivity();
                         } else if (response.code() == 409) {
                             hideProgressBar();

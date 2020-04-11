@@ -42,30 +42,41 @@ public class CurrentFragment extends Fragment {
     int counter;
     SharedPreferences sharedPreferences;
     String st;
+    GradientDrawable gd;
+    View iv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_current, container, false);
+        iv= (View) view.findViewById(R.id.iv);
+        symptcount = view.findViewById(R.id.symptcount);
+        gd = new GradientDrawable();
+        sharedPreferences = BaseApplication.getBaseApplication().getPreferences();
 
 
         return view;
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        createViews();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final View iv = (View) view.findViewById(R.id.iv);
-        symptcount = view.findViewById(R.id.symptcount);
-        GradientDrawable gd = new GradientDrawable();
-        sharedPreferences = BaseApplication.getBaseApplication().getPreferences();
+    }
+
+    private void createViews() {
         number = sharedPreferences.getInt("feelingType", 0);
         st = sharedPreferences.getString("st", "st");
-        Log.d(TAG, "onCreateView: " + st);
+        Log.d(TAG, "call from simplesymptoms: " + st);
         number = sharedPreferences.getInt("feelingType", 0);
         counter = sharedPreferences.getInt("counter", 0);
-        Log.d(TAG, "onCreateView1: " + counter);
+        Log.d(TAG, "call from getsymptoms: " + number);
         symptcount.setText("" + counter);
         if (number == 1) {
             gd.setColors(new int[]{
@@ -82,7 +93,7 @@ public class CurrentFragment extends Fragment {
         }
 
         // Set the color array to draw gradient.
-        if (st != null && !st.contentEquals("st")) {
+        else if (number==2) {
             gd.setColors(new int[]{
                     getResources().getColor(R.color.salmon),
                     getResources().getColor(R.color.periwinkle),

@@ -9,10 +9,12 @@
             android:id="@+id/nav_heat_map"
             android:title="@string/title_nav_heat_map" />
         <item
+            android:icon="@drawable/privacy
+"
             android:id="@+id/nav_health_monitor"
             android:title="@string/title_nav_health_monitor" />
         <item
-            android:icon="@drawable/heart"
+            android:icon="@drawable/privacy"
             android:id="@+id/nav_about"
             android:title="@string/title_nav_about" />
         <item
