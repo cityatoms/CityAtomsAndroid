@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,13 +15,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.room.Room;
 
 import com.foribus.cityatoms.BaseApplication;
 import com.foribus.cityatoms.R;
 import com.foribus.cityatoms.database.DatabaseRepositoryManager;
 import com.foribus.cityatoms.firebase.FirebaseAuthHelper;
 import com.foribus.cityatoms.permission.LocationPermissionManager;
+import com.foribus.cityatoms.service.LocationForegroundService;
 import com.foribus.cityatoms.startupui.GetSymptoms;
 import com.foribus.cityatoms.startupui.SplashActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -33,15 +32,14 @@ public class MainActivity extends BaseActivity {
     LocationPermissionManager locationPermissionManager;
     AppBarConfiguration mAppBarConfiguration;
     NavController navController;
-    boolean checkSignin=false;
-    private SharedPreferences preferences;
+    boolean checkSignin = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // if it goes here user is already logged in
         setContentView(R.layout.activity_main);
-        preferences = BaseApplication.getBaseApplication().getPreferences();
         Toolbar toolbar = findViewById(R.id.app_bar_toolbar);
         toolbar.setTitle("");
 
@@ -52,9 +50,9 @@ public class MainActivity extends BaseActivity {
         // menu should be considered as top level destinations.
         navigationView.getMenu().findItem(R.id.nav_sign_out).
                 setOnMenuItemClickListener(menuItem -> {
-            confirmAndDoSignOut();
-            return true;
-        });
+                    confirmAndDoSignOut();
+                    return true;
+                });
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_heat_map, R.id.nav_health_monitor, R.id.nav_about, R.id.nav_privacy, R.id.nav_services, R.id.nav_cookies, R.id.nav_sign_out)
                 .setDrawerLayout(drawer)
@@ -82,7 +80,6 @@ public class MainActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
 
 
-
                                            @NonNull int[] grantResults) {
         locationPermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -100,35 +97,23 @@ public class MainActivity extends BaseActivity {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setMessage("Sure want to sign out?");
         dialog.setPositiveButton("Sign out", (paramDialogInterface, paramInt) -> {
-            BaseApplication.getBaseApplication().getPreferences().edit().clear().apply();
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    AsyncTask.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            // and deleting
-                            DatabaseRepositoryManager.getInstance(getApplicationContext()).wipeData();
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                  Log.d("TAG","Data Deleted");
-                                }
-                            });
-                        }
-                    });
-                }
+            showProgressBar("Please wait");
+            AsyncTask.execute(() -> {
+                BaseApplication.getBaseApplication().getPreferences().edit().clear().apply();
+                DatabaseRepositoryManager.getInstance(getApplicationContext()).wipeData();
+                FirebaseAuthHelper.doAnonymouslySignOut();
+                runOnUiThread(() -> {
+                    hideProgressBar();
+                    Intent intent = new Intent(MainActivity.this, LocationForegroundService.class);
+                    stopService(intent);
+                    intent = new Intent(this, SplashActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    checkSignin = false;
+                    finish();
+                });
             });
-
-
-
-            FirebaseAuthHelper.doAnonymouslySignOut();
-            Log.d("TAG", "confirmAndDoSignOut: ");
-            Intent intent = new Intent(this, SplashActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            checkSignin=false;
-            finish();
         });
         dialog.setNegativeButton("Cancel", (paramDialogInterface, paramInt) -> {
         });
