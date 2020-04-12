@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@+id/nav_health_monitor">
+
+    <fragment
+        android:id="@+id/nav_heat_map"
+        android:name="com.foribus.cityatoms.dashboard.HeatMapFragment"
+        android:label="@string/title_fragment_heat_map"
+        tools:layout="@layout/fragment_heat_map" />
+
+    <fragment
+        android:id="@+id/nav_health_monitor"
+        android:name="com.foribus.cityatoms.dashboard.HealthMonitorFragment"
+        android:label="@string/title_activity_health_monitor"
+        tools:layout="@layout/activity_health_monitor" />
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
+        android:label="@string/title_nav_about"
+        tools:layout="@layout/fragment_webview" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue="http://cityatoms.com/about" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_privacy"
+        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
+        android:label="@string/title_nav_privacy"
+        tools:layout="@layout/fragment_webview" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue="https://cityatoms.com/privacy" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_services"
+        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
+        android:label="@string/title_nav_services"
+        tools:layout="@layout/fragment_webview" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue="https://cityatoms.com/terms" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_cookies"
+        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
+        android:label="@string/title_nav_cookies"
+        tools:layout="@layout/fragment_webview" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue="https://cityatoms.com/cookies" />
+    </fragment>
+
+</navigation>

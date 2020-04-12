@@ -20,6 +20,9 @@ public interface DataPointDao {
     @Update
     void update(DataPointEntity entity);
 
+    @Query("DELETE FROM data_points")
+    void wipeData();
+
     @Query("SELECT * FROM data_points WHERE sync_status = 0")
     List<DataPointEntity> getUnprocessedDataPoints();
 

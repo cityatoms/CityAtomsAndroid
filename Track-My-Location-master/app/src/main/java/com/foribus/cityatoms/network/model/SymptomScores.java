@@ -3,6 +3,8 @@ package com.foribus.cityatoms.network.model;
 import com.foribus.cityatoms.database.symptoms.SymptomsScoreEntity;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class SymptomScores {
 
     @SerializedName("breathing")
@@ -23,6 +25,23 @@ public class SymptomScores {
     private int mSmell;
     @SerializedName("throat")
     private int mThroat;
+
+    public static SymptomScores NORMAL() {
+        SymptomScores symptomScores = new SymptomScores();
+        return symptomScores;
+    }
+
+    public static SymptomScores HOSPITAL() {
+        SymptomScores symptomScores = new SymptomScores();
+        symptomScores.setHospital(1);
+        return symptomScores;
+    }
+
+    public static SymptomScores C19() {
+        SymptomScores symptomScores = new SymptomScores();
+        symptomScores.setC19(1);
+        return symptomScores;
+    }
 
     public static SymptomScores instance(SymptomsScoreEntity entity) {
         if (entity == null)
@@ -53,6 +72,7 @@ public class SymptomScores {
         entity.setScore(getScore());
         entity.setSmell(getSmell());
         entity.setThroat(getThroat());
+        entity.setCreatedOn((new Date()).getTime());
 
         return entity;
     }

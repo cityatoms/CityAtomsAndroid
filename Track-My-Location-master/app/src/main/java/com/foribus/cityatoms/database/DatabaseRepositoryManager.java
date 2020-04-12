@@ -41,4 +41,9 @@ public class DatabaseRepositoryManager {
         }
         return symptomsScoreRepository;
     }
+
+    public void wipeData() {
+        dataPointRepository().wipeData();
+        symptomsScoreRepository().wipeData();
+    }
 }

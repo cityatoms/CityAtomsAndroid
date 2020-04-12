@@ -127,8 +127,8 @@ public class LocationPermissionManager {
             return;
         }
 
-        Timber.d("Dumping test symptoms to test");
-        DatabaseRepositoryManager.getInstance(activity).symptomsScoreRepository().dump();
+        // Timber.d("Dumping test symptoms to test");
+        // DatabaseRepositoryManager.getInstance(activity).symptomsScoreRepository().dump();
 
         Timber.d("Starting location foreground service");
         Intent serviceIntent = new Intent(activity, LocationForegroundService.class);

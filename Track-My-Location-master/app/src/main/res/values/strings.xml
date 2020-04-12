@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">City Atoms</string>
+    <string name="app_name">City Atom</string>
     <string name="notification_foreground_service_title">City Atoms</string>
     <string name="notification_foreground_service_subtitle">Stay safe from COVID-19</string>
     <string name="app_desc">Track other\'s phone location with simple</string>
@@ -18,6 +18,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="register">Don\'t have an account? Create one</string>
+
+    <string name="title_menu_edit">Edit</string>
+    <string name="title_fragment_heat_map">Heat Map</string>
 
     <!--Login Activity-->
     <string name="wrong_password">Invalid password</string>
@@ -55,7 +58,7 @@
     <string name="returnToLoginTextView">Return to Login Screen</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Comming Soon</string>
     <string name="fst_name">First name</string>
     <string name="second_name">Last name</string>
     <string name="agreement">I agreed with City Atom’s Terms of Service and Private Policy</string>
@@ -72,4 +75,16 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_simple_feeling">SimpleFeeling</string>
     <string name="title_activity_health_monitor">HealthMonitor</string>
+
+    <string name="close">Close</string>
+    <string name="open">Open</string>
+
+    <string name="title_nav_heat_map">Heat Map</string>
+    <string name="title_nav_health_monitor">Health Monitor</string>
+    <string name="title_nav_about">About</string>
+    <string name="title_nav_privacy">Privacy</string>
+    <string name="title_nav_services">Terms of Services</string>
+    <string name="title_nav_cookies">Cookies Policy</string>
+    <string name="title_nav_sign_out">Sign Out</string>
+
 </resources>
