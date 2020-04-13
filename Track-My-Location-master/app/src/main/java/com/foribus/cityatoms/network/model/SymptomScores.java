@@ -1,6 +1,7 @@
 package com.foribus.cityatoms.network.model;
 
 import com.foribus.cityatoms.database.symptoms.SymptomsScoreEntity;
+import com.foribus.cityatoms.model.FeelingType;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -165,5 +166,16 @@ public class SymptomScores {
 			mScore++;
 
 		return mScore;
+	}
+
+	public FeelingType getFeeling() {
+		if (mScore == 0)
+			return FeelingType.HOSPITAL;
+		else if (mHospital == 1)
+			return FeelingType.HOSPITAL;
+		else if (mC19 == 1)
+			return FeelingType.C19;
+
+		return FeelingType.HAVING_SYMPTOMS;
 	}
 }
