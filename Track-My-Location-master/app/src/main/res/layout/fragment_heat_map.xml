@@ -5,15 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.foribus.cityatoms.dashboard.HeatMapFragment">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:text="Coronavirus Tracker"
-        android:layout_margin="10dp"
-        android:textSize="20sp"
-        android:textColor="@color/greyishBrown"
-        android:textStyle="bold" />
+
 <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">

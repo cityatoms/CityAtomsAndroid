@@ -45,13 +45,14 @@
             android:layout_marginBottom="20dp">
 
             <ImageView
-                android:id="@+id/iv"
+                android:id="@+id/iv" 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
             <RelativeLayout
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:visibility="visible"
                 android:layout_centerInParent="true"
                 android:background="@drawable/circle">
 

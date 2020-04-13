@@ -41,8 +41,8 @@ public class WebViewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ((MainActivity) getActivity()).getSupportActionBar().invalidateOptionsMenu();
-
         webView.getSettings().setJavaScriptEnabled(true);
+
 
         String url = getArguments().getString("url");
         webView.loadUrl(url);

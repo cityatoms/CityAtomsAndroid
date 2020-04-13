@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity {
                     return true;
                 });
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_heat_map, R.id.nav_health_monitor, R.id.nav_about, R.id.nav_privacy, R.id.nav_services, R.id.nav_cookies, R.id.nav_sign_out)
+                R.id.nav_heat_map, R.id.nav_health_monitor, R.id.nav_about, R.id.nav_privacy, R.id.nav_cookies, R.id.nav_sign_out)
                 .setDrawerLayout(drawer)
                 .build();
         navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment);
