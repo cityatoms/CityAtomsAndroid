@@ -10,13 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="450dp"
             android:layout_gravity="center"
             android:background="@drawable/atom_bg">
-
             <ImageView
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
@@ -27,10 +25,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="35dp"
             android:layout_marginTop="35dp"
-            android:text="Let’s tackle and track\nCovid19 together!"
+            android:layout_marginEnd="35dp"
+            android:text="Let’s trace and tackle \nflu symptoms together!"
             android:textColor="@color/primaryTextColor"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -39,12 +37,11 @@
         <Button
             android:id="@+id/btn_signup"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="35dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="35dp"
             android:background="@drawable/bg_login_button"
             android:text="Log In Anonymously"
             android:textColor="@android:color/white" />
@@ -52,9 +49,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="41dp"
+            android:layout_marginRight="35dp">
 
             <CheckBox
                 android:id="@+id/checkbox"
@@ -69,6 +66,8 @@
                 android:layout_height="match_parent"
                 android:layout_toEndOf="@id/checkbox"
                 android:layout_centerVertical="true"
+                android:layout_marginTop="16pt"
+                android:layout_marginLeft="11dp"
                 android:text="@string/agreement"
                 android:textColor="@color/primaryTextColor"
                 android:textSize="16sp" />

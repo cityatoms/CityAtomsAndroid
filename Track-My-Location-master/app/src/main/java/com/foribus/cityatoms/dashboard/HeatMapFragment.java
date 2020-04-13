@@ -66,7 +66,7 @@ public class HeatMapFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mapView.onCreate(savedInstanceState);
         ((MainActivity)getActivity()).getSupportActionBar().invalidateOptionsMenu();
-
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("Symptom Tracker");
         mapView.getMapAsync(mapBoxMap -> {
             this.mapBoxMap = mapBoxMap;
             mapBoxMap.setStyle(Style.MAPBOX_STREETS, style -> {

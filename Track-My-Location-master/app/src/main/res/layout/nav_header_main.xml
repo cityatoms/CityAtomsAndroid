@@ -30,6 +30,7 @@
             app:srcCompat="@drawable/ic_person_black_24dp" />
 
         <TextView
+            android:gravity="center"
             android:id="@+id/txt_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

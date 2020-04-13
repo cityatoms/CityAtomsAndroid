@@ -19,46 +19,46 @@
 
     <fragment
         android:id="@+id/nav_about"
-        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
+        android:name="com.foribus.cityatoms.fragments.WebViewFragment"
         android:label="@string/title_nav_about"
         tools:layout="@layout/fragment_webview" >
         <argument
             android:name="url"
             app:argType="string"
-            android:defaultValue="http://cityatoms.com/about" />
+            android:defaultValue="https://www.cityatoms.com/about" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_privacy"
-        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
+        android:name="com.foribus.cityatoms.fragments.WebViewFragment"
         android:label="@string/title_nav_privacy"
         tools:layout="@layout/fragment_webview" >
         <argument
             android:name="url"
             app:argType="string"
-            android:defaultValue="https://cityatoms.com/privacy" />
+            android:defaultValue="https://www.cityatoms.com/privacy" />
     </fragment>
 
-    <fragment
-        android:id="@+id/nav_services"
-        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
-        android:label="@string/title_nav_services"
-        tools:layout="@layout/fragment_webview" >
-        <argument
-            android:name="url"
-            app:argType="string"
-            android:defaultValue="https://cityatoms.com/terms" />
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/nav_services"-->
+<!--        android:name="com.foribus.cityatoms.fragments.WebViewFragment"-->
+<!--        android:label="@string/title_nav_services"-->
+<!--        tools:layout="@layout/fragment_webview" >-->
+<!--        <argument-->
+<!--            android:name="url"-->
+<!--            app:argType="string"-->
+<!--            android:defaultValue="https://cityatoms.com/terms" />-->
+<!--    </fragment>-->
 
     <fragment
         android:id="@+id/nav_cookies"
-        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
+        android:name="com.foribus.cityatoms.fragments.WebViewFragment"
         android:label="@string/title_nav_cookies"
         tools:layout="@layout/fragment_webview" >
         <argument
             android:name="url"
             app:argType="string"
-            android:defaultValue="https://cityatoms.com/cookies" />
+            android:defaultValue="https://www.cityatoms.com/cookies" />
     </fragment>
 
 </navigation>

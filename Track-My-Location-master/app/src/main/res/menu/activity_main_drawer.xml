@@ -3,33 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/menu_top"
+        >
         <item
             android:icon="@drawable/map"
             android:id="@+id/nav_heat_map"
             android:title="@string/title_nav_heat_map" />
         <item
-            android:icon="@drawable/privacy
-"
+            android:icon="@drawable/heart"
             android:id="@+id/nav_health_monitor"
             android:title="@string/title_nav_health_monitor" />
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menu_bottom"
+        >
         <item
-            android:icon="@drawable/privacy"
+            android:icon="@drawable/about"
             android:id="@+id/nav_about"
             android:title="@string/title_nav_about" />
         <item
             android:id="@+id/nav_privacy"
             android:icon="@drawable/privacy"
             android:title="@string/title_nav_privacy" />
+
         <item
-            android:id="@+id/nav_services"
-            android:title="@string/title_nav_services" />
-        <item
-            android:icon="@drawable/privacy"
+            android:icon="@drawable/cookies"
             android:id="@+id/nav_cookies"
             android:title="@string/title_nav_cookies" />
+    </group>
+    <group android:checkableBehavior="single"
+        android:id="@+id/menu_signout"
+        >
         <item
-            android:icon="@drawable/logout"
+            android:icon="@drawable/signout"
             android:id="@+id/nav_sign_out"
             android:title="@string/title_nav_sign_out" />
     </group>

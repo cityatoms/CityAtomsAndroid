@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.foribus.cityatoms.fragmentss.CurrentFragment">
+    tools:context="com.foribus.cityatoms.fragments.CurrentFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Medium"
-            android:textSize="38sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
@@ -24,8 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="RISK FOR CORONA VIRUS"
-            android:textSize="20sp" />
+            android:text="RISK FOR CORONAVIRUS"
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -34,24 +34,25 @@
             android:gravity="center"
             android:text="Last updated on 3/26/2020 10.00 am"
             android:textColor="@color/brownGray"
-            android:textSize="20sp" />
+            android:textSize="12sp" />
 
         <RelativeLayout
             android:id="@+id/relative"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp">
 
             <ImageView
-                android:id="@+id/iv"
+                android:id="@+id/iv" 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
             <RelativeLayout
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:visibility="visible"
                 android:layout_centerInParent="true"
                 android:background="@drawable/circle">
 
@@ -61,15 +62,15 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="0"
-                    android:textSize="40sp" />
+                    android:textSize="30sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginTop="100dp"
-                    android:text="Symptoms"
-                    android:textSize="16sp" />
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="70dp"
+                    android:text="symptoms"
+                    android:textSize="12sp" />
             </RelativeLayout>
 
 
@@ -92,7 +93,7 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="15dp"
                     android:background="@drawable/soak"
                     android:padding="5dp" />
 
@@ -102,35 +103,35 @@
                     android:layout_marginStart="45dp"
                     android:text="Sore throat"
                     android:textColor="@color/greyishBrown"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
 
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginStart="125dp"
+                    android:layout_marginStart="110dp"
                     android:background="@drawable/dry"
                     android:padding="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="145dp"
+                    android:layout_marginStart="135dp"
                     android:text="Dry cough, no mucus"
                     android:textColor="@color/greyishBrown"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginStart="270dp"
+                    android:layout_marginStart="250dp"
                     android:background="@drawable/breath"
                     android:padding="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="290dp"
+                    android:layout_marginStart="280dp"
                     android:text="Shortness of breath"
                     android:textColor="@color/greyishBrown"
                     android:textSize="12sp" />
@@ -142,8 +143,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -154,7 +156,7 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="15dp"
                     android:background="@drawable/peach"
                     android:padding="5dp" />
 
@@ -170,29 +172,29 @@
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginStart="125dp"
+                    android:layout_marginStart="110dp"
                     android:background="@drawable/greyishbrown"
                     android:padding="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="145dp"
-                    android:text="Loss of smell and taste"
+                    android:layout_marginStart="135dp"
+                    android:text="Loss of smell \u0026 taste"
                     android:textColor="@color/greyishBrown"
                     android:textSize="12sp" />
 
                 <ImageView
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginStart="270dp"
+                    android:layout_marginStart="250dp"
                     android:background="@drawable/salmon"
                     android:padding="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="290dp"
+                    android:layout_marginStart="280dp"
                     android:text="Pneumonia like feeling"
                     android:textColor="@color/greyishBrown"
                     android:textSize="12sp" />
@@ -204,11 +206,11 @@
             android:id="@+id/card_feel1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="0.9">
 
             <RelativeLayout
@@ -260,4 +262,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

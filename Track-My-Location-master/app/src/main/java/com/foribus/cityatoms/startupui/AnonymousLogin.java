@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.SpannableString;
@@ -65,6 +66,10 @@ public class AnonymousLogin extends BaseActivity {
         ClickableSpan clickableSpan1 = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
+                String url = "https://www.cityatoms.com/toc";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
                 Toast.makeText(AnonymousLogin.this, "Terms page", Toast.LENGTH_SHORT).show();
             }
 
@@ -79,6 +84,10 @@ public class AnonymousLogin extends BaseActivity {
         ClickableSpan clickableSpan2 = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
+                String url = "https://www.cityatoms.com/toc";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
                 Toast.makeText(AnonymousLogin.this, "Services page", Toast.LENGTH_SHORT).show();
             }
 
@@ -130,8 +139,6 @@ public class AnonymousLogin extends BaseActivity {
                             preferences.edit().putString(IPreferencesKeys.USER_ID, device_unique_id).apply();
                             preferences.edit().putString(IPreferencesKeys.TIME_ZONE, timeZone).apply();
                             preferences.edit().putString(IPreferencesKeys.COUNTRY, countryCodeValue).apply();
-                            preferences.edit().putBoolean(IPreferencesKeys.CHECK_SIGNIN, true).apply();
-
                             goToMainActivity();
                         } else if (response.code() == 409) {
                             hideProgressBar();

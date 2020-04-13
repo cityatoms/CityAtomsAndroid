@@ -58,7 +58,7 @@
     <string name="returnToLoginTextView">Return to Login Screen</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Comming Soon</string>
+    <string name="hello_blank_fragment">Coming soon</string>
     <string name="fst_name">First name</string>
     <string name="second_name">Last name</string>
     <string name="agreement">I agreed with City Atom’s Terms of Service and Private Policy</string>
@@ -82,8 +82,7 @@
     <string name="title_nav_heat_map">Heat Map</string>
     <string name="title_nav_health_monitor">Health Monitor</string>
     <string name="title_nav_about">About</string>
-    <string name="title_nav_privacy">Privacy</string>
-    <string name="title_nav_services">Terms of Services</string>
+    <string name="title_nav_privacy">Privacy Terms of Services</string>
     <string name="title_nav_cookies">Cookies Policy</string>
     <string name="title_nav_sign_out">Sign Out</string>
 

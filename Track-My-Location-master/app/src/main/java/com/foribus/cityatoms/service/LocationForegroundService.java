@@ -44,12 +44,10 @@ public class LocationForegroundService extends LifecycleService {
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(getString(R.string.notification_foreground_service_title))
                 .setContentText(getString(R.string.notification_foreground_service_subtitle))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.cityatomlogo)
                 .setContentIntent(pendingIntent)
                 .build();
         startForeground(1, notification);
-
-
         locationStatus = new LocationStatus(getApplicationContext(), Looper.myLooper());
 
         locationStatus.getGpsLocationServiceStatus().observe(this, aBoolean -> {
@@ -100,6 +98,7 @@ public class LocationForegroundService extends LifecycleService {
             );
 
             NotificationManager manager = getSystemService(NotificationManager.class);
+
             manager.createNotificationChannel(serviceChannel);
         }
     }

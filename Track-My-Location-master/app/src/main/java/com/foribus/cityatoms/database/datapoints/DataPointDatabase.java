@@ -13,7 +13,6 @@ abstract class DataPointDatabase extends RoomDatabase {
     private static final String DB_NAME = "data_points_database";
 
     private static DataPointDatabase instance;
-
     public static DataPointDatabase getDatabase(final Context context) {
         if (instance == null) {
             synchronized (DataPointDatabase.class) {

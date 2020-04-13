@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/transparent"
-        app:popupTheme="@style/AppTheme.AppBarOverlay"
-        app:navigationIcon="@drawable/image_back_34dp" />
+        app:navigationIcon="@drawable/image_back_34dp"
+        app:popupTheme="@style/AppTheme.AppBarOverlay" />
 
     <TextView
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         android:layout_marginTop="80dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:text="Welcome Joe,\nhow are you feeling?"
+        android:text="Welcome,\nhow are you feeling?"
         android:textSize="17sp" />
 
     <LinearLayout
@@ -30,7 +30,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="150dp"
         android:orientation="vertical"
-        android:weightSum="5.6">
+        android:weightSum="5.9">
 
         <LinearLayout
             android:id="@+id/card_feel1"
@@ -113,7 +113,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
                     android:padding="5dp"
-                    android:src="@drawable/ico_face1" />
+                    android:src="@drawable/sick96" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -167,7 +167,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
                     android:padding="5dp"
-                    android:src="@drawable/ico_face2" />
+                    android:src="@drawable/mayhavevirus96" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -182,7 +182,9 @@
                     android:layout_toEndOf="@id/face3"
                     android:layout_toRightOf="@id/face3"
                     android:gravity="start|center_vertical"
-                    android:text="I’ve got a test for Covid19, still waiting for result"
+                    android:text="I’ve got a test for
+Covid19, still waiting
+for result"
                     android:textColor="@color/colorCenter" />
 
                 <ImageView
@@ -224,7 +226,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
                     android:padding="5dp"
-                    android:src="@drawable/ico_face3" />
+                    android:src="@drawable/virus96" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -235,7 +237,7 @@
                     android:layout_toEndOf="@id/face4"
                     android:layout_toRightOf="@id/face4"
                     android:gravity="center"
-                    android:text="I have corona virus"
+                    android:text="I have coronavirus"
                     android:textAlignment="center"
                     android:textColor="@color/colorCenter" />
 
