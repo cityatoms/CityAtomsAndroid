@@ -94,7 +94,7 @@ public class SimpleSymptoms extends BaseActivity {
 
 				if (getIntent().hasExtra("feeling_type")) {
 					FeelingType feelingType = (FeelingType) getIntent().getSerializableExtra("feeling_type");
-					if (feelingType == FeelingType.HAVING_SYMPTOMS)
+					if (feelingType == FeelingType.HOSPITAL)
 						symptomScores.setHospital(1);
 					else if (feelingType == FeelingType.C19)
 						symptomScores.setC19(1);
