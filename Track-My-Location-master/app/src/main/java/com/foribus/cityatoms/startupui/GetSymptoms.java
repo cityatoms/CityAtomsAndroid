@@ -33,7 +33,9 @@ public class GetSymptoms extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_simple_feeling);
 		Toolbar toolbar = findViewById(R.id.toolbar);
+		toolbar.setTitle("");
 		setSupportActionBar(toolbar);
+
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 

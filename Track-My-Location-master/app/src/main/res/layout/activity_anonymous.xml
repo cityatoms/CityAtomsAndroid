@@ -28,7 +28,7 @@
             android:layout_marginLeft="35dp"
             android:layout_marginTop="35dp"
             android:layout_marginEnd="35dp"
-            android:text="Let’s tackle and track \nCovid19 together!"
+            android:text="Let’s trace and tackle \nflu symptoms together!"
             android:textColor="@color/primaryTextColor"
             android:textSize="20sp"
             android:textStyle="bold" />

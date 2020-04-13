@@ -76,7 +76,9 @@ public class SimpleSymptoms extends BaseActivity {
 		setContentView(R.layout.activity_simple_symptoms);
 
 		Toolbar toolbar = findViewById(R.id.toolbar);
+		toolbar.setTitle("");
 		setSupportActionBar(toolbar);
+
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 

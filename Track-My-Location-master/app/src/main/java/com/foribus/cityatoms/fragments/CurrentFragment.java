@@ -100,8 +100,9 @@ public class CurrentFragment extends Fragment {
 
 			});
 		}
+		gd.getOrientation().ordinal();
 		// Set the GradientDrawable gradient type linear gradient
-		gd.setGradientType(GradientDrawable.LINEAR_GRADIENT);
+		gd.setGradientType(GradientDrawable.RADIAL_GRADIENT);
 
 		// Set GradientDrawable shape is a rectangle
 		gd.setShape(GradientDrawable.OVAL);
