@@ -2,7 +2,10 @@ package com.foribus.cityatoms.dashboard;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +16,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Room;
 
 import com.foribus.cityatoms.BaseApplication;
 import com.foribus.cityatoms.R;
@@ -29,20 +33,28 @@ public class MainActivity extends BaseActivity {
     LocationPermissionManager locationPermissionManager;
     AppBarConfiguration mAppBarConfiguration;
     NavController navController;
-
+    boolean checkSignin=false;
+    private SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // if it goes here user is already logged in
         setContentView(R.layout.activity_main);
+        preferences = BaseApplication.getBaseApplication().getPreferences();
         Toolbar toolbar = findViewById(R.id.app_bar_toolbar);
-        setSupportActionBar(toolbar);
+        toolbar.setTitle("");
 
+        setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        navigationView.getMenu().findItem(R.id.nav_sign_out).
+                setOnMenuItemClickListener(menuItem -> {
+            confirmAndDoSignOut();
+            return true;
+        });
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_heat_map, R.id.nav_health_monitor, R.id.nav_about, R.id.nav_privacy, R.id.nav_services, R.id.nav_cookies, R.id.nav_sign_out)
                 .setDrawerLayout(drawer)
@@ -68,6 +80,9 @@ public class MainActivity extends BaseActivity {
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+
+
+
                                            @NonNull int[] grantResults) {
         locationPermissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -86,13 +101,33 @@ public class MainActivity extends BaseActivity {
         dialog.setMessage("Sure want to sign out?");
         dialog.setPositiveButton("Sign out", (paramDialogInterface, paramInt) -> {
             BaseApplication.getBaseApplication().getPreferences().edit().clear().apply();
-            DatabaseRepositoryManager.getInstance(this).wipeData();
-            FirebaseAuthHelper.doAnonymouslySignOut();
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            // and deleting
+                            DatabaseRepositoryManager.getInstance(getApplicationContext()).wipeData();
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                  Log.d("TAG","Data Deleted");
+                                }
+                            });
+                        }
+                    });
+                }
+            });
 
+
+
+            FirebaseAuthHelper.doAnonymouslySignOut();
+            Log.d("TAG", "confirmAndDoSignOut: ");
             Intent intent = new Intent(this, SplashActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            checkSignin=false;
             finish();
         });
         dialog.setNegativeButton("Cancel", (paramDialogInterface, paramInt) -> {

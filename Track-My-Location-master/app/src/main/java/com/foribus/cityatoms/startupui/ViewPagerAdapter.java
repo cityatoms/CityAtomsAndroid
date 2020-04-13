@@ -10,15 +10,20 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.foribus.cityatoms.fragmentss.CurrentFragment;
 import com.foribus.cityatoms.fragmentss.ForteenDaysFragment;
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+import java.util.ArrayList;
 
+public class ViewPagerAdapter extends FragmentPagerAdapter {
+    private ArrayList<Fragment> _fragments;
     private Context mContext;
 
     public ViewPagerAdapter(Context mContext, FragmentManager fm) {
         super(fm);
+        this._fragments = new ArrayList<Fragment>();
         this.mContext = mContext;
     }
-
+    public void add(Fragment fragment) {
+        this._fragments.add(fragment);
+    }
     @Override
     public Fragment getItem(int position) {
         switch (position) {

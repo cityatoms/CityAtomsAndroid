@@ -21,8 +21,7 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/btn_track"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include2"/>
-
+     />
     <Button
         android:id="@+id/btn_track"
         android:layout_width="wrap_content"
@@ -35,8 +34,7 @@
         android:text="Track"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include2"/>
-
+       />
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"

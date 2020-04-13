@@ -236,8 +236,10 @@ public class SimpleSymptoms extends BaseActivity {
             symptomScores.setPneumonia(1);
         }
         String st1 = st.toString();
-        preferences.edit().putString(IPreferencesKeys.STORE_SYMPTM, st1).apply();
-        preferences.edit().putInt(IPreferencesKeys.COUNTER, counter).apply();
+
+            preferences.edit().putString(IPreferencesKeys.STORE_SYMPTM, st1).apply();
+            preferences.edit().putInt(IPreferencesKeys.FEELING_TYPE, 2).apply();
+            preferences.edit().putInt(IPreferencesKeys.COUNTER, counter).apply();
 
         DatabaseRepositoryManager.getInstance(this).symptomsScoreRepository().saveDataPoint(symptomScores);
         BaseApplication.getBaseApplication().getPreferences().edit().putBoolean(IPreferencesKeys.FIRST_TIME_SYMPTOMS_SAVED, true).apply();
