@@ -170,7 +170,7 @@ public class SymptomScores {
 
 	public FeelingType getFeeling() {
 		if (mScore == 0)
-			return FeelingType.HOSPITAL;
+			return FeelingType.NORMAL;
 		else if (mHospital == 1)
 			return FeelingType.HOSPITAL;
 		else if (mC19 == 1)
