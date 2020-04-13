@@ -1,4 +1,4 @@
-package com.foribus.cityatoms.fragmentss;
+package com.foribus.cityatoms.fragments;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -92,12 +92,11 @@ public class CurrentFragment extends Fragment {
 		// Set the color array to draw gradient.
 		else if (feelingType == FeelingType.HAVING_SYMPTOMS) {
 			gd.setColors(new int[]{
-					getResources().getColor(R.color.salmon),
 					getResources().getColor(R.color.periwinkle),
-
 					getResources().getColor(R.color.lightGreenishBlue),
-					getResources().getColor(R.color.greyishBrown),
-					getResources().getColor(R.color.lightishGreen)
+					getResources().getColor(R.color.peach),
+					getResources().getColor(R.color.desert),
+					getResources().getColor(R.color.salmon)
 
 			});
 		}
