@@ -5,68 +5,71 @@ import android.content.Context;
 import com.foribus.cityatoms.common.SyncService;
 import com.foribus.cityatoms.network.model.SymptomScores;
 
+import org.jetbrains.annotations.Async;
+
 import java.util.concurrent.Executors;
 
 public class SymptomsScoreRepository extends SyncService<SymptomsScoreEntity> {
 
-    // 1 minute
-    private static final long SYNC_INTERVAL = 1000 * 60;
+	// 1 minute
+	private static final long SYNC_INTERVAL = 1000 * 60;
 
-    private SymptomsScoreDao symptomsScoreDao;
+	private SymptomsScoreDao symptomsScoreDao;
 
-    public SymptomsScoreRepository(Context context) {
-        super(SYNC_INTERVAL, Executors.newCachedThreadPool());
+	public SymptomsScoreRepository(Context context) {
+		super(SYNC_INTERVAL, Executors.newCachedThreadPool());
 
-        symptomsScoreDao = SymptomsScoreDatabase.getDatabase(context).symptomsScoreDao();
-    }
+		symptomsScoreDao = SymptomsScoreDatabase.getDatabase(context).symptomsScoreDao();
+	}
 
-    private int tossCoin() {
-        return (int) Math.round(Math.random());
-    }
+	private int tossCoin() {
+		return (int) Math.round(Math.random());
+	}
 
-    private void dump() {
-        SymptomsScoreEntity entity = new SymptomsScoreEntity();
-        entity.setBreathing(tossCoin());
-        entity.setC19(tossCoin());
-        entity.setCough(tossCoin());
-        entity.setFever(tossCoin());
-        entity.setHospital(tossCoin());
-        entity.setPneumonia(tossCoin());
-        entity.setScore(tossCoin());
-        entity.setSmell(tossCoin());
-        entity.setThroat(tossCoin());
+	private void dump() {
+		SymptomsScoreEntity entity = new SymptomsScoreEntity();
+		entity.setBreathing(tossCoin());
+		entity.setC19(tossCoin());
+		entity.setCough(tossCoin());
+		entity.setFever(tossCoin());
+		entity.setHospital(tossCoin());
+		entity.setPneumonia(tossCoin());
+		entity.setScore(tossCoin());
+		entity.setSmell(tossCoin());
+		entity.setThroat(tossCoin());
 
-        add(entity);
-    }
+		add(entity);
+	}
 
-    public void wipeData() {
-        symptomsScoreDao.wipeData();
-    }
+	public void wipeData() {
+		symptomsScoreDao.wipeData();
+	}
 
-    public SymptomsScoreEntity getLatestSymptomScoreInfo() {
-        return symptomsScoreDao.getLatestSymptomScoreInfo();
-    }
+	public SymptomsScoreEntity getLatestSymptomScoreInfo() {
+		return symptomsScoreDao.getLatestSymptomScoreInfo();
+	}
 
-    public SymptomsScoreEntity getSymptomScoreInfo(int id) {
-        return symptomsScoreDao.getSymptomScoreInfo(id);
-    }
+	public SymptomsScoreEntity getSymptomScoreInfo(int id) {
+		return symptomsScoreDao.getSymptomScoreInfo(id);
+	}
 
-    public void saveDataPoint(SymptomScores symptomScores) {
-        add(symptomScores.toEntity());
-    }
+	public void saveDataPoint(SymptomScores symptomScores) {
+		symptomScores.calculateScore();
+		add(symptomScores.toEntity());
+	}
 
-    @Override
-    protected void add(SymptomsScoreEntity entity) {
-        super.add(entity);
-    }
+	@Override
+	protected void add(SymptomsScoreEntity entity) {
+		super.add(entity);
+	}
 
-    @Override
-    protected void onEntityAdd(SymptomsScoreEntity entity) {
-        symptomsScoreDao.insert(entity);
-    }
+	@Override
+	protected void onEntityAdd(SymptomsScoreEntity entity) {
+		symptomsScoreDao.insert(entity);
+	}
 
-    @Override
-    protected void sync() {
+	@Override
+	protected void sync() {
 
-    }
+	}
 }
