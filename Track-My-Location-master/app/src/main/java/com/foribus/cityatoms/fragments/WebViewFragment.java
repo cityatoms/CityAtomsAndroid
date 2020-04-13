@@ -1,4 +1,4 @@
-package com.foribus.cityatoms.fragmentss;
+package com.foribus.cityatoms.fragments;
 
 
 import android.os.Bundle;

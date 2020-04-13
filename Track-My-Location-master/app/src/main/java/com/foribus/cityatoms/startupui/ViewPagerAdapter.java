@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.foribus.cityatoms.fragmentss.CurrentFragment;
-import com.foribus.cityatoms.fragmentss.ForteenDaysFragment;
+import com.foribus.cityatoms.fragments.CurrentFragment;
+import com.foribus.cityatoms.fragments.ForteenDaysFragment;
 
 import java.util.ArrayList;
 
@@ -45,9 +45,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Current ";
+                return "CURRENT ";
             case 1:
-                return "14 Days";
+                return "14 DAYS";
             default:
                 return null;
         }

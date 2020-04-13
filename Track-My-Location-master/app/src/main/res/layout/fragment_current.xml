@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.foribus.cityatoms.fragmentss.CurrentFragment">
+    tools:context="com.foribus.cityatoms.fragments.CurrentFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="RISK FOR CORONA VIRUS"
+            android:text="RISK FOR CORONAVIRUS"
             android:textSize="20sp" />
 
         <TextView
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40dp"
                     android:layout_marginTop="100dp"
-                    android:text="Symptoms"
+                    android:text="symptoms"
                     android:textSize="16sp" />
             </RelativeLayout>
 
@@ -260,4 +260,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

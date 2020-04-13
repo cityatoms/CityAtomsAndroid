@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Morning Joe,\nHow are you feeling today?"
+            android:text="Which of the following symptoms\ndo you have?"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
             android:textSize="20sp"

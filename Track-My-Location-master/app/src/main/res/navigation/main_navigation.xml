@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/nav_about"
-        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
+        android:name="com.foribus.cityatoms.fragments.WebViewFragment"
         android:label="@string/title_nav_about"
         tools:layout="@layout/fragment_webview" >
         <argument
@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/nav_privacy"
-        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
+        android:name="com.foribus.cityatoms.fragments.WebViewFragment"
         android:label="@string/title_nav_privacy"
         tools:layout="@layout/fragment_webview" >
         <argument
@@ -41,7 +41,7 @@
 
     <fragment
         android:id="@+id/nav_services"
-        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
+        android:name="com.foribus.cityatoms.fragments.WebViewFragment"
         android:label="@string/title_nav_services"
         tools:layout="@layout/fragment_webview" >
         <argument
@@ -52,7 +52,7 @@
 
     <fragment
         android:id="@+id/nav_cookies"
-        android:name="com.foribus.cityatoms.fragmentss.WebViewFragment"
+        android:name="com.foribus.cityatoms.fragments.WebViewFragment"
         android:label="@string/title_nav_cookies"
         tools:layout="@layout/fragment_webview" >
         <argument

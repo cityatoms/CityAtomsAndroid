@@ -1,8 +1,7 @@
-package com.foribus.cityatoms.fragmentss;
+package com.foribus.cityatoms.fragments;
 
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.SweepGradient;
 import android.graphics.drawable.GradientDrawable;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,8 +20,6 @@ import androidx.fragment.app.Fragment;
 
 import com.foribus.cityatoms.BaseApplication;
 import com.foribus.cityatoms.R;
-import com.foribus.cityatoms.dashboard.CircularProgressBarDrawable;
-import com.foribus.cityatoms.dashboard.MainActivity;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -95,12 +91,12 @@ public class CurrentFragment extends Fragment {
         // Set the color array to draw gradient.
         else if (number==2) {
             gd.setColors(new int[]{
-                    getResources().getColor(R.color.salmon),
                     getResources().getColor(R.color.periwinkle),
-
                     getResources().getColor(R.color.lightGreenishBlue),
-                    getResources().getColor(R.color.greyishBrown),
-                    getResources().getColor(R.color.lightishGreen)
+                    getResources().getColor(R.color.lightishGreen),
+                    getResources().getColor(R.color.peach),
+                    getResources().getColor(R.color.desert),
+                    getResources().getColor(R.color.salmon)
 
             });
         }
